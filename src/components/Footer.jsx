@@ -12,14 +12,14 @@ export default function Footer() {
           <FaGithub />
         </a>
         <a
-          href="https://www.linkedin.com/in/YOUR-LINKEDIN-USERNAME"
+          href="https://www.linkedin.com/in/aakashdahiya167/"
           target="_blank"
           rel="noopener noreferrer"
         >
           <FaLinkedin />
         </a>
         <a
-          href="https://www.instagram.com/YOUR-INSTAGRAM-USERNAME"
+          href="http://instagram.com/_aakashdahiya_/"
           target="_blank"
           rel="noopener noreferrer"
         >
