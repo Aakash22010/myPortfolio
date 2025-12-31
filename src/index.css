@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+/* 🌞 LIGHT THEME */
+:root {
+  --bg: #afdde5;
+  --text: #003135;
+  --card: #ffffff;
+  --border: #0fa4af;
+  --accent: #964734;
+}
+
+/* 🌙 DARK THEME */
+[data-theme="dark"] {
+  --bg: #003135;
+  --text: #afdde5;
+  --card: #024950;
+  --border: #0fa4af;
+  --accent: #964734;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
