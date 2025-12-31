@@ -78,7 +78,7 @@ export default function Navbar() {
 function Links({ onClick }) {
   return (
     <>
-      {["about", "skills", "projects", "contact"].map((id) => (
+      {["about", "skills", "experience", "projects", "contact"].map((id) => (
         <a
           key={id}
           href={`#${id}`}
