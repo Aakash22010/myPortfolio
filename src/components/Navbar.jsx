@@ -1,6 +1,8 @@
 import { motion, AnimatePresence, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 import useTheme from "../hooks/useTheme";
+import ThemeToggle from "./ThemeToggle";
+
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -42,7 +44,7 @@ export default function Navbar() {
           {/* DESKTOP MENU */}
           <div className="hidden md:flex items-center gap-6">
             <NavLinks />
-            <ThemeButton theme={theme} toggleTheme={toggleTheme} />
+            <ThemeToggle />
           </div>
 
           {/* MOBILE BUTTON */}
@@ -68,11 +70,7 @@ export default function Navbar() {
           >
             <div className="flex flex-col px-6 py-6 gap-5">
               <NavLinks onClick={() => setMenuOpen(false)} />
-              <ThemeButton
-                theme={theme}
-                toggleTheme={toggleTheme}
-                mobile
-              />
+              <ThemeToggle />
             </div>
           </motion.div>
         )}
@@ -98,19 +96,5 @@ function NavLinks({ onClick }) {
         Contact
       </a>
     </>
-  );
-}
-
-/* 🔹 THEME BUTTON */
-function ThemeButton({ theme, toggleTheme, mobile }) {
-  return (
-    <button
-      onClick={toggleTheme}
-      className={`rounded border border-[var(--border)] text-sm ${
-        mobile ? "px-4 py-2 w-fit" : "px-3 py-1"
-      }`}
-    >
-      {theme === "dark" ? "🌞 Light" : "🌙 Dark"}
-    </button>
   );
 }
