@@ -1,30 +1,19 @@
 import { motion, AnimatePresence, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
-import useTheme from "../hooks/useTheme";
 import ThemeToggle from "./ThemeToggle";
 
-
 export default function Navbar() {
-  const { theme, toggleTheme } = useTheme();
   const { scrollY } = useScroll();
-
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    return scrollY.on("change", (latest) => {
-      setScrolled(latest > 40);
-    });
+    return scrollY.on("change", (v) => setScrolled(v > 40));
   }, [scrollY]);
 
   return (
-    <motion.nav
-      initial={{ y: -80 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-0 w-full z-50"
-    >
-      {/* NAVBAR BAR */}
+    <nav className="fixed top-0 w-full z-50 pointer-events-auto">
+      {/* NAV BAR */}
       <motion.div
         animate={{
           paddingTop: scrolled ? "0.75rem" : "1.25rem",
@@ -34,66 +23,79 @@ export default function Navbar() {
             ? "0 10px 30px rgba(0,0,0,0.15)"
             : "none",
         }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+        transition={{ duration: 0.3 }}
         className="border-b border-[var(--border)]"
       >
         <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
           {/* LOGO */}
-          <span className="text-xl font-bold">Aakash.dev</span>
+          <span className="font-bold text-lg">Aakash.dev</span>
 
           {/* DESKTOP MENU */}
-          <div className="hidden md:flex items-center gap-6">
-            <NavLinks />
+          <div className="hidden md:flex gap-6 items-center">
+            <Links />
             <ThemeToggle />
           </div>
 
           {/* MOBILE BUTTON */}
           <button
-            onClick={() => setMenuOpen((prev) => !prev)}
-            className="md:hidden text-2xl"
+            type="button"
             aria-label="Toggle menu"
+            onClick={() => setOpen((v) => !v)}
+            className="md:hidden text-2xl z-50 pointer-events-auto touch-manipulation"
           >
-            {menuOpen ? "✕" : "☰"}
+            {open ? "✕" : "☰"}
           </button>
         </div>
       </motion.div>
 
       {/* MOBILE MENU */}
       <AnimatePresence>
-        {menuOpen && (
+        {open && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="md:hidden overflow-hidden border-b border-[var(--border)] bg-[var(--card)]"
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+            className="md:hidden bg-[var(--card)] border-b border-[var(--border)]"
           >
             <div className="flex flex-col px-6 py-6 gap-5">
-              <NavLinks onClick={() => setMenuOpen(false)} />
-              <ThemeToggle />
+              <Links onClick={() => setOpen(false)} />
+
+              <div className="flex items-center justify-between">
+                <span className="text-sm opacity-70">Theme</span>
+                <ThemeToggle />
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </nav>
   );
 }
 
-/* 🔹 NAV LINKS */
-function NavLinks({ onClick }) {
+/* NAV LINKS */
+function Links({ onClick }) {
   return (
     <>
-      <a href="#about" onClick={onClick} className="hover:opacity-80">
-        About
-      </a>
-      <a href="#skills" onClick={onClick} className="hover:opacity-80">
-        Skills
-      </a>
-      <a href="#projects" onClick={onClick} className="hover:opacity-80">
-        Projects
-      </a>
-      <a href="#contact" onClick={onClick} className="hover:opacity-80">
-        Contact
+      {["about", "skills", "projects", "contact"].map((id) => (
+        <a
+          key={id}
+          href={`#${id}`}
+          onClick={onClick}
+          className="capitalize text-base hover:opacity-80 touch-manipulation"
+        >
+          {id}
+        </a>
+      ))}
+
+      <a
+        href="/Aakash_Dahiya_Resume.pdf"
+        download
+        onClick={onClick}
+        className="text-base hover:opacity-80 touch-manipulation"
+      >
+        Resume
       </a>
     </>
   );

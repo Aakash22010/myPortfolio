@@ -15,7 +15,7 @@ export default function Contact() {
          Open to internships, collaborations, and opportunities.
       </p>
       <a
-        href="mailto:your-email@gmail.com"
+        href="mailto:aakashdahiya167@gmail.com"
         className="px-6 py-3 bg-[var(--accent)] text-white rounded"
       >
         Email Me
