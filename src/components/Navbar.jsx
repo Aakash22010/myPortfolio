@@ -24,11 +24,11 @@ export default function Navbar() {
             : "none",
         }}
         transition={{ duration: 0.3 }}
-        className="border-b border-[var(--border)]"
+       
       >
         <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
           {/* LOGO */}
-          <span className="font-bold text-lg">Aakash.dev</span>
+          <a href="#" className="font-bold text-lg">Aakash.dev</a>
 
           {/* DESKTOP MENU */}
           <div className="hidden md:flex gap-6 items-center">

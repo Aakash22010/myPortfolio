@@ -2,12 +2,11 @@
 
 A modern, fully responsive **personal portfolio website** built to showcase my skills, projects, and experience as a **Full-Stack Web Developer**.
 
-![Portfolio Preview](https://via.placeholder.com/800x450/1e40af/ffffff?text=Portfolio+Preview)  
-*Replace with actual screenshot*
+![Portfolio Preview](https://my-portfolio-blush-kappa-88.vercel.app/og-image.png)  
 
-🔗 **Live Website:** [https://your-portfolio-link.com](https://your-portfolio-link.com)  
+🔗 **Live Website:** [https://my-portfolio-blush-kappa-88.vercel.app/](https://my-portfolio-blush-kappa-88.vercel.app/)  
 📄 **Resume:** Download available on the website  
-📂 **GitHub Repository:** [https://github.com/your-username/portfolio](https://github.com/your-username/portfolio)
+📂 **GitHub Repository:** [https://github.com/Aakash22010/myPortfolio.git](https://github.com/Aakash22010/myPortfolio.git)
 
 ---
 
@@ -105,10 +104,10 @@ Follow these steps to run this portfolio locally:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/portfolio.git
+git clone https://github.com/Aakash22010/myPortfolio.git
 
 # 2. Navigate into the project directory
-cd portfolio
+cd myPortfolio
 
 # 3. Install dependencies
 npm install
@@ -203,12 +202,12 @@ If you find this portfolio helpful or inspiring, please give it a ⭐️ on GitH
 
 ## 📬 Connect With Me
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/your-profile)
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/your-username)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/aakashdahiya167?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Aakash22010)
 [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/your-handle)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your-email@example.com)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:aakashdahiya167@gmail.com)
 
 ---
 
-*Last updated: March 2024*  
+*Last updated: December 2025*  
 *Built with ❤️ using React, Tailwind CSS, and Framer Motion*
