@@ -5,7 +5,7 @@ export default function Contact() {
   return (
     <motion.section
       id="contact"
-      className="py-20 px-6 text-center border-t border-[var(--border)]"
+      className="py-15 px-4 text-center"
       variants={fadeUp}
       initial="hidden"
       whileInView="visible"
