@@ -1,91 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- BASIC META -->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#003135" />
+<html lang="en-IN">
+<head>
+  <!-- Basic Meta -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#003135">
 
-    <!-- SEO -->
-    <!-- IMPROVED: More specific title with keywords -->
-    <title>Aakash Dahiya | MERN Full-Stack Developer & Portfolio</title>
-    
-    <!-- IMPROVED: More engaging, action-oriented description -->
-    <meta
-      name="description"
-      content="Aakash Dahiya, a MERN stack developer, builds scalable and modern web applications. President of Codex Coding Club. Explore his projects and get in touch."
-    />
-    <meta
-      name="keywords"
-      content="Aakash Dahiya, Full Stack Developer, React Developer, MERN Developer, Web Developer Portfolio, JavaScript, Node.js, MongoDB, Express.js, Tailwind CSS, Next.js, API Developer"
-    />
-    <meta name="author" content="Aakash Dahiya" />
+  <!-- Canonical & Robots -->
+  <link rel="canonical" href="https://my-portfolio-blush-kappa-88.vercel.app/">
+  <meta name="robots" content="index, follow">
 
-    <!-- ADDED: Direct search engine crawling instructions -->
-    <meta name="robots" content="index, follow" />
+  <!-- Primary SEO -->
+  <title>MERN Stack Developer | Aakash Dahiya Portfolio</title>
+  <meta name="description"
+        content="Aakash Dahiya — MERN Stack Web Developer. Building modern apps with React, Node.js, MongoDB. President of Codex Coding Club at GIET.">
+  <!-- (Removed keywords tag as it is ignored by search engines【34†L94-L102】) -->
+  <meta name="author" content="Aakash Dahiya">
 
-    <!-- ADDED: Canonical URL to prevent duplicate content issues -->
-    <link rel="canonical" href="https://my-portfolio-blush-kappa-88.vercel.app/" />
+  <!-- Open Graph -->
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Aakash Dahiya Portfolio">
+  <meta property="og:title" content="Aakash Dahiya | MERN Stack Developer">
+  <meta property="og:description"
+        content="Full-Stack MERN Developer building scalable web applications (React, Node.js, MongoDB).">
+  <meta property="og:url" content="https://my-portfolio-blush-kappa-88.vercel.app/">
+  <meta property="og:image" content="https://my-portfolio-blush-kappa-88.vercel.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Preview of Aakash Dahiya's portfolio homepage">
 
-    <!-- OPEN GRAPH (LinkedIn, WhatsApp, Facebook) -->
-    <meta property="og:title" content="Aakash Dahiya | MERN Full-Stack Developer" />
-    <meta
-      property="og:description"
-      content="A skilled MERN stack developer building modern web applications. President of Codex Coding Club."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://my-portfolio-blush-kappa-88.vercel.app/" />
-    <!-- IMPROVED: Added image dimensions and alt text for better rendering and accessibility -->
-    <meta property="og:image" content="https://my-portfolio-blush-kappa-88.vercel.app/og-image.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Aakash Dahiya - Full-Stack Web Developer" />
-    <meta property="og:locale" content="en_US" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Aakash Dahiya | MERN Stack Developer">
+  <meta name="twitter:description"
+        content="Building modern, high-performance web apps with React and Node.js.">
+  <meta name="twitter:image" content="https://my-portfolio-blush-kappa-88.vercel.app/og-image.png">
+  <meta name="twitter:image:alt" content="Screenshot of Aakash Dahiya portfolio">
+  <!-- Replace @yourhandle with actual Twitter username -->
+  <meta name="twitter:site" content="@yourhandle">
+  <meta name="twitter:creator" content="@yourhandle">
 
-    <!-- TWITTER CARD -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <!-- ADDED: Twitter site and creator for better branding -->
-    <meta name="twitter:site" content="@YourTwitterHandle" />
-    <meta name="twitter:creator" content="@YourTwitterHandle" />
-    <meta name="twitter:title" content="Aakash Dahiya | MERN Full-Stack Developer" />
-    <meta
-      name="twitter:description"
-      content="Building scalable, modern web applications using the MERN stack. Explore my portfolio."
-    />
-    <!-- FIXED: Twitter image was pointing to the wrong URL -->
-    <meta name="twitter:image" content="https://my-portfolio-blush-kappa-88.vercel.app/og-image.png" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/logo.png">
 
-    <!-- FAVICON -->
-    <!-- NOTE: Consider generating a full set of favicons (e.g., from favicon.io) for better compatibility -->
-    <link rel="icon" type="image/png" href="/logo.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <!-- Preconnect / Preload -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- (If using custom fonts) -->
+  <!-- <link rel="preload" href="/fonts/MyFont.woff2" as="font" type="font/woff2" crossorigin> -->
 
-    <!-- ADDED: Structured Data (JSON-LD) for rich search results -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Aakash Dahiya",
-        "url": "https://my-portfolio-blush-kappa-88.vercel.app/",
-        "jobTitle": "Full-Stack Web Developer",
-        "description": "A passionate Full-Stack Web Developer specializing in the MERN stack and leading the Codex Coding Club.",
-        "knowsAbout": ["React", "Node.js", "Express.js", "MongoDB", "Tailwind CSS", "JavaScript", "Web Development"],
-        "affiliation": {
-          "@type": "Organization",
-          "name": "Codex Coding Club",
-          "description": "Official coding club of GIET",
-          "jobTitle": "President"
-        },
-        "sameAs": [
-          "https://www.linkedin.com/in/your-linkedin-profile",
-          "https://github.com/your-github-profile",
-          "https://twitter.com/YourTwitterHandle"
-        ]
-      }
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Aakash Dahiya",
+    "url": "https://my-portfolio-blush-kappa-88.vercel.app/",
+    "jobTitle": "MERN Stack Web Developer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Codex Coding Club at GIET"
+    },
+    "sameAs": [
+      "https://linkedin.com/in/YOUR_LINKEDIN",
+      "https://github.com/YOUR_GITHUB"
+    ],
+    "knowsAbout": [
+      "React",
+      "Node.js",
+      "MongoDB",
+      "Tailwind CSS",
+      "JavaScript"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <noscript>Please enable JavaScript to view Aakash Dahiya's interactive portfolio.</noscript>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
 </html>
