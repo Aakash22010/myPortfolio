@@ -46,13 +46,9 @@ export default function Experience() {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        <motion.h2
-          variants={fadeUp}
-          className="text-2xl md:text-3xl font-bold mb-10"
-        >
+        <motion.h2 variants={fadeUp} className="text-2xl md:text-3xl font-bold mb-10">
           Experience
         </motion.h2>
-
         <div className="space-y-8">
           {experiences.map((exp) => (
             <motion.div
@@ -69,10 +65,9 @@ export default function Experience() {
                   {exp.duration}
                 </span>
               </div>
-
               <ul className="mt-4 space-y-2 text-sm opacity-80 list-disc list-inside">
-                {exp.points.map((point, index) => (
-                  <li key={index}>{point}</li>
+                {exp.points.map((point) => (
+                  <li key={point}>{point}</li>
                 ))}
               </ul>
             </motion.div>

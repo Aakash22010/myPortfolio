@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 
-/* ---------- SOCIAL LINKS ---------- */
 const socials = [
   {
     name: "GitHub",
@@ -32,14 +31,6 @@ const socials = [
   },
 ];
 
-/* ---------- CLICK TRACKING ---------- */
-const trackClick = (label) => {
-  console.log(`Social link clicked: ${label}`);
-
-  // 🔥 Later you can replace this with:
-  // window.gtag("event", "click", { event_label: label });
-};
-
 export default function Footer() {
   return (
     <footer className="py-3 text-center">
@@ -50,34 +41,20 @@ export default function Footer() {
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackClick(social.name)}
             className="relative group opacity-70 hover:opacity-100"
             whileHover={{ scale: 1.2, y: -4 }}
             transition={{ type: "spring", stiffness: 300 }}
             aria-label={social.name}
           >
-            {/* ICON */}
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
               {social.icon}
             </svg>
-
-            {/* TOOLTIP */}
-            <span
-              className="absolute -top-9 left-1/2 -translate-x-1/2
-              px-2 py-1 text-xs rounded bg-black text-white
-              opacity-0 group-hover:opacity-100 transition pointer-events-none"
-            >
+            <span className="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 text-xs rounded bg-black text-white opacity-0 group-hover:opacity-100 transition pointer-events-none">
               {social.name}
             </span>
           </motion.a>
         ))}
       </div>
-
       <p className="text-sm opacity-60">
         © {new Date().getFullYear()} Aakash Dahiya
       </p>
