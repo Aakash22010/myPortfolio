@@ -9,17 +9,16 @@ export default function Contact() {
       variants={fadeUp}
       initial="hidden"
       whileInView="visible"
+      viewport={{ once: true }}
     >
       <h2 className="text-2xl md:text-3xl font-bold mb-4">Get In Touch</h2>
       <p className="opacity-80 mb-6 text-sm md:text-base">
-         Open to internships, collaborations, and opportunities.
+        Open to internships, collaborations, and opportunities.
       </p>
-      <a
-        href="mailto:aakashdahiya167@gmail.com"
-        className="px-6 py-3 bg-[var(--accent)] text-white rounded"
-      >
+
+      <a href="mailto:aakashdahiya167@gmail.com" className="px-6 py-3 bg-[var(--accent)] text-white rounded transition hover:opacity-90">
         Email Me
       </a>
-    </motion.section>
+    </motion.section >
   );
 }
