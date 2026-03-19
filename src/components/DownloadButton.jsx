@@ -1,174 +1,109 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
-export default function DownloadButton({ href, filename }) {
-  const [clicked, setClicked] = useState(false);
-  const [done, setDone] = useState(false);
+export default function DownloadButton({ href, label = "resume.pdf", className = "", compact = false }) {
+  const [state, setState] = useState("idle"); // idle | downloading | complete
+  const [progress, setProgress] = useState(0);
+  const intervalRef = useRef(null);
 
   function handleClick() {
-    if (clicked || done) return;
-    setClicked(true);
-    setTimeout(() => setDone(true), 3900);
+    if (state !== "idle") return;
+    setState("downloading");
+    setProgress(0);
+
+    let p = 0;
+    intervalRef.current = setInterval(() => {
+      p += 5;
+      setProgress(p);
+      if (p >= 100) {
+        clearInterval(intervalRef.current);
+        setState("complete");
+        setTimeout(() => {
+          setState("idle");
+          setProgress(0);
+        }, 2500);
+      }
+    }, 80);
   }
 
-  return (
-    <>
-      <style>{`
-        .dl-label {
-          background-color: transparent;
-          border: 2px solid var(--accent);
-          display: flex;
-          align-items: center;
-          border-radius: 50px;
-          width: 160px;
-          cursor: pointer;
-          transition: all 0.4s ease;
-          padding: 5px;
-          position: relative;
-          text-decoration: none;
-        }
-        .dl-label::before {
-          content: "";
-          position: absolute;
-          top: 0; bottom: 0; left: 0; right: 0;
-          background-color: #fff;
-          width: 8px; height: 8px;
-          transition: all 0.4s ease;
-          border-radius: 100%;
-          margin: auto;
-          opacity: 0;
-          visibility: hidden;
-        }
-        .dl-title {
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 13px;
-          color: var(--text);
-          transition: all 0.4s ease;
-          position: absolute;
-          right: 18px;
-          bottom: 14px;
-          text-align: center;
-          white-space: nowrap;
-        }
-        .dl-title:last-child {
-          opacity: 0;
-          visibility: hidden;
-        }
-        .dl-circle {
-          height: 45px;
-          width: 45px;
-          border-radius: 50%;
-          background-color: var(--accent);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          transition: all 0.4s ease;
-          position: relative;
-          box-shadow: 0 0 0 0 rgba(255,255,255,0);
-          overflow: hidden;
-          flex-shrink: 0;
-        }
-        .dl-icon {
-          color: #fff;
-          width: 26px;
-          position: absolute;
-          top: 50%; left: 50%;
-          transform: translate(-50%, -50%);
-          transition: all 0.4s ease;
-        }
-        .dl-square {
-          aspect-ratio: 1;
-          width: 15px;
-          border-radius: 2px;
-          background-color: #fff;
-          opacity: 0;
-          visibility: hidden;
-          position: absolute;
-          top: 50%; left: 50%;
-          transform: translate(-50%, -50%);
-          transition: all 0.4s ease;
-        }
-        .dl-circle::before {
-          content: "";
-          position: absolute;
-          left: 0; top: 0;
-          background-color: var(--accent2);
-          width: 100%;
-          height: 0;
-          transition: all 0.4s ease;
-        }
-        .dl-label.clicked {
-          width: 57px;
-          animation: dl-installed 0.4s ease 3.5s forwards;
-        }
-        .dl-label.clicked::before {
-          animation: dl-rotate 3s ease-in-out 0.4s forwards;
-        }
-        .dl-label.clicked .dl-circle {
-          animation: dl-pulse 1s forwards, dl-circleDelete 0.2s ease 3.5s forwards;
-          rotate: 180deg;
-        }
-        .dl-label.clicked .dl-circle::before {
-          animation: dl-installing 3s ease-in-out forwards;
-        }
-        .dl-label.clicked .dl-icon {
-          opacity: 0;
-          visibility: hidden;
-        }
-        .dl-label.clicked .dl-square {
-          opacity: 1;
-          visibility: visible;
-        }
-        .dl-label.clicked .dl-title {
-          opacity: 0;
-          visibility: hidden;
-        }
-        .dl-label.clicked .dl-title:last-child {
-          animation: dl-showDone 0.4s ease 3.5s forwards;
-        }
-        .dl-label.done {
-          width: 150px;
-          border-color: #22c55e;
-        }
-        @keyframes dl-pulse {
-          0%   { scale: 0.95; box-shadow: 0 0 0 0 rgba(255,255,255,0.7); }
-          70%  { scale: 1;    box-shadow: 0 0 0 16px rgba(255,255,255,0); }
-          100% { scale: 0.95; box-shadow: 0 0 0 0 rgba(255,255,255,0); }
-        }
-        @keyframes dl-installing {
-          from { height: 0; }
-          to   { height: 100%; }
-        }
-        @keyframes dl-rotate {
-          0%   { transform: rotate(-90deg) translate(27px) rotate(0); opacity: 1; visibility: visible; }
-          99%  { transform: rotate(270deg) translate(27px) rotate(270deg); opacity: 1; visibility: visible; }
-          100% { opacity: 0; visibility: hidden; }
-        }
-        @keyframes dl-installed {
-          100% { width: 150px; border-color: #22c55e; }
-        }
-        @keyframes dl-circleDelete {
-          100% { opacity: 0; visibility: hidden; }
-        }
-        @keyframes dl-showDone {
-          100% { opacity: 1; visibility: visible; right: 56px; }
-        }
-      `}</style>
+  const isDownloading = state === "downloading";
+  const isComplete    = state === "complete";
 
-      <a
-        href={href}
-        download={filename}
-        onClick={handleClick}
-        className={`dl-label ${clicked ? "clicked" : ""} ${done ? "done" : ""}`}
+  const base = compact
+    ? "relative flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs mono overflow-hidden transition-all duration-300"
+    : "group relative flex items-center gap-2 px-5 py-2.5 rounded-full text-sm mono overflow-hidden transition-all duration-300 glass";
+
+  return (
+    <a
+      href={href}
+      download
+      onClick={handleClick}
+      className={`${base} ${className}`}
+      style={{
+        color: isComplete ? "#fff" : "var(--accent)",
+        border: compact ? "1px solid var(--border)" : "1px solid var(--border-hard)",
+        cursor: state !== "idle" ? "default" : "pointer",
+      }}
+    >
+      {/* PROGRESS FILL */}
+      <span
+        className="absolute inset-0 transition-all duration-200 ease-out"
+        style={{
+          width: `${progress}%`,
+          background: "var(--accent)",
+          opacity: isDownloading || isComplete ? 1 : 0,
+          zIndex: 0,
+        }}
+      />
+
+      {/* IDLE — download arrow */}
+      {state === "idle" && (
+        <svg
+          className={`shrink-0 relative z-10 transition-transform duration-300 ${!compact ? "group-hover:translate-y-0.5" : ""}`}
+          style={{ width: compact ? "12px" : "14px", height: compact ? "12px" : "14px" }}
+          viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" strokeWidth="2"
+          strokeLinecap="round" strokeLinejoin="round"
+        >
+          <path d="M12 15V3" />
+          <path d="M7 10l5 5 5-5" />
+          <path d="M20 21H4" />
+        </svg>
+      )}
+
+      {/* DOWNLOADING — bouncing arrow */}
+      {isDownloading && (
+        <svg
+          className="shrink-0 relative z-10 animate-bounce"
+          style={{ width: compact ? "12px" : "14px", height: compact ? "12px" : "14px", color: "#fff" }}
+          viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" strokeWidth="2"
+          strokeLinecap="round" strokeLinejoin="round"
+        >
+          <polyline points="7 13 12 18 17 13" />
+          <line x1="12" y1="18" x2="12" y2="6" />
+        </svg>
+      )}
+
+      {/* COMPLETE — checkmark */}
+      {isComplete && (
+        <svg
+          className="shrink-0 relative z-10"
+          style={{ width: compact ? "12px" : "14px", height: compact ? "12px" : "14px", color: "#fff" }}
+          viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" strokeWidth="2.5"
+          strokeLinecap="round" strokeLinejoin="round"
+        >
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      )}
+
+      {/* LABEL */}
+      <span
+        className="relative z-10 transition-colors duration-200"
+        style={{ color: isDownloading || isComplete ? "#fff" : "var(--accent)" }}
       >
-        <span className="dl-circle">
-          <svg className="dl-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 19V5m0 14-4-4m4 4 4-4" />
-          </svg>
-          <div className="dl-square" />
-        </span>
-        <p className="dl-title">resume.pdf</p>
-        <p className="dl-title">Open ✓</p>
-      </a>
-    </>
+        {isComplete ? "Downloaded!" : label}
+      </span>
+    </a>
   );
 }

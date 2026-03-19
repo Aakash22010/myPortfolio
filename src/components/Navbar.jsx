@@ -1,6 +1,7 @@
 import { motion, AnimatePresence, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
+import DownloadButton from "./DownloadButton";
 
 const NAV_SECTIONS = ["about", "skills", "experience", "freelance", "projects", "contact"];
 
@@ -63,11 +64,7 @@ export default function Navbar() {
                 <span className="relative">{id}</span>
               </a>
             ))}
-            <a href="/Aakash_Dahiya_Resume.pdf" download
-              className="ml-3 px-4 py-1.5 text-sm rounded mono"
-              style={{ border: "1px solid var(--accent)", color: "var(--accent)" }}>
-              resume.pdf
-            </a>
+            <DownloadButton href="/Aakash_Dahiya_Resume.pdf" compact className="ml-3" />
             <div className="ml-3"><ThemeToggle /></div>
           </div>
 
@@ -94,9 +91,7 @@ export default function Navbar() {
                   {active === id ? `> ${id}` : id}
                 </a>
               ))}
-              <a href="/Aakash_Dahiya_Resume.pdf" download onClick={() => setOpen(false)} className="mono text-sm" style={{ color: "var(--accent)" }}>
-                resume.pdf ↓
-              </a>
+              <DownloadButton href="/Aakash_Dahiya_Resume.pdf" compact className="ml-3" />
               <div className="flex items-center justify-between pt-2" style={{ borderTop: "1px solid var(--border)" }}>
                 <span className="mono text-xs" style={{ color: "var(--muted)" }}>theme</span>
                 <ThemeToggle />
