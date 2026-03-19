@@ -1,9 +1,27 @@
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "../animations";
 
+const services = [
+  {
+    tag: "01",
+    title: "Frontend Development",
+    desc: "Modern, responsive UIs using React, Tailwind CSS, and Vite. Pixel-perfect, fast, and accessible.",
+  },
+  {
+    tag: "02",
+    title: "Full-Stack Applications",
+    desc: "End-to-end web apps with React, Node.js, Express, and MongoDB. From auth to deployment.",
+  },
+  {
+    tag: "03",
+    title: "Authentication & APIs",
+    desc: "Secure REST APIs, JWT authentication, OTP flows, and clean backend architecture.",
+  },
+];
+
 export default function Freelance() {
   return (
-    <section id="freelance" className="py-20 px-6">
+    <section id="freelance" className="py-24 px-6">
       <motion.div
         className="max-w-5xl mx-auto"
         variants={staggerContainer}
@@ -11,66 +29,55 @@ export default function Freelance() {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        {/* TITLE */}
-        <motion.h2
-          variants={fadeUp}
-          className="text-2xl md:text-3xl font-bold mb-6"
-        >
-          Freelancing
-        </motion.h2>
+        <motion.div variants={fadeUp} className="mb-12">
+          <p className="section-label mb-2">// open for work</p>
+          <h2 className="text-3xl md:text-4xl font-bold">Freelancing</h2>
+          <div className="glow-line mt-4 max-w-xs" />
+        </motion.div>
 
-        {/* INTRO */}
-        <motion.p
-          variants={fadeUp}
-          className="max-w-2xl opacity-80 leading-relaxed mb-10"
-        >
-          I’m open to freelance opportunities where I can help individuals,
-          startups, and small businesses build fast, modern, and scalable web
-          applications.
+        <motion.p variants={fadeUp} className="text-sm sm:text-base leading-relaxed mb-12 max-w-2xl" style={{ color: "var(--muted)" }}>
+          Open to freelance projects where I can help individuals, startups, and small businesses
+          build fast, modern, and scalable web applications.
         </motion.p>
 
-        {/* SERVICES */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {[
-            {
-              title: "Frontend Development",
-              desc: "Modern, responsive UIs using React, Tailwind CSS, and Vite.",
-            },
-            {
-              title: "Full-Stack Applications",
-              desc: "End-to-end web apps with React, Node.js, Express, and MongoDB.",
-            },
-            {
-              title: "Authentication & APIs",
-              desc: "Secure REST APIs, JWT authentication, and backend integration.",
-            },
-          ].map((service) => (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
+          {services.map((service) => (
             <motion.div
               key={service.title}
               variants={fadeUp}
-              className="p-6 rounded border border-[var(--border)] bg-[var(--card)]"
+              className="glass rounded-xl p-6 group relative overflow-hidden"
+              whileHover={{ y: -3 }}
+              transition={{ duration: 0.2 }}
             >
-              <h3 className="font-semibold text-lg">{service.title}</h3>
-              <p className="mt-2 text-sm opacity-80">{service.desc}</p>
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-xl"
+                style={{ background: "radial-gradient(circle at top right, var(--glow), transparent 60%)" }}
+              />
+              <span className="mono text-xs mb-4 block" style={{ color: "var(--muted)" }}>{service.tag}</span>
+              <h3 className="font-semibold text-base mb-2">{service.title}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>{service.desc}</p>
             </motion.div>
           ))}
         </div>
 
-        {/* CTA */}
-        <motion.div
-          variants={fadeUp}
-          className="flex flex-col sm:flex-row gap-4"
-        >
+        <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3">
+          
           <a
             href="mailto:aakashdahiya167@gmail.com"
-            className="px-6 py-3 rounded bg-[var(--accent)] text-white text-center"
+            className="px-6 py-3 rounded-xl text-sm font-medium mono text-center transition"
+            style={{ background: "var(--accent)", color: "#fff" }}
+            onMouseEnter={e => e.currentTarget.style.opacity = 0.85}
+            onMouseLeave={e => e.currentTarget.style.opacity = 1}
           >
-            Hire Me
+            Hire Me →
           </a>
-
+          
           <a
             href="#projects"
-            className="px-6 py-3 rounded border border-[var(--border)] text-center"
+            className="px-6 py-3 rounded-xl text-sm font-medium mono text-center glass transition"
+            style={{ color: "var(--accent)" }}
+            onMouseEnter={e => e.currentTarget.style.borderColor = "var(--border-hard)"}
+            onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border)"}
           >
             View Work
           </a>
