@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "../animations";
 import { useEffect, useState } from "react";
+import DownloadButton from "./DownloadButton";
 
 const ROLES = ["Full-Stack Developer", "React Developer", "Node.js Developer", "Open to Opportunities"];
 
@@ -131,11 +132,7 @@ export default function Hero() {
                 onMouseLeave={e => e.target.style.opacity = 1}>
                 View Projects →
               </a>
-              <a href="/Aakash_Dahiya_Resume.pdf" download
-                className="px-6 py-3 rounded-md text-sm font-medium mono transition glass"
-                style={{ color: "var(--accent)" }}>
-                resume.pdf ↓
-              </a>
+              <DownloadButton href="/Aakash_Dahiya_Resume.pdf" filename="Aakash_Dahiya_Resume.pdf" />
             </motion.div>
           </div>
           <motion.div variants={fadeUp} className="flex-shrink-0">
