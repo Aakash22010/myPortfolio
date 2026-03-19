@@ -209,5 +209,5 @@ If you find this portfolio helpful or inspiring, please give it a ⭐️ on GitH
 
 ---
 
-*Last updated: December 2025*  
+Last updated: March 19, 2026
 *Built with ❤️ using React, Tailwind CSS, and Framer Motion*
