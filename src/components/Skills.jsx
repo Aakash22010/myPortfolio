@@ -27,12 +27,12 @@ const toolsSkills = [
 
 const LevelBadge = ({ level }) => {
   const styles = {
-    Beginner: "bg-yellow-500/20 text-yellow-400",
+    Beginner:     "bg-yellow-500/20 text-yellow-400",
     Intermediate: "bg-blue-500/20 text-blue-400",
-    Advanced: "bg-green-500/20 text-green-400",
+    Advanced:     "bg-green-500/20 text-green-400",
   };
   return (
-    <span className={`text-xs px-2 py-0.5 rounded shrink-0 ${styles[level]}`}>
+    <span className={`mono text-xs px-2 py-0.5 rounded shrink-0 ${styles[level]}`}>
       {level}
     </span>
   );
@@ -41,19 +41,29 @@ const LevelBadge = ({ level }) => {
 function SkillGroup({ title, skills }) {
   return (
     <>
-      <motion.h3 variants={fadeUp} className="text-xl font-semibold mb-5">{title}</motion.h3>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 auto-rows-fr">
+      <motion.h3 variants={fadeUp} className="text-lg font-semibold mb-5 mono" style={{ color: "var(--muted)" }}>
+        {title}
+      </motion.h3>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12 auto-rows-fr">
         {skills.map((skill) => (
           <motion.div
             key={skill.name}
             variants={fadeUp}
-            className="p-5 rounded border border-[var(--border)] bg-[var(--card)] flex flex-col"
+            className="glass rounded-xl p-5 flex flex-col group relative overflow-hidden"
+            whileHover={{ y: -3 }}
+            transition={{ duration: 0.2 }}
           >
-            <div className="flex items-start justify-between gap-2 mb-2">
-              <h4 className="font-semibold">{skill.name}</h4>
+            <div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-xl"
+              style={{ background: "radial-gradient(circle at top right, var(--glow), transparent 60%)" }}
+            />
+            <div className="relative flex items-start justify-between gap-2 mb-2">
+              <h4 className="font-semibold text-sm">{skill.name}</h4>
               <LevelBadge level={skill.level} />
             </div>
-            <p className="text-sm opacity-80 leading-relaxed">{skill.details}</p>
+            <p className="relative text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
+              {skill.details}
+            </p>
           </motion.div>
         ))}
       </div>
@@ -63,12 +73,23 @@ function SkillGroup({ title, skills }) {
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-20 px-6">
-      <motion.div className="max-w-5xl mx-auto" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-        <motion.h2 variants={fadeUp} className="text-2xl md:text-3xl font-bold mb-10">Skills</motion.h2>
-        <SkillGroup title="Frontend Development" skills={frontendSkills} />
-        <SkillGroup title="Backend Development" skills={backendSkills} />
-        <SkillGroup title="Tools & Workflow" skills={toolsSkills} />
+    <section id="skills" className="py-24 px-6">
+      <motion.div
+        className="max-w-5xl mx-auto"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div variants={fadeUp} className="mb-12">
+          <p className="section-label mb-2">// what I know</p>
+          <h2 className="text-3xl md:text-4xl font-bold">Skills</h2>
+          <div className="glow-line mt-4 max-w-xs" />
+        </motion.div>
+
+        <SkillGroup title="// frontend" skills={frontendSkills} />
+        <SkillGroup title="// backend" skills={backendSkills} />
+        <SkillGroup title="// tools & workflow" skills={toolsSkills} />
       </motion.div>
     </section>
   );

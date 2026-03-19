@@ -1,29 +1,72 @@
 @import "tailwindcss";
 
-/* 🌞 LIGHT THEME */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── LIGHT THEME ─────────────────────────────── */
 :root {
-  --bg: #afdde5;
-  --text: #003135;
-  --card: #ffffff;
-  --border: #0fa4af;
-  --accent: #964734;
+  --bg:          #d6eef2;
+  --surface:     #e8f6f9;
+  --card:        rgba(220, 240, 245, 0.75);
+  --border:      rgba(15, 164, 175, 0.2);
+  --border-hard: rgba(15, 164, 175, 0.45);
+  --accent:      #0778a0;
+  --accent2:     #964734;
+  --text:        #07252a;
+  --muted:       rgba(7, 37, 42, 0.5);
+  --dot:         rgba(15, 164, 175, 0.12);
+  --glow:        rgba(7, 120, 160, 0.1);
 }
 
-/* 🌙 DARK THEME */
+/* ── DARK THEME ──────────────────────────────── */
 [data-theme="dark"] {
-  --bg: #003135;
-  --text: #afdde5;
-  --card: #024950;
-  --border: #0fa4af;
-  --accent: #964734;
+  --bg:          #040d0e;
+  --surface:     #080f10;
+  --card:        rgba(8, 20, 22, 0.75);
+  --border:      rgba(15, 164, 175, 0.15);
+  --border-hard: rgba(15, 164, 175, 0.4);
+  --accent:      #0fa4af;
+  --accent2:     #964734;
+  --text:        #c8eaed;
+  --muted:       rgba(200, 234, 237, 0.4);
+  --dot:         rgba(15, 164, 175, 0.08);
+  --glow:        rgba(15, 164, 175, 0.12);
 }
+
+html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--bg);
   color: var(--text);
   transition: background-color 0.35s ease, color 0.35s ease;
+  background-image: radial-gradient(circle, var(--dot) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-attachment: fixed;
 }
 
-html {
-  scroll-behavior: smooth;
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+.glass {
+  background: var(--card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+}
+
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.glow-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.4;
 }
