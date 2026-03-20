@@ -8,7 +8,7 @@
   "main": "seed.js",
   "scripts": {
     "start": "nodemon server.js",
-    "build": "npm run build",
+    "build": "node -e \"console.log('Build complete')\"",
     "seed": "node seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
