@@ -1,4 +1,5 @@
 import { useScroll, useSpring, motion } from "framer-motion";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -9,6 +10,8 @@ import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Background3D from "./components/Background3D";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import { ThemeProvider } from "./hooks/ThemeContext";
 
 function ScrollProgress() {
@@ -29,9 +32,9 @@ function ScrollProgress() {
   );
 }
 
-export default function App() {
+function Portfolio() {
   return (
-    <ThemeProvider>
+    <>
       <Background3D />
       <ScrollProgress />
       <div className="min-h-screen" style={{ position: "relative", zIndex: 1 }}>
@@ -45,6 +48,20 @@ export default function App() {
         <Contact />
         <Footer />
       </div>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/"           element={<Portfolio />} />
+          <Route path="/admin"      element={<AdminLogin />} />
+          <Route path="/admin/dash" element={<AdminDashboard />} />
+        </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
