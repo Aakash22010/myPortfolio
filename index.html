@@ -1,81 +1,131 @@
 <!DOCTYPE html>
 <html lang="en-IN">
 <head>
-  <!-- Basic Meta -->
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#003135">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Canonical & Robots -->
-  <link rel="canonical" href="https://my-portfolio-blush-kappa-88.vercel.app/">
-  <meta name="robots" content="index, follow">
+  <!-- THEME -->
+  <meta name="theme-color" content="#0fa4af" />
+  <meta name="color-scheme" content="dark light" />
 
-  <!-- Primary SEO -->
-  <title>MERN Stack Developer | Aakash Dahiya Portfolio</title>
+  <!-- CANONICAL + ROBOTS -->
+  <link rel="canonical" href="https://my-portfolio-blush-kappa-88.vercel.app/" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+  <!-- PRIMARY SEO -->
+  <title>Aakash Dahiya | Full-Stack Web Developer — React, Node.js, MongoDB</title>
   <meta name="description"
-        content="Aakash Dahiya — MERN Stack Web Developer. Building modern apps with React, Node.js, MongoDB. President of Codex Coding Club at GIET.">
-  <!-- (Removed keywords tag as it is ignored by search engines【34†L94-L102】) -->
-  <meta name="author" content="Aakash Dahiya">
+        content="Aakash Dahiya is a Full-Stack Web Developer from Sonipat, India. Builds production-ready apps with React, Next.js, Node.js, Express, MongoDB and Supabase. President of Codex — The Coding Club of GIET. Open to internships and freelance work." />
+  <meta name="author" content="Aakash Dahiya" />
+  <meta name="keywords"
+        content="Aakash Dahiya, Full Stack Developer, React Developer, Node.js Developer, MERN Stack Developer, Web Developer India, Web Developer Sonipat, Web Developer Haryana, Portfolio, Next.js, Express, MongoDB, Supabase, TypeScript, Tailwind CSS, JavaScript Developer, Frontend Developer, Backend Developer, Freelance Developer India, GIET Developer, Codex Coding Club" />
 
-  <!-- Open Graph -->
-  <meta property="og:locale" content="en_IN">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Aakash Dahiya Portfolio">
-  <meta property="og:title" content="Aakash Dahiya | MERN Stack Developer">
-  <meta property="og:description"
-        content="Full-Stack MERN Developer building scalable web applications (React, Node.js, MongoDB).">
-  <meta property="og:url" content="https://my-portfolio-blush-kappa-88.vercel.app/">
-  <meta property="og:image" content="https://my-portfolio-blush-kappa-88.vercel.app/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Preview of Aakash Dahiya's portfolio homepage">
+  <!-- GEO -->
+  <meta name="geo.region" content="IN-HR" />
+  <meta name="geo.placename" content="Sonipat, Haryana, India" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Aakash Dahiya | MERN Stack Developer">
-  <meta name="twitter:description"
-        content="Building modern, high-performance web apps with React and Node.js.">
-  <meta name="twitter:image" content="https://my-portfolio-blush-kappa-88.vercel.app/og-image.png">
-  <meta name="twitter:image:alt" content="Screenshot of Aakash Dahiya portfolio">
-  <!-- Replace @yourhandle with actual Twitter username -->
-  <meta name="twitter:site" content="@yourhandle">
-  <meta name="twitter:creator" content="@yourhandle">
+  <!-- OPEN GRAPH (Facebook, LinkedIn, WhatsApp) -->
+  <meta property="og:locale"           content="en_IN" />
+  <meta property="og:type"             content="website" />
+  <meta property="og:site_name"        content="Aakash Dahiya — Developer Portfolio" />
+  <meta property="og:title"            content="Aakash Dahiya | Full-Stack Web Developer" />
+  <meta property="og:description"      content="Full-Stack Developer building scalable, production-ready web apps with React, Node.js, Express & MongoDB. Open to internships and freelance opportunities." />
+  <meta property="og:url"              content="https://my-portfolio-blush-kappa-88.vercel.app/" />
+  <meta property="og:image"            content="https://my-portfolio-blush-kappa-88.vercel.app/og-image.png" />
+  <meta property="og:image:secure_url" content="https://my-portfolio-blush-kappa-88.vercel.app/og-image.png" />
+  <meta property="og:image:width"      content="1200" />
+  <meta property="og:image:height"     content="630" />
+  <meta property="og:image:type"       content="image/png" />
+  <meta property="og:image:alt"        content="Aakash Dahiya — Full-Stack Developer Portfolio Preview" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/logo.png">
+  <!-- TWITTER CARD -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@aakashdahiya" />
+  <meta name="twitter:creator"     content="@aakashdahiya" />
+  <meta name="twitter:title"       content="Aakash Dahiya | Full-Stack Web Developer" />
+  <meta name="twitter:description" content="Full-Stack Developer building scalable web apps with React, Node.js, Express & MongoDB. Open to internships and freelance." />
+  <meta name="twitter:image"       content="https://my-portfolio-blush-kappa-88.vercel.app/og-image.png" />
+  <meta name="twitter:image:alt"   content="Aakash Dahiya — Full-Stack Developer Portfolio" />
 
-  <!-- Preconnect / Preload -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- (If using custom fonts) -->
-  <!-- <link rel="preload" href="/fonts/MyFont.woff2" as="font" type="font/woff2" crossorigin> -->
+  <!-- FAVICON -->
+  <link rel="icon"             type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon"                  href="/logo.png" />
+  <link rel="shortcut icon"    type="image/png" href="/logo.png" />
 
-  <!-- Structured Data (JSON-LD) -->
+  <!-- PRECONNECT -->
+  <link rel="preconnect"  href="https://fonts.googleapis.com" />
+  <link rel="preconnect"  href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="https://formspree.io" />
+
+  <!-- STRUCTURED DATA — Person -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Aakash Dahiya",
     "url": "https://my-portfolio-blush-kappa-88.vercel.app/",
-    "jobTitle": "MERN Stack Web Developer",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Codex Coding Club at GIET"
+    "image": "https://my-portfolio-blush-kappa-88.vercel.app/profile.png",
+    "jobTitle": "Full-Stack Web Developer",
+    "description": "Full-Stack Web Developer from Sonipat, India. Building production-ready apps with React, Node.js, Express, MongoDB, and Supabase.",
+    "email": "aakashdahiya167@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Sonipat",
+      "addressRegion": "Haryana",
+      "addressCountry": "IN"
     },
     "sameAs": [
-      "https://linkedin.com/in/YOUR_LINKEDIN",
-      "https://github.com/YOUR_GITHUB"
+      "https://linkedin.com/in/aakashdahiya167",
+      "https://github.com/Aakash22010",
+      "https://instagram.com/_aakashdahiya_"
     ],
     "knowsAbout": [
-      "React",
-      "Node.js",
-      "MongoDB",
-      "Tailwind CSS",
-      "JavaScript"
-    ]
+      "React", "Next.js", "Node.js", "Express.js",
+      "MongoDB", "Supabase", "PostgreSQL",
+      "TypeScript", "JavaScript", "Tailwind CSS",
+      "REST APIs", "JWT Authentication", "Firebase",
+      "Cloudinary", "Vite", "Framer Motion",
+      "Full-Stack Web Development"
+    ],
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "GIET (Global Institute of Engineering and Technology)"
+    }
   }
   </script>
+
+  <!-- STRUCTURED DATA — WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Aakash Dahiya — Developer Portfolio",
+    "url": "https://my-portfolio-blush-kappa-88.vercel.app/",
+    "description": "Portfolio of Aakash Dahiya, Full-Stack Web Developer from India.",
+    "author": {
+      "@type": "Person",
+      "name": "Aakash Dahiya"
+    },
+    "inLanguage": "en-IN",
+    "copyrightYear": "2026"
+  }
+  </script>
+
+  <!-- STRUCTURED DATA — ProfilePage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Aakash Dahiya",
+      "jobTitle": "Full-Stack Web Developer",
+      "url": "https://my-portfolio-blush-kappa-88.vercel.app/"
+    }
+  }
+  </script>
+
 </head>
 <body>
   <noscript>Please enable JavaScript to view Aakash Dahiya's interactive portfolio.</noscript>
