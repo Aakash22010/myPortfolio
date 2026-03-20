@@ -8,6 +8,7 @@ import Freelance from "./components/Freelance";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import Background3D from "./components/Background3D";
 import { ThemeProvider } from "./hooks/ThemeContext";
 
 function ScrollProgress() {
@@ -31,8 +32,9 @@ function ScrollProgress() {
 export default function App() {
   return (
     <ThemeProvider>
+      <Background3D />
       <ScrollProgress />
-      <div className="min-h-screen">
+      <div className="min-h-screen" style={{ position: "relative", zIndex: 1 }}>
         <Navbar />
         <Hero />
         <About />

@@ -208,5 +208,5 @@ If you find this portfolio helpful or inspiring, please give it a ⭐️ on GitH
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:aakashdahiya167@gmail.com)
 
 ---
-Last updated: March 19, 2026
+Last updated: March 20, 2026
 *Built with ❤️ using React, Tailwind CSS, and Framer Motion*
