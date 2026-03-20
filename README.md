@@ -2,7 +2,7 @@
 
 A modern, fully responsive **personal portfolio website** built to showcase my skills, projects, and experience as a **Full-Stack Web Developer**. Features a 3D interactive background, admin panel for live content management, and a complete MERN-style backend.
 
-![Portfolio Preview](https://my-portfolio-blush-kappa-88.vercel.app/og-image.png)
+![Portfolio Preview](https://my-portfolio-blush-kappa-88.vercel.app/og-image.webp)
 
 🔗 **Live Website:** [https://my-portfolio-blush-kappa-88.vercel.app/](https://my-portfolio-blush-kappa-88.vercel.app/)
 📄 **Resume:** Download available on the website
