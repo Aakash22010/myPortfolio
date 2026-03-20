@@ -1,54 +1,58 @@
 # 🌐 Aakash Dahiya — Developer Portfolio
 
-A modern, fully responsive **personal portfolio website** built to showcase my skills, projects, and experience as a **Full-Stack Web Developer**.
+A modern, fully responsive **personal portfolio website** built to showcase my skills, projects, and experience as a **Full-Stack Web Developer**. Features a 3D interactive background, admin panel for live content management, and a complete MERN-style backend.
 
-![Portfolio Preview](https://my-portfolio-blush-kappa-88.vercel.app/og-image.png)  
+![Portfolio Preview](https://my-portfolio-blush-kappa-88.vercel.app/og-image.png)
 
-🔗 **Live Website:** [https://my-portfolio-blush-kappa-88.vercel.app/](https://my-portfolio-blush-kappa-88.vercel.app/)  
-📄 **Resume:** Download available on the website  
-📂 **GitHub Repository:** [https://github.com/Aakash22010/myPortfolio.git](https://github.com/Aakash22010/myPortfolio.git)
+🔗 **Live Website:** [https://my-portfolio-blush-kappa-88.vercel.app/](https://my-portfolio-blush-kappa-88.vercel.app/)
+📄 **Resume:** Download available on the website
+📂 **GitHub Repository:** [https://github.com/Aakash22010/myPortfolio](https://github.com/Aakash22010/myPortfolio)
 
 ---
 
 ## 📋 Table of Contents
+
 - [About the Project](#-about-the-project)
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
 - [Sections](#-sections)
-- [Projects Showcased](#-projects-showcased)
+- [Admin Panel](#-admin-panel)
 - [Installation & Setup](#-installation--setup)
-- [Customization](#-customization)
-- [Future Improvements](#-future-improvements)
+- [Environment Variables](#-environment-variables)
+- [Deployment](#-deployment)
 - [Connect With Me](#-connect-with-me)
-- [License](#-license)
 
 ---
 
 ## 🚀 About the Project
 
-This portfolio is designed to present my **real-world development experience**, including internships, full-stack projects, and leadership roles. It focuses on **clarity, performance, and clean UI**, not just visuals.
+This portfolio is designed to present my **real-world development experience**, including internships, full-stack projects, and leadership roles. It goes beyond a typical static portfolio — all content is stored in a **Supabase (PostgreSQL) database** and managed through a **password-protected admin panel** accessible at `/admin`.
 
 ### Key Goals:
-- Showcase practical skills (not buzzwords)
-- Highlight real projects & internships
-- Be recruiter-friendly and mobile-first
-- Provide seamless user experience with smooth animations
-- Maintain high performance scores
+- Showcase practical skills with real project links
+- Highlight internships and leadership experience
+- Be recruiter-friendly and fully mobile-responsive
+- Allow live content edits without touching code
+- Maintain high performance with smooth animations
 
 ---
 
 ## ✨ Features
 
-- ⚡ **Fast Performance** - Vite-based build for optimal loading speeds
-- 🌗 **Dark/Light Mode** - Toggle between themes for comfortable viewing
-- 🎥 **Smooth Animations** - Framer Motion for engaging interactions
-- 📱 **Fully Responsive** - Optimized for mobile, tablet, and desktop
-- 🧭 **Sticky Navigation** - Animated navbar with hamburger menu for mobile
-- 📂 **Project Showcases** - Live demos & GitHub links for each project
-- 🧑‍💼 **Experience Timeline** - Internships and leadership roles displayed clearly
-- 📄 **Resume Integration** - Direct download option
-- 🔍 **SEO Optimized** - OpenGraph meta tags and proper semantics
-- ♿ **Accessibility** - WCAG guidelines compliance
+- ⚡ **Fast Performance** — Vite + rolldown build for optimal loading
+- 🌗 **Dark/Light Mode** — Smooth theme toggle with persistent preference
+- 🎥 **Smooth Animations** — Framer Motion scroll-triggered effects
+- 🧊 **3D Background** — Interactive icosahedron that responds to mouse movement (pure Canvas API, no Three.js)
+- 💓 **Heartbeat Preloader** — EKG-style animation on page load
+- 📱 **Fully Responsive** — Mobile, tablet, and desktop optimized
+- 🧭 **Active Nav Tracking** — IntersectionObserver highlights current section
+- 📊 **Scroll Progress Bar** — Spring-animated reading indicator
+- 🖥️ **Terminal Block** — Code-style developer card in Hero section
+- 🔐 **Admin Panel** — JWT-authenticated CMS at `/admin`
+- 🗄️ **Supabase Backend** — All data fetched from PostgreSQL via Express API
+- 📄 **Animated Download Button** — Progress fill + checkmark on resume download
+- 🔍 **SEO Optimized** — OpenGraph meta tags
 
 ---
 
@@ -60,153 +64,191 @@ This portfolio is designed to present my **real-world development experience**, 
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
 
-### **Backend Knowledge (Showcased via projects)**
+### **Backend**
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)
 
-### **Tooling & Deployment**
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
+### **Deployment**
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
-![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)
+![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)
 
 ---
 
-## 📁 Sections Included
+## 📁 Project Structure
 
-1. **Hero Section** - Introduction with call-to-action
-2. **About Me** - Personal background and philosophy
-3. **Skills** - Technical skills with proficiency levels
-4. **Experience** - Internships and leadership roles timeline
-5. **Projects** - Featured projects with live demos
-6. **Contact** - Social links and contact form
+```
+myPortfolio/
+├── public/                        # Static assets
+│   ├── profile.png                # Profile photo
+│   └── Aakash_Dahiya_Resume.pdf   # Resume
+├── src/
+│   ├── components/                # Portfolio sections
+│   │   ├── Navbar.jsx
+│   │   ├── Hero.jsx
+│   │   ├── About.jsx
+│   │   ├── Skills.jsx
+│   │   ├── Experience.jsx
+│   │   ├── Freelance.jsx
+│   │   ├── Projects.jsx
+│   │   ├── Contact.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Background3D.jsx       # Canvas 3D icosahedron
+│   │   ├── Preloader.jsx          # Heartbeat loader
+│   │   ├── DownloadButton.jsx     # Animated download
+│   │   └── ThemeToggle.jsx
+│   ├── pages/
+│   │   └── admin/
+│   │       ├── AdminLogin.jsx     # /admin route
+│   │       ├── AdminDashboard.jsx # /admin/dash route
+│   │       └── AdminSection.jsx   # Reusable CRUD UI
+│   ├── hooks/
+│   │   └── useTheme.jsx           # Theme context
+│   ├── lib/
+│   │   └── api.js                 # All API calls
+│   ├── animations.js              # Framer Motion variants
+│   ├── App.jsx                    # Router + layout
+│   ├── index.css                  # Global styles + CSS vars
+│   └── main.jsx
+├── server/                        # Express backend
+│   ├── db/
+│   │   └── supabase.js
+│   ├── middleware/
+│   │   └── auth.js                # JWT middleware
+│   ├── routes/
+│   │   ├── auth.js
+│   │   ├── projects.js
+│   │   ├── skills.js
+│   │   ├── experience.js
+│   │   └── freelance.js
+│   ├── server.js
+│   ├── seed.js                    # Populate Supabase
+│   ├── supabase_schema.sql        # Run in Supabase SQL Editor
+│   └── package.json
+├── vercel.json                    # SPA routing fix
+└── package.json
+```
 
 ---
 
-## 🧑‍💻 Projects Highlighted
+## 📁 Sections
 
-| Project | Description | Tech Stack | Live | Code |
-|---------|-------------|------------|------|------|
-| **InternArea** | Full-stack Internshala-inspired platform | MERN, JWT, Redux | [Live](https://) | [GitHub](https://) |
-| **Skill Sanchaar** | Educational platform with admin workflows | MERN, JWT, Chart.js | [Live](https://) | [GitHub](https://) |
-| **Paradise Hotel** | Hotel booking app with authentication | MERN, JWT, Bootstrap | [Live](https://) | [GitHub](https://) |
-| **WorkflowAI** | AI-driven workflow automation | React, Node.js, OpenAI API | [Live](https://) | [GitHub](https://) |
-| **Weather App** | Weather forecasting application | React, OpenWeather API | [Live](https://) | [GitHub](https://) |
-| **Vyper** | Modern Snake Game | JavaScript, Canvas API | [Live](https://) | [GitHub](https://) |
+1. **Hero** — Name, typed role animation, terminal code block, stat chips, stack pills
+2. **About** — Bio with inline highlights, stat grid
+3. **Skills** — Categorized cards (Frontend / Backend / Tools) fetched from DB
+4. **Experience** — Vertical timeline with type badges, fetched from DB
+5. **Freelancing** — Service cards, fetched from DB
+6. **Projects** — Featured card + numbered grid, fetched from DB
+7. **Contact** — Social link rows + animated send button
+8. **Footer** — Social icons with spring hover + tooltips
+
+---
+
+## 🔐 Admin Panel
+
+Visit `/admin` to access the content management panel.
+
+| Route | Description |
+|---|---|
+| `/admin` | Login page (JWT auth) |
+| `/admin/dash` | Dashboard — full CRUD for all sections |
+
+**Capabilities:**
+- Add, edit, delete projects / skills / experience / freelance services
+- Toggle visibility (hide items without deleting)
+- Changes reflect on the live portfolio instantly
 
 ---
 
 ## 📦 Installation & Setup
 
-Follow these steps to run this portfolio locally:
+### Frontend
 
 ```bash
-# 1. Clone the repository
+# Clone the repo
 git clone https://github.com/Aakash22010/myPortfolio.git
-
-# 2. Navigate into the project directory
 cd myPortfolio
 
-# 3. Install dependencies
+# Install dependencies
 npm install
-# or
-yarn install
 
-# 4. Start the development server
+# Create .env in root
+echo "VITE_API_URL=http://localhost:5000" > .env
+
+# Start dev server
 npm run dev
-# or
-yarn dev
-
-# 5. Open your browser and visit
-# http://localhost:5173
+# → http://localhost:5173
 ```
 
-### Build for Production
+### Backend
+
 ```bash
-# Create optimized production build
-npm run build
+cd server
 
-# Preview the production build locally
-npm run preview
+# Install dependencies
+npm install
+
+# Create server/.env (see Environment Variables below)
+
+# Run schema in Supabase SQL Editor first, then:
+npm run seed   # populates all tables + creates admin user
+
+# Start server
+npm start
+# → http://localhost:5000
 ```
 
 ---
 
-## 🖼 Customization
+## 🔑 Environment Variables
 
-To customize this portfolio for your own use:
+### `server/.env`
+```
+SUPABASE_URL=https://yourproject.supabase.co
+SUPABASE_SERVICE_KEY=your_service_role_key
+JWT_SECRET=your_random_secret_min_32_chars
+PORT=5000
+FRONTEND_URL=https://your-vercel-url.vercel.app
+```
 
-1. **Update Personal Information:**
-   - Edit `src/components/Hero.jsx` for introduction
-   - Modify `src/components/About.jsx` for your background
-   - Update `src/components/Experience.jsx` with your experience
-   - Change `src/components/Projects.jsx` with your projects
+### `.env` (root — frontend)
+```
+VITE_API_URL=https://your-render-backend.onrender.com
+```
 
-2. **Replace Assets:**
-   - Place your resume in `/public/resume.pdf`
-   - Add your profile picture to `/public/images/`
-   - Update favicon and social preview images
-
-3. **Modify Theme:**
-   - Edit colors in `tailwind.config.js`
-   - Update theme variables in `src/index.css`
-   - Adjust animation durations in components
-
-4. **Update Links:**
-   - Change social media URLs in `src/components/Contact.jsx`
-   - Update GitHub repository links in project cards
-   - Modify email and contact information
+> ⚠️ Never commit `.env` files. Both are listed in `.gitignore`.
 
 ---
 
-## 📈 Future Improvements
+## 🚀 Deployment
 
-- [ ] **Blog Section** - Technical writing and tutorials
-- [ ] **Case Studies** - Detailed project breakdowns
-- [ ] **Backend Contact Form** - Email integration
-- [ ] **Performance Analytics** - User engagement metrics
-- [ ] **Internationalization** - Multi-language support
-- [ ] **PWA Features** - Offline capability and install prompt
-- [ ] **Comment System** - Visitor feedback on projects
+### Backend → Render
+1. New Web Service → connect GitHub repo
+2. Root Directory: `server`
+3. Build: `npm install` / Start: `npm start`
+4. Add all 5 env vars in Render dashboard
 
----
-
-## 🤝 Contributing
-
-While this is a personal portfolio, suggestions and improvements are welcome!  
-If you find any bugs or have ideas for enhancements:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/improvement`)
-3. Commit your changes (`git commit -m 'Add some improvement'`)
-4. Push to the branch (`git push origin feature/improvement`)
-5. Open a Pull Request
+### Frontend → Vercel
+1. Import GitHub repo on Vercel
+2. Add `VITE_API_URL` environment variable
+3. `vercel.json` handles SPA routing automatically
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-**Note:** Please give credit if you use this as inspiration or directly fork it for your portfolio. Attribution is appreciated! 🙌
-
----
-
-## 🌟 Show Your Support
-
-If you find this portfolio helpful or inspiring, please give it a ⭐️ on GitHub!
+MIT License — feel free to use this as inspiration. Attribution appreciated! 🙌
 
 ---
 
 ## 📬 Connect With Me
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/aakashdahiya167?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/aakashdahiya167)
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Aakash22010)
-[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/your-handle)
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:aakashdahiya167@gmail.com)
+[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/_aakashdahiya_)
 
 ---
-Last updated: March 20, 2026
-*Built with ❤️ using React, Tailwind CSS, and Framer Motion*
+
+*Last updated: March 2026 · Built with React, Tailwind CSS, Framer Motion, Express, and Supabase*
