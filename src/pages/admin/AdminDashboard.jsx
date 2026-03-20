@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../lib/api";
 import AdminSection from "./AdminSection";
+import Loader from "../../components/HeartbeatLoader";
 
 const TABS = ["projects", "skills", "experience", "freelance"];
 
@@ -88,7 +89,7 @@ export default function AdminDashboard() {
       {/* CONTENT */}
       <div className="px-6 py-6 max-w-5xl">
         {loading ? (
-          <div className="mono text-sm" style={{ color: "var(--muted)" }}>Loading...</div>
+          <HeartbeatLoader size={0.7} />
         ) : (
           <AdminSection section={tab} items={data[tab] || []} onRefresh={loadAll} />
         )}

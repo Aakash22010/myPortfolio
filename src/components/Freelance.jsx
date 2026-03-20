@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "../animations";
 import { useEffect, useState } from "react";
 import { api } from "../lib/api";
+import Loader from "./HeartbeatLoader";
 
 export default function Freelance() {
   const [services, setServices] = useState([]);
@@ -29,7 +30,7 @@ export default function Freelance() {
         </motion.p>
 
         {loading ? (
-          <div className="mono text-sm" style={{ color: "var(--muted)" }}>Loading services...</div>
+          <HeartbeatLoader />
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
             {services.map((service) => (
