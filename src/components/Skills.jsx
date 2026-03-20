@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "../animations";
 import { useEffect, useState } from "react";
 import { api } from "../lib/api";
+import Loader from "./HeartbeatLoader";
 
 const LevelBadge = ({ level }) => {
   const styles = {
@@ -75,7 +76,7 @@ export default function Skills() {
         </motion.div>
 
         {loading ? (
-          <div className="mono text-sm" style={{ color: "var(--muted)" }}>Loading skills...</div>
+          <HeartbeatLoader />
         ) : (
           <>
             <SkillGroup title="// frontend"         skills={frontend} />

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "../animations";
 import { useEffect, useState } from "react";
 import { api } from "../lib/api";
+import Loader from "./HeartbeatLoader";
 
 const typeBadge = {
   internship: { label: "Internship", color: "bg-blue-500/20 text-blue-400" },
@@ -29,7 +30,7 @@ export default function Experience() {
         </motion.div>
 
         {loading ? (
-          <div className="mono text-sm" style={{ color: "var(--muted)" }}>Loading experience...</div>
+          <HeartbeatLoader />
         ) : (
           <div className="relative">
             <div
