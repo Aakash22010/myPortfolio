@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../lib/api";
 import AdminSection from "./AdminSection";
-import Loader from "../../components/HeartbeatLoader";
+import HeartbeatLoader from "../../components/HeartbeatLoader";
 
 const TABS = ["projects", "skills", "experience", "freelance"];
 

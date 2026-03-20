@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "../animations";
 import { useEffect, useState } from "react";
 import { api } from "../lib/api";
-import Loader from "./HeartbeatLoader";
+import HeartbeatLoader from "./HeartbeatLoader";
 
 const typeBadge = {
   internship: { label: "Internship", color: "bg-blue-500/20 text-blue-400" },
