@@ -17,6 +17,7 @@ import { ThemeProvider } from "./hooks/ThemeContext";
 import NotFound from "./pages/NotFound";
 import CustomCursor from "./components/CustomCursor";
 import ServerStatus from "./pages/ServerStatus";
+import { Analytics } from "@vercel/analytics/next"
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
