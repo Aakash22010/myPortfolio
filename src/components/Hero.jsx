@@ -145,9 +145,10 @@ function ProfilePhoto() {
           decoding="async"
         />
       </motion.div>
-      <RingDot angle={-45} radius={130} delay={0}   color="var(--accent)" />
-      <RingDot angle={100} radius={130} delay={0.7} color="var(--accent2)" />
-      <RingDot angle={210} radius={130} delay={1.4} color="var(--accent)" />
+      {/* Scale ring dots radius with photo size */}
+      <RingDot angle={-45} radius={Math.min(window.innerWidth * 0.27, 130)} delay={0} color="var(--accent)" />
+      <RingDot angle={100} radius={Math.min(window.innerWidth * 0.27, 130)} delay={0.7} color="var(--accent2)" />
+      <RingDot angle={210} radius={Math.min(window.innerWidth * 0.27, 130)} delay={1.4} color="var(--accent)" />
     </div>
   );
 }
