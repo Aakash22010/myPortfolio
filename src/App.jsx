@@ -17,7 +17,7 @@ import { ThemeProvider } from "./hooks/ThemeContext";
 import NotFound from "./pages/NotFound";
 import CustomCursor from "./components/CustomCursor";
 import ServerStatus from "./pages/ServerStatus";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react";
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -87,6 +87,7 @@ export default function App() {
           <Route path="*"           element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+      <Analytics />
     </ThemeProvider>
   );
 }
