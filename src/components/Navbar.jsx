@@ -15,6 +15,21 @@ export default function Navbar() {
     return scrollY.on("change", (v) => setScrolled(v > 40));
   }, [scrollY]);
 
+  // Close menu on resize to desktop
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth >= 768) setOpen(false);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
   useEffect(() => {
     const observers = [];
     NAV_SECTIONS.forEach((id) => {
@@ -41,14 +56,15 @@ export default function Navbar() {
         }}
         transition={{ duration: 0.3 }}
       >
-        <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
-          <a href="#" className="mono font-medium text-base flex items-center gap-1.5">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+          <a href="#" className="mono font-medium text-sm sm:text-base flex items-center gap-1.5">
             <span style={{ color: "var(--accent)" }}>{"<"}</span>
             <span>aakash</span>
             <span style={{ color: "var(--accent2)" }}>.dev</span>
             <span style={{ color: "var(--accent)" }}>{"/>"}</span>
           </a>
 
+          {/* Desktop nav */}
           <div className="hidden md:flex gap-1 items-center">
             {NAV_SECTIONS.map((id) => (
               <a key={id} href={`#${id}`}
@@ -68,33 +84,59 @@ export default function Navbar() {
             <div className="ml-3"><ThemeToggle /></div>
           </div>
 
-          <button type="button" aria-label="Toggle menu"
-            onClick={() => setOpen((v) => !v)}
-            className="md:hidden mono text-lg">
-            {open ? "✕" : "☰"}
-          </button>
+          {/* Mobile: theme toggle + hamburger */}
+          <div className="md:hidden flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              type="button"
+              aria-label="Toggle menu"
+              aria-expanded={open}
+              onClick={() => setOpen((v) => !v)}
+              className="mono text-lg w-9 h-9 flex items-center justify-center rounded-lg"
+              style={{ background: "var(--glow)", border: "1px solid var(--border)" }}
+            >
+              {open ? "✕" : "☰"}
+            </button>
+          </div>
         </div>
       </motion.div>
 
+      {/* Mobile menu */}
       <AnimatePresence>
         {open && (
-          <motion.div key="mobile-menu"
-            initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            style={{ background: "var(--card)", backdropFilter: "blur(20px)", borderBottom: "1px solid var(--border)" }}
+            style={{
+              background: "var(--card)",
+              backdropFilter: "blur(20px)",
+              borderBottom: "1px solid var(--border)",
+              maxHeight: "calc(100vh - 60px)",
+              overflowY: "auto",
+            }}
           >
-            <div className="flex flex-col px-6 py-6 gap-4">
+            <div className="flex flex-col px-6 py-6 gap-1">
               {NAV_SECTIONS.map((id) => (
-                <a key={id} href={`#${id}`} onClick={() => setOpen(false)}
-                  className="capitalize text-sm py-1"
-                  style={{ color: active === id ? "var(--accent)" : "var(--text)" }}>
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  onClick={() => setOpen(false)}
+                  className="capitalize text-base py-3 px-2 rounded-lg transition-colors"
+                  style={{
+                    color: active === id ? "var(--accent)" : "var(--text)",
+                    background: active === id ? "var(--glow)" : "transparent",
+                    borderLeft: active === id ? "2px solid var(--accent)" : "2px solid transparent",
+                    paddingLeft: "12px",
+                  }}
+                >
                   {active === id ? `> ${id}` : id}
                 </a>
               ))}
-              <DownloadButton href="/Aakash_Dahiya_Resume.pdf" compact className="ml-3" />
-              <div className="flex items-center justify-between pt-2" style={{ borderTop: "1px solid var(--border)" }}>
-                <span className="mono text-xs" style={{ color: "var(--muted)" }}>theme</span>
-                <ThemeToggle />
+              <div className="pt-4 mt-2" style={{ borderTop: "1px solid var(--border)" }}>
+                <DownloadButton href="/Aakash_Dahiya_Resume.pdf" className="w-full justify-center" />
               </div>
             </div>
           </motion.div>

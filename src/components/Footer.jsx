@@ -45,15 +45,18 @@ function BackToTop() {
 
 export default function Footer() {
   return (
-    <footer className="mt-8 px-6 py-10" style={{ borderTop: "1px solid var(--border)" }}>
+    <footer className="mt-8 px-4 sm:px-6 py-8 sm:py-10" style={{ borderTop: "1px solid var(--border)" }}>
       <div className="max-w-5xl mx-auto">
 
         {/* TOP ROW */}
-        <div className="flex items-center justify-between flex-wrap gap-6 mb-8">
-          <div className="flex gap-6">
+        <div className="flex items-center justify-between flex-wrap gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div className="flex gap-4 sm:gap-6">
             {socials.map((social) => (
-              <motion.a key={social.name} href={social.href}
-                target="_blank" rel="noopener noreferrer"
+              <motion.a
+                key={social.name}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="relative group"
                 style={{ color: "var(--muted)" }}
                 whileHover={{ scale: 1.2, y: -4, color: "var(--accent)" }}
@@ -70,24 +73,29 @@ export default function Footer() {
         </div>
 
         {/* DIVIDER */}
-        <div className="mb-6 h-px"
-          style={{ background: "linear-gradient(90deg, transparent, var(--border), transparent)" }} />
+        <div
+          className="mb-5 sm:mb-6 h-px"
+          style={{ background: "linear-gradient(90deg, transparent, var(--border), transparent)" }}
+        />
 
         {/* BOTTOM ROW */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+          {/* Stack pills — wrap naturally on small screens */}
           <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
             <span className="mono text-xs" style={{ color: "var(--muted)" }}>built with</span>
             {STACK.map((tech, i) => (
               <span key={tech} className="flex items-center gap-2">
-                <span className="mono text-xs px-2 py-0.5 rounded"
-                  style={{ background: "var(--glow)", color: "var(--accent)", border: "1px solid var(--border)" }}>
+                <span
+                  className="mono text-xs px-2 py-0.5 rounded"
+                  style={{ background: "var(--glow)", color: "var(--accent)", border: "1px solid var(--border)" }}
+                >
                   {tech}
                 </span>
                 {i < STACK.length - 1 && <span style={{ color: "var(--border)" }}>·</span>}
               </span>
             ))}
           </div>
-          <p className="mono text-xs" style={{ color: "var(--muted)" }}>
+          <p className="mono text-xs shrink-0" style={{ color: "var(--muted)" }}>
             © {new Date().getFullYear()} Aakash Dahiya
           </p>
         </div>
