@@ -14,6 +14,7 @@ import Preloader from "./components/Preloader";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import { ThemeProvider } from "./hooks/ThemeContext";
+import NotFound from "./pages/NotFound";
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -62,6 +63,7 @@ export default function App() {
           <Route path="/"           element={<Portfolio />} />
           <Route path="/admin"      element={<AdminLogin />} />
           <Route path="/admin/dash" element={<AdminDashboard />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
