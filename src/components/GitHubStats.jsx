@@ -63,9 +63,8 @@ export default function GitHubStats() {
             className="w-full rounded"
             style={{ filter: "hue-rotate(165deg) saturate(0.8) brightness(0.9)", minHeight: "80px" }}
             loading="lazy"
-            onError={e => {
-              e.target.src = `https://github-readme-activity-graph.vercel.app/graph?username=${GITHUB_USERNAME}&bg_color=00000000&color=0fa4af&line=0fa4af&point=0fa4af&area=true&hide_border=true`;
-            }}
+            decoding="async"
+            onError={(e) => { e.target.onerror = null; e.target.src = "/github-placeholder.png"; }}
           />
         </div>
       </div>
