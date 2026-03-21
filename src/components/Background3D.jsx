@@ -8,17 +8,14 @@ function mat4Mul(a, b) {
         r[i * 4 + j] += a[i * 4 + k] * b[k * 4 + j];
   return r;
 }
-
 function rotX(a) {
   const c = Math.cos(a), s = Math.sin(a);
   return new Float32Array([1,0,0,0, 0,c,-s,0, 0,s,c,0, 0,0,0,1]);
 }
-
 function rotY(a) {
   const c = Math.cos(a), s = Math.sin(a);
   return new Float32Array([c,0,s,0, 0,1,0,0, -s,0,c,0, 0,0,0,1]);
 }
-
 function applyMat(m, [x, y, z]) {
   return [
     m[0]*x + m[1]*y + m[2]*z,
@@ -26,7 +23,6 @@ function applyMat(m, [x, y, z]) {
     m[8]*x + m[9]*y + m[10]*z,
   ];
 }
-
 function project(x, y, z, fov, cx, cy) {
   const d = fov / (fov + z);
   return [cx + x * d, cy + y * d, d];
@@ -87,19 +83,8 @@ function accentAlpha(accentRaw, a) {
   return accentRaw;
 }
 
-// Fixed configuration: always centered, constant radius
-const FIXED_RADIUS = 150;       // pixels – change to your desired size
-const VIG_SCALE = 2.8;          // matches radius * scale for vignette
-
-function getConfig(W, H) {
-  return {
-    radius:   FIXED_RADIUS,
-    cx:       W / 2,
-    cy:       H / 2,
-    opacity:  0.75,              // you can keep different opacities per breakpoint if desired
-    vigScale: VIG_SCALE,
-  };
-}
+// Fixed radius — same on every device
+const RADIUS = 220;
 
 export default function Background3D() {
   const canvasRef = useRef(null);
@@ -111,97 +96,71 @@ export default function Background3D() {
 
     let W = window.innerWidth;
     let H = window.innerHeight;
-    let dpr = window.devicePixelRatio || 1;
-    let cfg = getConfig(W, H);
-    let geo = buildIcosahedron(cfg.radius);
-    let innerLines = buildInnerLines(geo.verts, geo.faces, cfg.radius);
-
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    canvas.style.width = `${W}px`;
-    canvas.style.height = `${H}px`;
-    ctx.scale(dpr, dpr);
-
     let targetTiltX = 0, targetTiltY = 0;
     let tiltX = 0, tiltY = 0;
     let autoAngle = 0;
     let rafId;
-    let resizeTimeout;
 
-    function updateGeometryAndCanvas() {
+    const geo        = buildIcosahedron(RADIUS);
+    const innerLines = buildInnerLines(geo.verts, geo.faces, RADIUS);
+
+    canvas.width  = W;
+    canvas.height = H;
+
+    function resize() {
       W = window.innerWidth;
       H = window.innerHeight;
-      dpr = window.devicePixelRatio || 1;
-      cfg = getConfig(W, H);
-      // Geometry only depends on radius, which is constant – no need to rebuild
-      // but we keep it for completeness (it's cheap)
-      geo = buildIcosahedron(cfg.radius);
-      innerLines = buildInnerLines(geo.verts, geo.faces, cfg.radius);
-
-      canvas.width = W * dpr;
-      canvas.height = H * dpr;
-      canvas.style.width = `${W}px`;
-      canvas.style.height = `${H}px`;
-      ctx.scale(dpr, dpr);
-    }
-
-    function resizeHandler() {
-      if (resizeTimeout) clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        updateGeometryAndCanvas();
-      }, 100);
+      canvas.width  = W;
+      canvas.height = H;
     }
 
     function onMouse(e) {
-      targetTiltY = ((e.clientX / W) - 0.5) * 0.9;
+      targetTiltY =  ((e.clientX / W) - 0.5) * 0.9;
       targetTiltX = -((e.clientY / H) - 0.5) * 0.9;
     }
-
     function onTouch(e) {
-      e.preventDefault();
       const t = e.touches[0];
-      targetTiltY = ((t.clientX / W) - 0.5) * 0.9;
+      targetTiltY =  ((t.clientX / W) - 0.5) * 0.9;
       targetTiltX = -((t.clientY / H) - 0.5) * 0.9;
     }
 
-    window.addEventListener("resize", resizeHandler);
+    window.addEventListener("resize",    resize);
     window.addEventListener("mousemove", onMouse);
-    window.addEventListener("touchmove", onTouch, { passive: false });
+    window.addEventListener("touchmove", onTouch, { passive: true });
 
     function isDark() {
       return document.documentElement.getAttribute("data-theme") === "dark";
     }
-
     function getCSSVar(v) {
       return getComputedStyle(document.documentElement).getPropertyValue(v).trim();
     }
 
     function draw() {
-      const { cx, cy, radius, vigScale, opacity } = cfg;
-
       ctx.clearRect(0, 0, W, H);
-      canvas.style.opacity = opacity;
 
       tiltX += (targetTiltX - tiltX) * 0.05;
       tiltY += (targetTiltY - tiltY) * 0.05;
       autoAngle += 0.003;
 
       const mat = mat4Mul(rotY(autoAngle + tiltY), rotX(tiltX));
+      // Always dead center, every device
+      const cx  = W * 0.5;
+      const cy  = H * 0.5;
       const fov = W * 0.9;
+
       const accentRaw = getCSSVar("--accent") || "#0fa4af";
       const dark = isDark();
 
-      // Vignette centered on the shape (which is at screen center)
-      const vigR = radius * vigScale;
-      const vig = ctx.createRadialGradient(cx, cy, 0, cx, cy, vigR);
+      const vigR = RADIUS * 3;
+      const vig  = ctx.createRadialGradient(cx, cy, 0, cx, cy, vigR);
       if (dark) {
-        vig.addColorStop(0,   "rgba(4,13,14,0.70)");
-        vig.addColorStop(0.5, "rgba(4,13,14,0.20)");
-        vig.addColorStop(1,   "rgba(4,13,14,0.00)");
+        vig.addColorStop(0,    "rgba(4,13,14,0.82)");
+        vig.addColorStop(0.45, "rgba(4,13,14,0.40)");
+        vig.addColorStop(1,    "rgba(4,13,14,0.0)");
       } else {
-        vig.addColorStop(0,   "rgba(214,238,242,0.70)");
-        vig.addColorStop(0.5, "rgba(214,238,242,0.20)");
-        vig.addColorStop(1,   "rgba(214,238,242,0.00)");
+        vig.addColorStop(0,    "rgba(214,238,242,0.88)");
+        vig.addColorStop(0.45, "rgba(214,238,242,0.42)");
+        vig.addColorStop(1,    "rgba(214,238,242,0.0)");
       }
       ctx.fillStyle = vig;
       ctx.fillRect(0, 0, W, H);
@@ -250,10 +209,9 @@ export default function Background3D() {
 
     return () => {
       cancelAnimationFrame(rafId);
-      window.removeEventListener("resize", resizeHandler);
+      window.removeEventListener("resize",    resize);
       window.removeEventListener("mousemove", onMouse);
       window.removeEventListener("touchmove", onTouch);
-      if (resizeTimeout) clearTimeout(resizeTimeout);
     };
   }, []);
 
@@ -262,13 +220,11 @@ export default function Background3D() {
       ref={canvasRef}
       style={{
         position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
+        top: 0, left: 0,
+        width: "100%", height: "100%",
         pointerEvents: "none",
         zIndex: 0,
-        willChange: "opacity",
+        opacity: 0.75,
       }}
     />
   );
