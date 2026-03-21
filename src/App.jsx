@@ -29,7 +29,8 @@ function ScrollProgress() {
         position: "fixed",
         top: 0, left: 0, right: 0,
         height: "2px",
-        zIndex: 100,
+        // Must be above the canvas (z:0) and below the navbar (z:50)
+        zIndex: 40,
         background: "linear-gradient(90deg, var(--accent2), var(--accent))",
       }}
     />
@@ -40,9 +41,24 @@ function Portfolio() {
   return (
     <>
       <Preloader />
+      {/* Canvas sits at z-index 0 — purely decorative background */}
       <Background3D />
       <ScrollProgress />
-      <div className="min-h-screen" style={{ position: "relative", zIndex: 1 }}>
+      {/*
+        Content wrapper:
+        - position: relative + z-index: 1 ensures ALL content renders
+          above the canvas on every device, including mobile.
+        - overflow-x: hidden stops any child from causing horizontal scroll.
+        - min-w-0 prevents flex children from busting out of bounds.
+      */}
+      <div
+        className="min-h-screen"
+        style={{
+          position: "relative",
+          zIndex: 1,
+          overflowX: "hidden",
+        }}
+      >
         <Navbar />
         <Hero />
         <About />
@@ -63,11 +79,11 @@ export default function App() {
       <CustomCursor />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Portfolio />} />
-          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/"           element={<Portfolio />} />
+          <Route path="/admin"      element={<AdminLogin />} />
           <Route path="/admin/dash" element={<AdminDashboard />} />
-          <Route path="/status" element={<ServerStatus />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/status"     element={<ServerStatus />} />
+          <Route path="*"           element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
