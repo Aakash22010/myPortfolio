@@ -63,10 +63,11 @@ export default function GitHubStats() {
             @{GITHUB_USERNAME} ↗
           </a>
         </div>
-        {/* overflow-x-auto + max-w-full prevents the image busting the layout */}
+        {/* On desktop the image stretches to fill. On mobile (<640px) it
+            keeps a minimum readable width and the parent scrolls.          */}
         <div
           className="p-3 sm:p-4"
-          style={{ background: "var(--surface)", overflowX: "auto", maxWidth: "100%" }}
+          style={{ background: "var(--surface)", overflowX: "auto" }}
         >
           <img
             src={`https://ghchart.rshah.org/${GITHUB_USERNAME}`}
@@ -75,9 +76,11 @@ export default function GitHubStats() {
             style={{
               filter: "hue-rotate(165deg) saturate(0.8) brightness(0.9)",
               minHeight: "80px",
-              // Fixed pixel width so the graph is legible, parent scrolls on narrow screens
-              width: "700px",
-              maxWidth: "none",
+              // Fill the container on all screen sizes;
+              // minWidth keeps it legible on very narrow phones.
+              width: "100%",
+              minWidth: "480px",
+              display: "block",
             }}
             loading="lazy"
             decoding="async"
