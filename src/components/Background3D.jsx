@@ -38,14 +38,12 @@ function buildIcosahedron(r) {
     const len = Math.sqrt(x*x+y*y+z*z);
     return [x/len*r, y/len*r, z/len*r];
   });
-
   const faces = [
     [0,11,5],[0,5,1],[0,1,7],[0,7,10],[0,10,11],
     [1,5,9],[5,11,4],[11,10,2],[10,7,6],[7,1,8],
     [3,9,4],[3,4,2],[3,2,6],[3,6,8],[3,8,9],
     [4,9,5],[2,4,11],[6,2,10],[8,6,7],[9,8,1],
   ];
-
   const edgeSet = new Set();
   const edges = [];
   faces.forEach(([a,b,c]) => {
@@ -54,7 +52,6 @@ function buildIcosahedron(r) {
       if (!edgeSet.has(key)) { edgeSet.add(key); edges.push([u,v]); }
     });
   });
-
   return { verts, edges, faces };
 }
 
@@ -99,13 +96,20 @@ export default function Background3D() {
     let autoAngle = 0;
     let rafId;
 
-    // On mobile the shape was too big and dominated the screen.
-    // Use a smaller multiplier on narrow viewports.
+    function isMobile() { return W < 768; }
+
+    // Mobile: much smaller so it never overlaps text content
     function getRadius() {
-      const minDim = Math.min(W, H);
-      if (W < 480) return minDim * 0.38;       // phones — tighter fit
-      if (W < 768) return minDim * 0.32;       // large phones / small tablets
-      return minDim * 0.28;                    // desktop — original
+      if (W < 480) return W * 0.18;
+      if (W < 768) return W * 0.22;
+      return Math.min(W, H) * 0.28;
+    }
+
+    // Mobile: float to bottom-right corner, away from left-aligned text
+    function getCenter() {
+      if (W < 480) return { cx: W * 0.85, cy: H * 0.60 };
+      if (W < 768) return { cx: W * 0.80, cy: H * 0.55 };
+      return { cx: W * 0.5, cy: H * 0.5 };
     }
 
     canvas.width = W;
@@ -125,7 +129,6 @@ export default function Background3D() {
     function resize() {
       W = window.innerWidth; H = window.innerHeight;
       canvas.width = W; canvas.height = H;
-      // Rebuild geometry on resize so radius stays correct
       R = getRadius();
       geo = buildIcosahedron(R);
       innerLines = buildInnerLines(geo.verts, geo.faces, R);
@@ -153,21 +156,22 @@ export default function Background3D() {
       autoAngle += 0.003;
 
       const mat = mat4Mul(rotY(autoAngle + tiltY), rotX(tiltX));
-      const cx = W * 0.5, cy = H * 0.5;
+      const { cx, cy } = getCenter();
       const fov = W * 0.9;
 
       const accentRaw = getCSSVar("--accent") || "#0fa4af";
       const dark = isDark();
 
-      // Radial vignette — fades centre where text lives
-      const vignette = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W,H) * 0.55);
+      // Soft vignette centred on the shape, not the screen center
+      const vigR = R * (isMobile() ? 2.2 : 3.5);
+      const vignette = ctx.createRadialGradient(cx, cy, 0, cx, cy, vigR);
       if (dark) {
-        vignette.addColorStop(0,    "rgba(4,13,14,0.82)");
-        vignette.addColorStop(0.45, "rgba(4,13,14,0.40)");
+        vignette.addColorStop(0,    "rgba(4,13,14,0.45)");
+        vignette.addColorStop(0.5,  "rgba(4,13,14,0.15)");
         vignette.addColorStop(1,    "rgba(4,13,14,0.0)");
       } else {
-        vignette.addColorStop(0,    "rgba(214,238,242,0.88)");
-        vignette.addColorStop(0.45, "rgba(214,238,242,0.42)");
+        vignette.addColorStop(0,    "rgba(214,238,242,0.45)");
+        vignette.addColorStop(0.5,  "rgba(214,238,242,0.15)");
         vignette.addColorStop(1,    "rgba(214,238,242,0.0)");
       }
       ctx.fillStyle = vignette;
@@ -183,7 +187,6 @@ export default function Background3D() {
         project(...applyMat(mat, b), fov, cx, cy),
       ]);
 
-      // Inner lines
       ctx.lineWidth = 0.4;
       projInner.forEach(([pa, pb]) => {
         const depth = (pa[2] + pb[2]) / 2;
@@ -194,7 +197,6 @@ export default function Background3D() {
         ctx.stroke();
       });
 
-      // Edges
       geo.edges.forEach(([i, j]) => {
         const [px1,py1,d1] = projected[i];
         const [px2,py2,d2] = projected[j];
@@ -207,11 +209,9 @@ export default function Background3D() {
         ctx.stroke();
       });
 
-      // Vertices
       projected.forEach(([px, py, d]) => {
         const radius = 1.5 + d * 2.5;
         const alpha  = 0.18 + d * 0.5;
-
         const grad = ctx.createRadialGradient(px,py,0,px,py,radius*3);
         grad.addColorStop(0, accentAlpha(accentRaw, alpha * 0.45));
         grad.addColorStop(1, accentAlpha(accentRaw, 0));
@@ -219,7 +219,6 @@ export default function Background3D() {
         ctx.beginPath();
         ctx.arc(px, py, radius * 3, 0, Math.PI * 2);
         ctx.fill();
-
         ctx.fillStyle = accentAlpha(accentRaw, alpha);
         ctx.beginPath();
         ctx.arc(px, py, radius, 0, Math.PI * 2);
@@ -248,8 +247,7 @@ export default function Background3D() {
         width: "100%", height: "100%",
         pointerEvents: "none",
         zIndex: 0,
-        // Slightly more transparent on mobile so it doesn't compete with content
-        opacity: typeof window !== "undefined" && window.innerWidth < 480 ? 0.5 : 0.75,
+        opacity: 0.75,
       }}
     />
   );

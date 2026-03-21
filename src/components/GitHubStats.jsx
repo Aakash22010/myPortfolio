@@ -46,7 +46,7 @@ export default function GitHubStats() {
     <motion.div variants={fadeUp} className="mt-8 sm:mt-10 space-y-4">
       <p className="mono text-xs" style={{ color: "var(--muted)" }}>// github activity</p>
 
-      {/* CONTRIBUTION GRAPH */}
+      {/* CONTRIBUTION GRAPH — scrollable wrapper prevents horizontal overflow */}
       <div className="glass rounded-xl overflow-hidden" style={{ border: "1px solid var(--border)" }}>
         <div
           className="px-4 py-2.5 flex items-center justify-between"
@@ -63,8 +63,11 @@ export default function GitHubStats() {
             @{GITHUB_USERNAME} ↗
           </a>
         </div>
-        {/* Horizontally scrollable on very small screens */}
-        <div className="p-3 sm:p-4 overflow-x-auto" style={{ background: "var(--surface)" }}>
+        {/* overflow-x-auto + max-w-full prevents the image busting the layout */}
+        <div
+          className="p-3 sm:p-4"
+          style={{ background: "var(--surface)", overflowX: "auto", maxWidth: "100%" }}
+        >
           <img
             src={`https://ghchart.rshah.org/${GITHUB_USERNAME}`}
             alt="GitHub contribution graph"
@@ -72,15 +75,13 @@ export default function GitHubStats() {
             style={{
               filter: "hue-rotate(165deg) saturate(0.8) brightness(0.9)",
               minHeight: "80px",
-              minWidth: "600px",
-              width: "100%",
+              // Fixed pixel width so the graph is legible, parent scrolls on narrow screens
+              width: "700px",
+              maxWidth: "none",
             }}
             loading="lazy"
             decoding="async"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "/github-placeholder.png";
-            }}
+            onError={(e) => { e.target.onerror = null; e.target.src = "/github-placeholder.png"; }}
           />
         </div>
       </div>
@@ -90,7 +91,8 @@ export default function GitHubStats() {
         <p className="mono text-xs" style={{ color: "var(--muted)" }}>Fetching GitHub data...</p>
       ) : (
         profile && (
-          <div className="grid sm:grid-cols-2 gap-4">
+          // Stack vertically on mobile, side-by-side on sm+
+          <div className="flex flex-col sm:grid sm:grid-cols-2 gap-4">
 
             {/* STATS */}
             <div className="glass rounded-xl p-4 sm:p-5" style={{ border: "1px solid var(--border)" }}>
