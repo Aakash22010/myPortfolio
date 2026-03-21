@@ -83,8 +83,13 @@ function accentAlpha(accentRaw, a) {
   return accentRaw;
 }
 
-// Fixed radius — same on every device
-const RADIUS = 220;
+// Radius: full size on desktop, slightly smaller on phones
+function getRadius() {
+  const W = window.innerWidth;
+  if (W < 480) return 130;
+  if (W < 768) return 170;
+  return 220;
+}
 
 export default function Background3D() {
   const canvasRef = useRef(null);
@@ -101,8 +106,9 @@ export default function Background3D() {
     let autoAngle = 0;
     let rafId;
 
-    const geo        = buildIcosahedron(RADIUS);
-    const innerLines = buildInnerLines(geo.verts, geo.faces, RADIUS);
+    let R          = getRadius();
+    let geo        = buildIcosahedron(R);
+    let innerLines = buildInnerLines(geo.verts, geo.faces, R);
 
     canvas.width  = W;
     canvas.height = H;
@@ -110,6 +116,9 @@ export default function Background3D() {
     function resize() {
       W = window.innerWidth;
       H = window.innerHeight;
+      R = getRadius();
+      geo        = buildIcosahedron(R);
+      innerLines = buildInnerLines(geo.verts, geo.faces, R);
       canvas.width  = W;
       canvas.height = H;
     }
@@ -151,7 +160,7 @@ export default function Background3D() {
       const accentRaw = getCSSVar("--accent") || "#0fa4af";
       const dark = isDark();
 
-      const vigR = RADIUS * 3;
+      const vigR = R * 3;
       const vig  = ctx.createRadialGradient(cx, cy, 0, cx, cy, vigR);
       if (dark) {
         vig.addColorStop(0,    "rgba(4,13,14,0.82)");
