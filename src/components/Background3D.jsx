@@ -82,6 +82,54 @@ function accentAlpha(accentRaw, a) {
   return accentRaw;
 }
 
+// ─── per-breakpoint config ────────────────────────────────────────────────────
+// radius  : size of the shape relative to the smaller screen dimension
+// cx / cy : where the shape is drawn (0–1 fraction of W / H)
+// opacity : how visible it is (lower = less intrusive on small screens)
+// vignette: radius of the background fade around the shape
+function getConfig(W, H) {
+  if (W < 480) {
+    // Small phones — tiny shape parked in the bottom-right corner
+    // so it never overlaps the left-aligned content column
+    return {
+      radius:   Math.min(W, H) * 0.16,
+      cx:       W * 0.88,
+      cy:       H * 0.62,
+      opacity:  0.45,
+      vigScale: 2.0,
+    };
+  }
+  if (W < 768) {
+    // Large phones / small tablets — slightly bigger, still bottom-right
+    return {
+      radius:   Math.min(W, H) * 0.20,
+      cx:       W * 0.82,
+      cy:       H * 0.58,
+      opacity:  0.55,
+      vigScale: 2.2,
+    };
+  }
+  if (W < 1024) {
+    // Tablets — centred, moderate size
+    return {
+      radius:   Math.min(W, H) * 0.26,
+      cx:       W * 0.5,
+      cy:       H * 0.5,
+      opacity:  0.70,
+      vigScale: 2.8,
+    };
+  }
+  // Desktop — original feel
+  return {
+    radius:   Math.min(W, H) * 0.28,
+    cx:       W * 0.5,
+    cy:       H * 0.5,
+    opacity:  0.75,
+    vigScale: 3.2,
+  };
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 export default function Background3D() {
   const canvasRef = useRef(null);
 
@@ -96,28 +144,13 @@ export default function Background3D() {
     let autoAngle = 0;
     let rafId;
 
-    function isMobile() { return W < 768; }
-
-    // Mobile: much smaller so it never overlaps text content
-    function getRadius() {
-      if (W < 480) return W * 0.18;
-      if (W < 768) return W * 0.22;
-      return Math.min(W, H) * 0.28;
-    }
-
-    // Mobile: float to bottom-right corner, away from left-aligned text
-    function getCenter() {
-      if (W < 480) return { cx: W * 0.85, cy: H * 0.60 };
-      if (W < 768) return { cx: W * 0.80, cy: H * 0.55 };
-      return { cx: W * 0.5, cy: H * 0.5 };
-    }
-
-    canvas.width = W;
+    let cfg = getConfig(W, H);
+    canvas.width  = W;
     canvas.height = H;
+    canvas.style.opacity = cfg.opacity;
 
-    let R = getRadius();
-    let geo = buildIcosahedron(R);
-    let innerLines = buildInnerLines(geo.verts, geo.faces, R);
+    let geo        = buildIcosahedron(cfg.radius);
+    let innerLines = buildInnerLines(geo.verts, geo.faces, cfg.radius);
 
     function isDark() {
       return document.documentElement.getAttribute("data-theme") === "dark";
@@ -128,10 +161,12 @@ export default function Background3D() {
 
     function resize() {
       W = window.innerWidth; H = window.innerHeight;
-      canvas.width = W; canvas.height = H;
-      R = getRadius();
-      geo = buildIcosahedron(R);
-      innerLines = buildInnerLines(geo.verts, geo.faces, R);
+      cfg = getConfig(W, H);
+      canvas.width  = W;
+      canvas.height = H;
+      canvas.style.opacity = cfg.opacity;
+      geo        = buildIcosahedron(cfg.radius);
+      innerLines = buildInnerLines(geo.verts, geo.faces, cfg.radius);
     }
 
     function onMouse(e) {
@@ -156,23 +191,22 @@ export default function Background3D() {
       autoAngle += 0.003;
 
       const mat = mat4Mul(rotY(autoAngle + tiltY), rotX(tiltX));
-      const { cx, cy } = getCenter();
+      const { cx, cy, radius, vigScale } = cfg;
       const fov = W * 0.9;
-
       const accentRaw = getCSSVar("--accent") || "#0fa4af";
       const dark = isDark();
 
-      // Soft vignette centred on the shape, not the screen center
-      const vigR = R * (isMobile() ? 2.2 : 3.5);
+      // Soft glow vignette centred on the shape's actual position
+      const vigR = radius * vigScale;
       const vignette = ctx.createRadialGradient(cx, cy, 0, cx, cy, vigR);
       if (dark) {
-        vignette.addColorStop(0,    "rgba(4,13,14,0.45)");
-        vignette.addColorStop(0.5,  "rgba(4,13,14,0.15)");
-        vignette.addColorStop(1,    "rgba(4,13,14,0.0)");
+        vignette.addColorStop(0,   "rgba(4,13,14,0.70)");
+        vignette.addColorStop(0.5, "rgba(4,13,14,0.25)");
+        vignette.addColorStop(1,   "rgba(4,13,14,0.0)");
       } else {
-        vignette.addColorStop(0,    "rgba(214,238,242,0.45)");
-        vignette.addColorStop(0.5,  "rgba(214,238,242,0.15)");
-        vignette.addColorStop(1,    "rgba(214,238,242,0.0)");
+        vignette.addColorStop(0,   "rgba(214,238,242,0.70)");
+        vignette.addColorStop(0.5, "rgba(214,238,242,0.25)");
+        vignette.addColorStop(1,   "rgba(214,238,242,0.0)");
       }
       ctx.fillStyle = vignette;
       ctx.fillRect(0, 0, W, H);
@@ -181,7 +215,6 @@ export default function Background3D() {
         const [rx,ry,rz] = applyMat(mat, v);
         return project(rx, ry, rz, fov, cx, cy);
       });
-
       const projInner = innerLines.map(([a,b]) => [
         project(...applyMat(mat, a), fov, cx, cy),
         project(...applyMat(mat, b), fov, cx, cy),
@@ -191,10 +224,7 @@ export default function Background3D() {
       projInner.forEach(([pa, pb]) => {
         const depth = (pa[2] + pb[2]) / 2;
         ctx.strokeStyle = accentAlpha(accentRaw, depth * 0.1);
-        ctx.beginPath();
-        ctx.moveTo(pa[0], pa[1]);
-        ctx.lineTo(pb[0], pb[1]);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(pa[0], pa[1]); ctx.lineTo(pb[0], pb[1]); ctx.stroke();
       });
 
       geo.edges.forEach(([i, j]) => {
@@ -203,26 +233,19 @@ export default function Background3D() {
         const depth = (d1 + d2) / 2;
         ctx.lineWidth = 0.6 + depth * 1.0;
         ctx.strokeStyle = accentAlpha(accentRaw, 0.12 + depth * 0.45);
-        ctx.beginPath();
-        ctx.moveTo(px1, py1);
-        ctx.lineTo(px2, py2);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(px1, py1); ctx.lineTo(px2, py2); ctx.stroke();
       });
 
       projected.forEach(([px, py, d]) => {
-        const radius = 1.5 + d * 2.5;
-        const alpha  = 0.18 + d * 0.5;
-        const grad = ctx.createRadialGradient(px,py,0,px,py,radius*3);
+        const r     = 1.5 + d * 2.5;
+        const alpha = 0.18 + d * 0.5;
+        const grad  = ctx.createRadialGradient(px,py,0,px,py,r*3);
         grad.addColorStop(0, accentAlpha(accentRaw, alpha * 0.45));
         grad.addColorStop(1, accentAlpha(accentRaw, 0));
         ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(px, py, radius * 3, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.beginPath(); ctx.arc(px, py, r * 3, 0, Math.PI * 2); ctx.fill();
         ctx.fillStyle = accentAlpha(accentRaw, alpha);
-        ctx.beginPath();
-        ctx.arc(px, py, radius, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI * 2); ctx.fill();
       });
 
       rafId = requestAnimationFrame(draw);
@@ -247,7 +270,7 @@ export default function Background3D() {
         width: "100%", height: "100%",
         pointerEvents: "none",
         zIndex: 0,
-        opacity: 0.75,
+        opacity: 0.75, // overridden per-breakpoint in JS above
       }}
     />
   );
