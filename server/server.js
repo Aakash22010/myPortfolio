@@ -24,6 +24,7 @@ app.use(cors({
 app.use(express.json());
 
 app.get("/", (req, res) => res.json({ status: "Portfolio API running" }));
+app.get("/health", (req, res) => res.json({ status: "ok", uptime: process.uptime() }));
 
 app.use("/api/auth",       authRoutes);
 app.use("/api/projects",   projectRoutes);
