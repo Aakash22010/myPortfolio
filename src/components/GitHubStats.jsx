@@ -6,9 +6,9 @@ const GITHUB_USERNAME = "Aakash22010";
 
 export default function GitHubStats() {
   const [profile, setProfile] = useState(null);
-  const [repos, setRepos]     = useState([]);
+  const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function fetchGitHub() {
@@ -30,13 +30,13 @@ export default function GitHubStats() {
   }, []);
 
   function timeAgo(dateStr) {
-    const diff  = Date.now() - new Date(dateStr).getTime();
-    const mins  = Math.floor(diff / 60000);
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
     const hours = Math.floor(diff / 3600000);
-    const days  = Math.floor(diff / 86400000);
-    if (mins  < 60) return `${mins}m ago`;
+    const days = Math.floor(diff / 86400000);
+    if (mins < 60) return `${mins}m ago`;
     if (hours < 24) return `${hours}h ago`;
-    if (days  < 30) return `${days}d ago`;
+    if (days < 30) return `${days}d ago`;
     return `${Math.floor(days / 30)}mo ago`;
   }
 
@@ -58,11 +58,14 @@ export default function GitHubStats() {
         </div>
         <div className="p-4" style={{ background: "var(--surface)" }}>
           <img
-            src={`https://ghchart.ssh.surf/${GITHUB_USERNAME}`}
+            src={`https://ghchart.rshah.org/${GITHUB_USERNAME}`}
             alt="GitHub contribution graph"
             className="w-full rounded"
             style={{ filter: "hue-rotate(165deg) saturate(0.8) brightness(0.9)", minHeight: "80px" }}
             loading="lazy"
+            onError={e => {
+              e.target.src = `https://github-readme-activity-graph.vercel.app/graph?username=${GITHUB_USERNAME}&bg_color=00000000&color=0fa4af&line=0fa4af&point=0fa4af&area=true&hide_border=true`;
+            }}
           />
         </div>
       </div>
@@ -79,9 +82,9 @@ export default function GitHubStats() {
             <div className="grid grid-cols-2 gap-3">
               {[
                 { label: "Public Repos", value: profile.public_repos },
-                { label: "Followers",    value: profile.followers },
-                { label: "Following",    value: profile.following },
-                { label: "Gists",        value: profile.public_gists },
+                { label: "Followers", value: profile.followers },
+                { label: "Following", value: profile.following },
+                { label: "Gists", value: profile.public_gists },
               ].map(({ label, value }) => (
                 <div key={label} className="text-center p-3 rounded-lg"
                   style={{ background: "var(--glow)", border: "1px solid var(--border)" }}>
