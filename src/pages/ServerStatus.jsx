@@ -6,13 +6,17 @@ const SECTIONS = ["projects", "skills", "experience", "freelance"];
 
 function StatusDot({ ok }) {
   return (
-    <span className="relative flex items-center justify-center w-2.5 h-2.5">
+    <span className="relative flex items-center justify-center w-2.5 h-2.5 shrink-0">
       {ok && (
-        <span className="absolute inline-flex h-full w-full rounded-full animate-ping"
-          style={{ background: "#4ade80", opacity: 0.6 }} />
+        <span
+          className="absolute inline-flex h-full w-full rounded-full animate-ping"
+          style={{ background: "#4ade80", opacity: 0.6 }}
+        />
       )}
-      <span className="relative inline-flex rounded-full w-2.5 h-2.5"
-        style={{ background: ok ? "#4ade80" : "#f87171" }} />
+      <span
+        className="relative inline-flex rounded-full w-2.5 h-2.5"
+        style={{ background: ok ? "#4ade80" : "#f87171" }}
+      />
     </span>
   );
 }
@@ -42,15 +46,17 @@ export default function ServerStatus() {
       setHealth({ ok: hRes.ok, ...hData });
 
       const results = {};
-      await Promise.all(SECTIONS.map(async (s) => {
-        try {
-          const r = await fetch(`${API}/api/${s}`);
-          const d = await r.json();
-          results[s] = { ok: r.ok, count: Array.isArray(d) ? d.length : "—" };
-        } catch {
-          results[s] = { ok: false, count: "—" };
-        }
-      }));
+      await Promise.all(
+        SECTIONS.map(async (s) => {
+          try {
+            const r = await fetch(`${API}/api/${s}`);
+            const d = await r.json();
+            results[s] = { ok: r.ok, count: Array.isArray(d) ? d.length : "—" };
+          } catch {
+            results[s] = { ok: false, count: "—" };
+          }
+        })
+      );
       setCounts(results);
       setLastChecked(new Date());
     } catch {
@@ -72,54 +78,88 @@ export default function ServerStatus() {
     backdropFilter: "blur(16px)",
     border: "1px solid var(--border)",
     borderRadius: "0.75rem",
-    padding: "1.25rem 1.5rem",
+    padding: "1rem 1.25rem",
   };
 
   return (
-    <div className="min-h-screen px-6 py-16" style={{ background: "var(--bg)" }}>
+    <div className="min-h-screen px-4 sm:px-6 py-12 sm:py-16" style={{ background: "var(--bg)" }}>
       <div className="max-w-3xl mx-auto">
 
-        <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
+        {/* HEADER */}
+        <motion.div
+          initial={{ opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8 sm:mb-10"
+        >
           <p className="mono text-xs mb-2" style={{ color: "var(--muted)" }}>// system</p>
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <h1 className="text-3xl font-bold">Server Status</h1>
-            <div className="flex items-center gap-3">
+
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <h1 className="text-2xl sm:text-3xl font-bold">Server Status</h1>
+
+            <div className="flex items-center gap-3 flex-wrap">
               {lastChecked && (
                 <span className="mono text-xs" style={{ color: "var(--muted)" }}>
-                  Last checked: {lastChecked.toLocaleTimeString()}
+                  {lastChecked.toLocaleTimeString()}
                 </span>
               )}
-              <button onClick={fetchAll} disabled={checking}
+              <button
+                onClick={fetchAll}
+                disabled={checking}
                 className="mono text-xs px-4 py-2 rounded-lg transition flex items-center gap-2"
-                style={{ background: "var(--glow)", color: "var(--accent)", border: "1px solid var(--border)", opacity: checking ? 0.6 : 1 }}>
+                style={{
+                  background: "var(--glow)",
+                  color: "var(--accent)",
+                  border: "1px solid var(--border)",
+                  opacity: checking ? 0.6 : 1,
+                }}
+              >
                 {checking ? "Checking..." : "↻ Refresh"}
               </button>
             </div>
           </div>
-          <div className="mt-4 h-px"
-            style={{ background: "linear-gradient(90deg, transparent, var(--accent), transparent)", opacity: 0.4 }} />
+
+          <div
+            className="mt-4 h-px"
+            style={{ background: "linear-gradient(90deg, transparent, var(--accent), transparent)", opacity: 0.4 }}
+          />
         </motion.div>
 
         {loading ? (
           <div className="mono text-sm" style={{ color: "var(--muted)" }}>Pinging server...</div>
         ) : (
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-4"
+          >
 
             {/* MAIN HEALTH CARD */}
-            <div style={{ ...cardStyle, border: `1px solid ${health?.ok ? "rgba(74,222,128,0.3)" : "rgba(248,113,113,0.3)"}` }}>
-              <div className="flex items-center justify-between mb-4">
+            <div
+              style={{
+                ...cardStyle,
+                border: `1px solid ${health?.ok ? "rgba(74,222,128,0.3)" : "rgba(248,113,113,0.3)"}`,
+              }}
+            >
+              <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
                 <div className="flex items-center gap-3">
                   <StatusDot ok={health?.ok} />
-                  <span className="font-semibold text-base">
+                  <span className="font-semibold text-sm sm:text-base">
                     {health?.ok ? "Server is Online" : "Server is Down"}
                   </span>
                 </div>
-                <span className="mono text-xs px-3 py-1 rounded-full"
-                  style={{ background: health?.ok ? "rgba(74,222,128,0.1)" : "rgba(248,113,113,0.1)", color: health?.ok ? "#4ade80" : "#f87171" }}>
+                <span
+                  className="mono text-xs px-3 py-1 rounded-full"
+                  style={{
+                    background: health?.ok ? "rgba(74,222,128,0.1)" : "rgba(248,113,113,0.1)",
+                    color: health?.ok ? "#4ade80" : "#f87171",
+                  }}
+                >
                   {health?.ok ? "operational" : "down"}
                 </span>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+
+              {/* 1 col on tiny screens, 3 on sm+ */}
+              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                 {[
                   { label: "endpoint", value: `${API}/health` },
                   { label: "status",   value: health?.ok ? "200 OK" : "unreachable" },
@@ -140,18 +180,28 @@ export default function ServerStatus() {
                 {SECTIONS.map((section) => {
                   const s = counts[section];
                   return (
-                    <div key={section} className="flex items-center justify-between py-2"
-                      style={{ borderBottom: "1px solid var(--border)" }}>
-                      <div className="flex items-center gap-3">
+                    <div
+                      key={section}
+                      className="flex items-center justify-between py-2 gap-2 flex-wrap"
+                      style={{ borderBottom: "1px solid var(--border)" }}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
                         <StatusDot ok={s?.ok} />
-                        <span className="mono text-xs" style={{ color: "var(--text)" }}>/api/{section}</span>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <span className="mono text-xs" style={{ color: "var(--accent)" }}>
-                          {s?.count} items visible
+                        <span className="mono text-xs truncate" style={{ color: "var(--text)" }}>
+                          /api/{section}
                         </span>
-                        <span className="mono text-xs px-2 py-0.5 rounded"
-                          style={{ background: s?.ok ? "rgba(74,222,128,0.1)" : "rgba(248,113,113,0.1)", color: s?.ok ? "#4ade80" : "#f87171" }}>
+                      </div>
+                      <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+                        <span className="mono text-xs" style={{ color: "var(--accent)" }}>
+                          {s?.count} items
+                        </span>
+                        <span
+                          className="mono text-xs px-2 py-0.5 rounded"
+                          style={{
+                            background: s?.ok ? "rgba(74,222,128,0.1)" : "rgba(248,113,113,0.1)",
+                            color: s?.ok ? "#4ade80" : "#f87171",
+                          }}
+                        >
                           {s?.ok ? "200" : "error"}
                         </span>
                       </div>
@@ -164,7 +214,7 @@ export default function ServerStatus() {
             {/* ENVIRONMENT */}
             <div style={cardStyle}>
               <p className="mono text-xs mb-4" style={{ color: "var(--muted)" }}>environment</p>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-4">
                 {[
                   { label: "api url",      value: API },
                   { label: "mode",         value: import.meta.env.MODE },
@@ -180,13 +230,19 @@ export default function ServerStatus() {
             </div>
 
             {/* NAV */}
-            <div className="flex gap-3 pt-2">
-              <a href="/" className="mono text-xs px-4 py-2 rounded-lg transition glass"
-                style={{ color: "var(--muted)", border: "1px solid var(--border)" }}>
+            <div className="flex flex-col xs:flex-row gap-3 pt-2">
+              <a
+                href="/"
+                className="mono text-xs px-4 py-2 rounded-lg transition glass text-center"
+                style={{ color: "var(--muted)", border: "1px solid var(--border)" }}
+              >
                 ← Back to Portfolio
               </a>
-              <a href="/admin" className="mono text-xs px-4 py-2 rounded-lg transition"
-                style={{ background: "var(--glow)", color: "var(--accent)", border: "1px solid var(--border)" }}>
+              <a
+                href="/admin"
+                className="mono text-xs px-4 py-2 rounded-lg transition text-center"
+                style={{ background: "var(--glow)", color: "var(--accent)", border: "1px solid var(--border)" }}
+              >
                 Admin Panel →
               </a>
             </div>

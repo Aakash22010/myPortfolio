@@ -99,12 +99,21 @@ export default function Background3D() {
     let autoAngle = 0;
     let rafId;
 
+    // On mobile the shape was too big and dominated the screen.
+    // Use a smaller multiplier on narrow viewports.
+    function getRadius() {
+      const minDim = Math.min(W, H);
+      if (W < 480) return minDim * 0.38;       // phones — tighter fit
+      if (W < 768) return minDim * 0.32;       // large phones / small tablets
+      return minDim * 0.28;                    // desktop — original
+    }
+
     canvas.width = W;
     canvas.height = H;
 
-    const R = Math.min(W, H) * 0.28;
-    const { verts, edges, faces } = buildIcosahedron(R);
-    const innerLines = buildInnerLines(verts, faces, R);
+    let R = getRadius();
+    let geo = buildIcosahedron(R);
+    let innerLines = buildInnerLines(geo.verts, geo.faces, R);
 
     function isDark() {
       return document.documentElement.getAttribute("data-theme") === "dark";
@@ -112,10 +121,16 @@ export default function Background3D() {
     function getCSSVar(name) {
       return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
     }
+
     function resize() {
       W = window.innerWidth; H = window.innerHeight;
       canvas.width = W; canvas.height = H;
+      // Rebuild geometry on resize so radius stays correct
+      R = getRadius();
+      geo = buildIcosahedron(R);
+      innerLines = buildInnerLines(geo.verts, geo.faces, R);
     }
+
     function onMouse(e) {
       targetTiltY =  ((e.clientX / W) - 0.5) * 0.9;
       targetTiltX = -((e.clientY / H) - 0.5) * 0.9;
@@ -144,7 +159,7 @@ export default function Background3D() {
       const accentRaw = getCSSVar("--accent") || "#0fa4af";
       const dark = isDark();
 
-      // RADIAL VIGNETTE — fades figure out at center where text lives
+      // Radial vignette — fades centre where text lives
       const vignette = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W,H) * 0.55);
       if (dark) {
         vignette.addColorStop(0,    "rgba(4,13,14,0.82)");
@@ -158,7 +173,7 @@ export default function Background3D() {
       ctx.fillStyle = vignette;
       ctx.fillRect(0, 0, W, H);
 
-      const projected = verts.map(v => {
+      const projected = geo.verts.map(v => {
         const [rx,ry,rz] = applyMat(mat, v);
         return project(rx, ry, rz, fov, cx, cy);
       });
@@ -168,7 +183,7 @@ export default function Background3D() {
         project(...applyMat(mat, b), fov, cx, cy),
       ]);
 
-      // inner lines
+      // Inner lines
       ctx.lineWidth = 0.4;
       projInner.forEach(([pa, pb]) => {
         const depth = (pa[2] + pb[2]) / 2;
@@ -179,8 +194,8 @@ export default function Background3D() {
         ctx.stroke();
       });
 
-      // edges
-      edges.forEach(([i, j]) => {
+      // Edges
+      geo.edges.forEach(([i, j]) => {
         const [px1,py1,d1] = projected[i];
         const [px2,py2,d2] = projected[j];
         const depth = (d1 + d2) / 2;
@@ -192,7 +207,7 @@ export default function Background3D() {
         ctx.stroke();
       });
 
-      // vertices
+      // Vertices
       projected.forEach(([px, py, d]) => {
         const radius = 1.5 + d * 2.5;
         const alpha  = 0.18 + d * 0.5;
@@ -233,7 +248,8 @@ export default function Background3D() {
         width: "100%", height: "100%",
         pointerEvents: "none",
         zIndex: 0,
-        opacity: 0.75,
+        // Slightly more transparent on mobile so it doesn't compete with content
+        opacity: typeof window !== "undefined" && window.innerWidth < 480 ? 0.5 : 0.75,
       }}
     />
   );

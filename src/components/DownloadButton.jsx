@@ -28,6 +28,7 @@ export default function DownloadButton({ href, label = "resume.pdf", className =
   const isDownloading = state === "downloading";
   const isComplete    = state === "complete";
 
+  // compact = navbar pill; non-compact = hero / mobile CTA button
   const base = compact
     ? "relative flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs mono overflow-hidden transition-all duration-300"
     : "group relative flex items-center gap-2 px-5 py-2.5 rounded-full text-sm mono overflow-hidden transition-all duration-300 glass";
@@ -42,6 +43,8 @@ export default function DownloadButton({ href, label = "resume.pdf", className =
         color: isComplete ? "#fff" : "var(--accent)",
         border: compact ? "1px solid var(--border)" : "1px solid var(--border-hard)",
         cursor: state !== "idle" ? "default" : "pointer",
+        // Ensure label is centered when className adds justify-center
+        justifyContent: className.includes("justify-center") ? "center" : undefined,
       }}
     >
       {/* PROGRESS FILL */}
@@ -55,7 +58,7 @@ export default function DownloadButton({ href, label = "resume.pdf", className =
         }}
       />
 
-      {/* IDLE — download arrow */}
+      {/* IDLE */}
       {state === "idle" && (
         <svg
           className={`shrink-0 relative z-10 transition-transform duration-300 ${!compact ? "group-hover:translate-y-0.5" : ""}`}
@@ -70,7 +73,7 @@ export default function DownloadButton({ href, label = "resume.pdf", className =
         </svg>
       )}
 
-      {/* DOWNLOADING — bouncing arrow */}
+      {/* DOWNLOADING */}
       {isDownloading && (
         <svg
           className="shrink-0 relative z-10 animate-bounce"
@@ -84,7 +87,7 @@ export default function DownloadButton({ href, label = "resume.pdf", className =
         </svg>
       )}
 
-      {/* COMPLETE — checkmark */}
+      {/* COMPLETE */}
       {isComplete && (
         <svg
           className="shrink-0 relative z-10"
