@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { usePageViews } from "../hooks/usePageViews";
 
 const socials = [
   {
@@ -43,7 +44,36 @@ function BackToTop() {
   );
 }
 
+function ViewCounter({ count }) {
+  if (count === null) return null;
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+      className="flex items-center gap-1.5"
+      title="Total portfolio visits"
+    >
+      <span className="relative flex items-center justify-center w-2 h-2">
+        <span
+          className="absolute inline-flex h-full w-full rounded-full animate-ping"
+          style={{ background: "var(--accent)", opacity: 0.4 }}
+        />
+        <span
+          className="relative inline-flex rounded-full w-2 h-2"
+          style={{ background: "var(--accent)", opacity: 0.7 }}
+        />
+      </span>
+      <span className="mono text-xs" style={{ color: "var(--muted)" }}>
+        {count.toLocaleString()} views
+      </span>
+    </motion.div>
+  );
+}
+
 export default function Footer() {
+  const viewCount = usePageViews();
+
   return (
     <footer className="mt-8 px-4 sm:px-6 py-8 sm:py-10" style={{ borderTop: "1px solid var(--border)" }}>
       <div className="max-w-5xl mx-auto">
@@ -57,7 +87,6 @@ export default function Footer() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative group"
                 style={{ color: "var(--muted)" }}
                 whileHover={{ scale: 1.2, y: -4, color: "var(--accent)" }}
                 transition={{ type: "spring", stiffness: 300 }}
@@ -80,7 +109,6 @@ export default function Footer() {
 
         {/* BOTTOM ROW */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
-          {/* Stack pills — wrap naturally on small screens */}
           <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
             <span className="mono text-xs" style={{ color: "var(--muted)" }}>built with</span>
             {STACK.map((tech, i) => (
@@ -95,9 +123,13 @@ export default function Footer() {
               </span>
             ))}
           </div>
-          <p className="mono text-xs shrink-0" style={{ color: "var(--muted)" }}>
-            © {new Date().getFullYear()} Aakash Dahiya
-          </p>
+
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 shrink-0">
+            <ViewCounter count={viewCount} />
+            <p className="mono text-xs" style={{ color: "var(--muted)" }}>
+              © {new Date().getFullYear()} Aakash Dahiya
+            </p>
+          </div>
         </div>
 
       </div>
