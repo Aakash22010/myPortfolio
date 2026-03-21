@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "../animations";
+import GitHubStats from "./GitHubStats";
 
 const stats = [
   { num: "2+", label: "Internships completed" },
@@ -34,6 +35,7 @@ export default function About() {
             ))}
           </motion.div>
         </div>
+        <GitHubStats />
       </motion.div>
     </section>
   );
