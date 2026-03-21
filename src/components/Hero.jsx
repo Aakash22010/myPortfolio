@@ -46,13 +46,13 @@ function TypedText() {
 
 function Terminal() {
   const lines = [
-    { text: "const developer = {",                    color: "var(--text)" },
-    { text: '  name: "Aakash Dahiya",',               color: "var(--accent)" },
-    { text: '  role: "Full-Stack Dev",',               color: "var(--accent)" },
-    { text: '  stack: ["React", "Node", "MongoDB"],',  color: "var(--accent2)" },
-    { text: '  status: "open_to_work ✓",',            color: "#4ade80" },
-    { text: '  location: "Sonipat, India",',           color: "var(--muted)" },
-    { text: "}",                                       color: "var(--text)" },
+    { text: "const developer = {", color: "var(--text)" },
+    { text: '  name: "Aakash Dahiya",', color: "var(--accent)" },
+    { text: '  role: "Full-Stack Dev",', color: "var(--accent)" },
+    { text: '  stack: ["React", "Node", "MongoDB"],', color: "var(--accent2)" },
+    { text: '  status: "open_to_work ✓",', color: "#4ade80" },
+    { text: '  location: "Sonipat, India",', color: "var(--muted)" },
+    { text: "}", color: "var(--text)" },
   ];
 
   return (
@@ -131,9 +131,16 @@ function ProfilePhoto() {
         animate={{ y: [0, -7, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       >
-        <img src="/profile.png" alt="Aakash Dahiya" className="w-full h-full object-cover" />
+        <img
+          src="/profile.png"
+          alt="Aakash Dahiya"
+          className="w-full h-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+        />
       </motion.div>
-      <RingDot angle={-45} radius={130} delay={0}   color="var(--accent)" />
+      <RingDot angle={-45} radius={130} delay={0} color="var(--accent)" />
       <RingDot angle={100} radius={130} delay={0.7} color="var(--accent2)" />
       <RingDot angle={210} radius={130} delay={1.4} color="var(--accent)" />
     </div>
@@ -201,7 +208,7 @@ export default function Hero() {
               </a>
 
               {/* DOWNLOAD RESUME */}
-             <DownloadButton href="/Aakash_Dahiya_Resume.pdf" />
+              <DownloadButton href="/Aakash_Dahiya_Resume.pdf" />
 
             </motion.div>
           </div>
@@ -226,7 +233,7 @@ export default function Hero() {
             {[
               { num: "2+", label: "Internships" },
               { num: "6+", label: "Projects" },
-              { num: "1",  label: "Coding Club" },
+              { num: "1", label: "Coding Club" },
             ].map(({ num, label }) => (
               <div key={label} className="glass rounded-lg px-6 py-4 text-center min-w-[100px]">
                 <div className="text-2xl font-bold mono" style={{ color: "var(--accent)" }}>{num}</div>
