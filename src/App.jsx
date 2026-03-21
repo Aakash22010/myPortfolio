@@ -39,7 +39,6 @@ function ScrollProgress() {
 function Portfolio() {
   return (
     <>
-      <CustomCursor />
       <Preloader />
       <Background3D />
       <ScrollProgress />
@@ -61,6 +60,7 @@ function Portfolio() {
 export default function App() {
   return (
     <ThemeProvider>
+      <CustomCursor />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Portfolio />} />
