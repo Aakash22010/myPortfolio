@@ -63,10 +63,11 @@ function buildInnerLines(verts, faces, r) {
       const len = Math.sqrt(m[0]**2+m[1]**2+m[2]**2);
       return [m[0]/len*r*0.6, m[1]/len*r*0.6, m[2]/len*r*0.6];
     };
-    const ma = mid(verts[a],verts[b]);
-    const mb = mid(verts[b],verts[c]);
-    const mc = mid(verts[a],verts[c]);
-    lines.push([ma,mb],[mb,mc],[ma,mc]);
+    lines.push(
+      [mid(verts[a],verts[b]), mid(verts[b],verts[c])],
+      [mid(verts[b],verts[c]), mid(verts[a],verts[c])],
+      [mid(verts[a],verts[b]), mid(verts[a],verts[c])],
+    );
   });
   return lines;
 }
@@ -82,53 +83,38 @@ function accentAlpha(accentRaw, a) {
   return accentRaw;
 }
 
-// ─── per-breakpoint config ────────────────────────────────────────────────────
-// radius  : size of the shape relative to the smaller screen dimension
-// cx / cy : where the shape is drawn (0–1 fraction of W / H)
-// opacity : how visible it is (lower = less intrusive on small screens)
-// vignette: radius of the background fade around the shape
+// All breakpoint decisions live here and are re-read every frame
+// so resize / orientation changes are always reflected immediately.
 function getConfig(W, H) {
-  if (W < 480) {
-    // Small phones — tiny shape parked in the bottom-right corner
-    // so it never overlaps the left-aligned content column
-    return {
-      radius:   Math.min(W, H) * 0.16,
-      cx:       W * 0.88,
-      cy:       H * 0.62,
-      opacity:  0.45,
-      vigScale: 2.0,
-    };
-  }
-  if (W < 768) {
-    // Large phones / small tablets — slightly bigger, still bottom-right
-    return {
-      radius:   Math.min(W, H) * 0.20,
-      cx:       W * 0.82,
-      cy:       H * 0.58,
-      opacity:  0.55,
-      vigScale: 2.2,
-    };
-  }
-  if (W < 1024) {
-    // Tablets — centred, moderate size
-    return {
-      radius:   Math.min(W, H) * 0.26,
-      cx:       W * 0.5,
-      cy:       H * 0.5,
-      opacity:  0.70,
-      vigScale: 2.8,
-    };
-  }
-  // Desktop — original feel
+  if (W < 480) return {
+    radius:   W * 0.14,          // small — purely decorative
+    cx:       W * 0.85,          // right side, away from text
+    cy:       H * 0.60,
+    opacity:  0.40,
+    vigScale: 2.0,
+  };
+  if (W < 768) return {
+    radius:   W * 0.18,
+    cx:       W * 0.80,
+    cy:       H * 0.55,
+    opacity:  0.50,
+    vigScale: 2.2,
+  };
+  if (W < 1024) return {
+    radius:   Math.min(W,H) * 0.24,
+    cx:       W * 0.50,
+    cy:       H * 0.50,
+    opacity:  0.70,
+    vigScale: 2.8,
+  };
   return {
-    radius:   Math.min(W, H) * 0.28,
-    cx:       W * 0.5,
-    cy:       H * 0.5,
+    radius:   Math.min(W,H) * 0.28,
+    cx:       W * 0.50,
+    cy:       H * 0.50,
     opacity:  0.75,
     vigScale: 3.2,
   };
 }
-// ─────────────────────────────────────────────────────────────────────────────
 
 export default function Background3D() {
   const canvasRef = useRef(null);
@@ -138,35 +124,29 @@ export default function Background3D() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
-    let W = window.innerWidth, H = window.innerHeight;
+    // Mutable state — updated in resize(), read every frame in draw()
+    let W = window.innerWidth;
+    let H = window.innerHeight;
+    let cfg = getConfig(W, H);
+    let geo = buildIcosahedron(cfg.radius);
+    let innerLines = buildInnerLines(geo.verts, geo.faces, cfg.radius);
+
+    canvas.width  = W;
+    canvas.height = H;
+
     let targetTiltX = 0, targetTiltY = 0;
     let tiltX = 0, tiltY = 0;
     let autoAngle = 0;
     let rafId;
 
-    let cfg = getConfig(W, H);
-    canvas.width  = W;
-    canvas.height = H;
-    canvas.style.opacity = cfg.opacity;
-
-    let geo        = buildIcosahedron(cfg.radius);
-    let innerLines = buildInnerLines(geo.verts, geo.faces, cfg.radius);
-
-    function isDark() {
-      return document.documentElement.getAttribute("data-theme") === "dark";
-    }
-    function getCSSVar(name) {
-      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-    }
-
     function resize() {
-      W = window.innerWidth; H = window.innerHeight;
-      cfg = getConfig(W, H);
+      W = window.innerWidth;
+      H = window.innerHeight;
+      cfg = getConfig(W, H);           // ← new config for new viewport
+      geo = buildIcosahedron(cfg.radius);
+      innerLines = buildInnerLines(geo.verts, geo.faces, cfg.radius);
       canvas.width  = W;
       canvas.height = H;
-      canvas.style.opacity = cfg.opacity;
-      geo        = buildIcosahedron(cfg.radius);
-      innerLines = buildInnerLines(geo.verts, geo.faces, cfg.radius);
     }
 
     function onMouse(e) {
@@ -179,36 +159,48 @@ export default function Background3D() {
       targetTiltX = -((t.clientY / H) - 0.5) * 0.9;
     }
 
-    window.addEventListener("mousemove", onMouse);
-    window.addEventListener("touchmove", onTouch, { passive: true });
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize",     resize);
+    window.addEventListener("mousemove",  onMouse);
+    window.addEventListener("touchmove",  onTouch, { passive: true });
+
+    function isDark() {
+      return document.documentElement.getAttribute("data-theme") === "dark";
+    }
+    function getCSSVar(v) {
+      return getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+    }
 
     function draw() {
+      // Re-read cfg every frame — reflects any resize that happened
+      const { cx, cy, radius, vigScale, opacity } = cfg;
+
       ctx.clearRect(0, 0, W, H);
+
+      // Apply opacity directly on the canvas element each frame
+      canvas.style.opacity = opacity;
 
       tiltX += (targetTiltX - tiltX) * 0.05;
       tiltY += (targetTiltY - tiltY) * 0.05;
       autoAngle += 0.003;
 
       const mat = mat4Mul(rotY(autoAngle + tiltY), rotX(tiltX));
-      const { cx, cy, radius, vigScale } = cfg;
       const fov = W * 0.9;
       const accentRaw = getCSSVar("--accent") || "#0fa4af";
       const dark = isDark();
 
-      // Soft glow vignette centred on the shape's actual position
+      // Vignette centred on the shape's position, not the screen centre
       const vigR = radius * vigScale;
-      const vignette = ctx.createRadialGradient(cx, cy, 0, cx, cy, vigR);
+      const vig = ctx.createRadialGradient(cx, cy, 0, cx, cy, vigR);
       if (dark) {
-        vignette.addColorStop(0,   "rgba(4,13,14,0.70)");
-        vignette.addColorStop(0.5, "rgba(4,13,14,0.25)");
-        vignette.addColorStop(1,   "rgba(4,13,14,0.0)");
+        vig.addColorStop(0,   "rgba(4,13,14,0.70)");
+        vig.addColorStop(0.5, "rgba(4,13,14,0.20)");
+        vig.addColorStop(1,   "rgba(4,13,14,0.00)");
       } else {
-        vignette.addColorStop(0,   "rgba(214,238,242,0.70)");
-        vignette.addColorStop(0.5, "rgba(214,238,242,0.25)");
-        vignette.addColorStop(1,   "rgba(214,238,242,0.0)");
+        vig.addColorStop(0,   "rgba(214,238,242,0.70)");
+        vig.addColorStop(0.5, "rgba(214,238,242,0.20)");
+        vig.addColorStop(1,   "rgba(214,238,242,0.00)");
       }
-      ctx.fillStyle = vignette;
+      ctx.fillStyle = vig;
       ctx.fillRect(0, 0, W, H);
 
       const projected = geo.verts.map(v => {
@@ -243,9 +235,9 @@ export default function Background3D() {
         grad.addColorStop(0, accentAlpha(accentRaw, alpha * 0.45));
         grad.addColorStop(1, accentAlpha(accentRaw, 0));
         ctx.fillStyle = grad;
-        ctx.beginPath(); ctx.arc(px, py, r * 3, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(px, py, r*3, 0, Math.PI*2); ctx.fill();
         ctx.fillStyle = accentAlpha(accentRaw, alpha);
-        ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI*2); ctx.fill();
       });
 
       rafId = requestAnimationFrame(draw);
@@ -255,9 +247,9 @@ export default function Background3D() {
 
     return () => {
       cancelAnimationFrame(rafId);
+      window.removeEventListener("resize",    resize);
       window.removeEventListener("mousemove", onMouse);
       window.removeEventListener("touchmove", onTouch);
-      window.removeEventListener("resize", resize);
     };
   }, []);
 
@@ -270,7 +262,6 @@ export default function Background3D() {
         width: "100%", height: "100%",
         pointerEvents: "none",
         zIndex: 0,
-        opacity: 0.75, // overridden per-breakpoint in JS above
       }}
     />
   );
