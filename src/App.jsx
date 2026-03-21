@@ -48,8 +48,8 @@ function Portfolio() {
         <About />
         <Skills />
         <Experience />
-        <Freelance />
         <Projects />
+        <Freelance />
         <Contact />
         <Footer />
       </div>

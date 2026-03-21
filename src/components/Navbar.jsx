@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
 import DownloadButton from "./DownloadButton";
 
-const NAV_SECTIONS = ["about", "skills", "experience", "freelance", "projects", "contact"];
+const NAV_SECTIONS = ["about", "skills", "experience", "projects", "freelance", "contact"];
 
 export default function Navbar() {
   const { scrollY } = useScroll();
