@@ -21,15 +21,15 @@ function SkillGroup({ title, skills }) {
   if (!skills.length) return null;
   return (
     <>
-      <motion.h3 variants={fadeUp} className="text-lg font-semibold mb-5 mono" style={{ color: "var(--muted)" }}>
+      <motion.h3 variants={fadeUp} className="text-base sm:text-lg font-semibold mb-4 sm:mb-5 mono" style={{ color: "var(--muted)" }}>
         {title}
       </motion.h3>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12 auto-rows-fr">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-10 sm:mb-12 auto-rows-fr">
         {skills.map((skill) => (
           <motion.div
             key={skill.id}
             variants={fadeUp}
-            className="glass rounded-xl p-5 flex flex-col group relative overflow-hidden"
+            className="glass rounded-xl p-4 sm:p-5 flex flex-col group relative overflow-hidden"
             whileHover={{ y: -3 }}
             transition={{ duration: 0.2 }}
           >
@@ -62,14 +62,20 @@ export default function Skills() {
       .finally(() => setLoading(false));
   }, []);
 
-  const frontend = allSkills.filter(s => s.category === "frontend");
-  const backend  = allSkills.filter(s => s.category === "backend");
-  const tools    = allSkills.filter(s => s.category === "tools");
+  const frontend = allSkills.filter((s) => s.category === "frontend");
+  const backend  = allSkills.filter((s) => s.category === "backend");
+  const tools    = allSkills.filter((s) => s.category === "tools");
 
   return (
-    <section id="skills" className="py-24 px-6">
-      <motion.div className="max-w-5xl mx-auto" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-        <motion.div variants={fadeUp} className="mb-12">
+    <section id="skills" className="py-16 sm:py-24 px-4 sm:px-6">
+      <motion.div
+        className="max-w-5xl mx-auto"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div variants={fadeUp} className="mb-10 sm:mb-12">
           <p className="section-label mb-2">// what I know</p>
           <h2 className="text-3xl md:text-4xl font-bold">Skills</h2>
           <div className="glow-line mt-4 max-w-xs" />

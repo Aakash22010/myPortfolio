@@ -21,9 +21,15 @@ export default function Experience() {
   }, []);
 
   return (
-    <section id="experience" className="py-24 px-6">
-      <motion.div className="max-w-5xl mx-auto" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-        <motion.div variants={fadeUp} className="mb-12">
+    <section id="experience" className="py-16 sm:py-24 px-4 sm:px-6">
+      <motion.div
+        className="max-w-5xl mx-auto"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div variants={fadeUp} className="mb-10 sm:mb-12">
           <p className="section-label mb-2">// where I've worked</p>
           <h2 className="text-3xl md:text-4xl font-bold">Experience</h2>
           <div className="glow-line mt-4 max-w-xs" />
@@ -33,16 +39,17 @@ export default function Experience() {
           <HeartbeatLoader />
         ) : (
           <div className="relative">
+            {/* Timeline line — only on md+ */}
             <div
               className="absolute left-0 top-0 bottom-0 w-px hidden md:block"
               style={{ background: "linear-gradient(to bottom, transparent, var(--border-hard), transparent)" }}
             />
-            <div className="space-y-6 md:pl-10">
+            <div className="space-y-4 sm:space-y-6 md:pl-10">
               {experiences.map((exp) => (
                 <motion.div
                   key={exp.id}
                   variants={fadeUp}
-                  className="glass rounded-xl p-6 relative group"
+                  className="glass rounded-xl p-5 sm:p-6 relative group"
                   whileHover={{ x: 4 }}
                   transition={{ duration: 0.2 }}
                 >
@@ -50,9 +57,10 @@ export default function Experience() {
                     className="absolute -left-[2.85rem] top-7 w-3 h-3 rounded-full hidden md:block"
                     style={{ background: "var(--accent)", boxShadow: "0 0 8px var(--accent)" }}
                   />
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap mb-1">
+                  {/* Header: role + badge on top, company + date below on mobile */}
+                  <div className="flex flex-col gap-2 mb-4">
+                    <div className="flex flex-wrap items-start justify-between gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="text-base font-semibold">{exp.role}</h3>
                         {exp.type && typeBadge[exp.type] && (
                           <span className={`mono text-xs px-2 py-0.5 rounded ${typeBadge[exp.type].color}`}>
@@ -60,9 +68,11 @@ export default function Experience() {
                           </span>
                         )}
                       </div>
-                      <p className="mono text-sm" style={{ color: "var(--accent)" }}>{exp.company}</p>
+                      <span className="mono text-xs shrink-0" style={{ color: "var(--muted)" }}>
+                        {exp.duration}
+                      </span>
                     </div>
-                    <span className="mono text-xs shrink-0" style={{ color: "var(--muted)" }}>{exp.duration}</span>
+                    <p className="mono text-sm" style={{ color: "var(--accent)" }}>{exp.company}</p>
                   </div>
                   <ul className="space-y-1.5">
                     {(exp.points || []).map((point, i) => (

@@ -16,7 +16,7 @@ function SendButton({ loading }) {
     <>
       <style>{`
         .send-btn {
-          font-size: 16px;
+          font-size: 15px;
           background: var(--accent);
           color: #fff;
           padding: 0.7em 1.2em 0.7em 1em;
@@ -28,6 +28,11 @@ function SendButton({ loading }) {
           transition: all 0.2s;
           cursor: pointer;
           font-family: 'JetBrains Mono', monospace;
+          width: 100%;
+          justify-content: center;
+        }
+        @media (min-width: 480px) {
+          .send-btn { width: auto; }
         }
         .send-btn:disabled { opacity: 0.7; cursor: not-allowed; }
         .send-btn:active:not(:disabled) { transform: scale(0.95); }
@@ -62,7 +67,10 @@ function SendButton({ loading }) {
         <div className="send-svg-wrapper">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
             <path fill="none" d="M0 0h24v24H0z" />
-            <path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z" />
+            <path
+              fill="currentColor"
+              d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
+            />
           </svg>
         </div>
         <span>{loading ? "Sending..." : "Send me an email"}</span>
@@ -73,11 +81,11 @@ function SendButton({ loading }) {
 
 export default function Contact() {
   const [form, setForm]         = useState({ name: "", email: "", message: "" });
-  const [status, setStatus]     = useState("idle"); // idle | loading | success | error
+  const [status, setStatus]     = useState("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
   function handleChange(e) {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
   }
 
   async function handleSubmit(e) {
@@ -117,10 +125,12 @@ export default function Contact() {
     fontFamily: "inherit",
     outline: "none",
     transition: "border-color 0.2s",
+    // Prevent zoom on iOS when font-size < 16px
+    WebkitTextSizeAdjust: "100%",
   };
 
   return (
-    <section id="contact" className="py-24 px-6">
+    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6">
       <motion.div
         className="max-w-3xl mx-auto"
         variants={staggerContainer}
@@ -128,32 +138,36 @@ export default function Contact() {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        <motion.div variants={fadeUp} className="mb-10">
+        <motion.div variants={fadeUp} className="mb-8 sm:mb-10">
           <p className="section-label mb-2">// let's talk</p>
           <h2 className="text-3xl md:text-4xl font-bold">Get In Touch</h2>
           <div className="glow-line mt-4 max-w-xs" />
         </motion.div>
 
-        <motion.p variants={fadeUp} className="text-base leading-relaxed mb-10" style={{ color: "var(--muted)" }}>
+        <motion.p variants={fadeUp} className="text-sm sm:text-base leading-relaxed mb-8 sm:mb-10" style={{ color: "var(--muted)" }}>
           Open to internships, collaborations, freelance work, and interesting problems.
           Fill out the form and I'll get back to you as soon as I can.
         </motion.p>
 
         {/* SOCIAL LINKS */}
-        <motion.div variants={fadeUp} className="space-y-3 mb-10">
+        <motion.div variants={fadeUp} className="space-y-2 sm:space-y-3 mb-8 sm:mb-10">
           {links.map(({ label, handle, href }) => (
-            <a key={label} href={href}
+            <a
+              key={label}
+              href={href}
               target={href.startsWith("mailto") ? undefined : "_blank"}
               rel="noopener noreferrer"
-              className="glass flex items-center justify-between px-6 py-4 rounded-xl group transition"
-              onMouseEnter={e => e.currentTarget.style.borderColor = "var(--border-hard)"}
-              onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border)"}
+              className="glass flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 rounded-xl group transition"
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--border-hard)")}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
             >
-              <div className="flex items-center gap-4">
-                <span className="mono text-xs w-16" style={{ color: "var(--muted)" }}>{label}</span>
-                <span className="text-sm font-medium">{handle}</span>
+              <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                <span className="mono text-xs shrink-0 w-14 sm:w-16" style={{ color: "var(--muted)" }}>
+                  {label}
+                </span>
+                <span className="text-xs sm:text-sm font-medium truncate">{handle}</span>
               </div>
-              <span className="mono text-sm" style={{ color: "var(--accent)" }}>↗</span>
+              <span className="mono text-sm shrink-0 ml-2" style={{ color: "var(--accent)" }}>↗</span>
             </a>
           ))}
         </motion.div>
@@ -161,10 +175,14 @@ export default function Contact() {
         {/* FORM / SUCCESS */}
         <motion.div variants={fadeUp}>
           {status === "success" ? (
-            <div className="glass rounded-2xl p-8 text-center"
-              style={{ border: "1px solid rgba(74,222,128,0.3)" }}>
-              <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
-                style={{ background: "rgba(74,222,128,0.15)" }}>
+            <div
+              className="glass rounded-2xl p-6 sm:p-8 text-center"
+              style={{ border: "1px solid rgba(74,222,128,0.3)" }}
+            >
+              <div
+                className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+                style={{ background: "rgba(74,222,128,0.15)" }}
+              >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                   stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12" />
@@ -174,41 +192,53 @@ export default function Contact() {
               <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>
                 Thanks for reaching out. I'll get back to you soon.
               </p>
-              <button onClick={() => setStatus("idle")}
+              <button
+                onClick={() => setStatus("idle")}
                 className="mono text-xs px-4 py-2 rounded-lg transition"
-                style={{ background: "var(--glow)", color: "var(--accent)", border: "1px solid var(--border)" }}>
+                style={{ background: "var(--glow)", color: "var(--accent)", border: "1px solid var(--border)" }}
+              >
                 Send another →
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit}
-              className="glass rounded-2xl p-8 space-y-5"
-              style={{ border: "1px solid var(--border)" }}>
-
-              <div className="grid sm:grid-cols-2 gap-4">
+            <form
+              onSubmit={handleSubmit}
+              className="glass rounded-2xl p-5 sm:p-8 space-y-4 sm:space-y-5"
+              style={{ border: "1px solid var(--border)" }}
+            >
+              {/* Name + Email: stacked on mobile, side-by-side on sm+ */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="mono text-xs block mb-1.5" style={{ color: "var(--muted)" }}>name *</label>
-                  <input type="text" name="name" required value={form.name}
-                    onChange={handleChange} placeholder="Your name" style={inputStyle}
-                    onFocus={e => e.target.style.borderColor = "var(--accent)"}
-                    onBlur={e => e.target.style.borderColor = "var(--border)"} />
+                  <input
+                    type="text" name="name" required value={form.name}
+                    onChange={handleChange} placeholder="Your name"
+                    style={{ ...inputStyle, fontSize: "16px" }}
+                    onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
+                    onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+                  />
                 </div>
                 <div>
                   <label className="mono text-xs block mb-1.5" style={{ color: "var(--muted)" }}>email *</label>
-                  <input type="email" name="email" required value={form.email}
-                    onChange={handleChange} placeholder="your@email.com" style={inputStyle}
-                    onFocus={e => e.target.style.borderColor = "var(--accent)"}
-                    onBlur={e => e.target.style.borderColor = "var(--border)"} />
+                  <input
+                    type="email" name="email" required value={form.email}
+                    onChange={handleChange} placeholder="your@email.com"
+                    style={{ ...inputStyle, fontSize: "16px" }}
+                    onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
+                    onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+                  />
                 </div>
               </div>
 
               <div>
                 <label className="mono text-xs block mb-1.5" style={{ color: "var(--muted)" }}>message *</label>
-                <textarea name="message" required rows={5} value={form.message}
+                <textarea
+                  name="message" required rows={5} value={form.message}
                   onChange={handleChange} placeholder="What's on your mind?"
-                  style={{ ...inputStyle, resize: "none" }}
-                  onFocus={e => e.target.style.borderColor = "var(--accent)"}
-                  onBlur={e => e.target.style.borderColor = "var(--border)"} />
+                  style={{ ...inputStyle, resize: "none", fontSize: "16px" }}
+                  onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
+                  onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+                />
               </div>
 
               {status === "error" && (

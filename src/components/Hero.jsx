@@ -60,19 +60,23 @@ function Terminal() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.8, duration: 0.6 }}
-      className="glass rounded-lg overflow-hidden w-full max-w-md"
+      className="glass rounded-lg overflow-hidden w-full"
+      style={{ maxWidth: "min(100%, 420px)" }}
     >
-      <div className="flex items-center gap-2 px-4 py-3" style={{ borderBottom: "1px solid var(--border)", background: "var(--surface)" }}>
+      <div
+        className="flex items-center gap-2 px-4 py-3"
+        style={{ borderBottom: "1px solid var(--border)", background: "var(--surface)" }}
+      >
         <div className="w-3 h-3 rounded-full bg-red-500 opacity-80" />
         <div className="w-3 h-3 rounded-full bg-yellow-500 opacity-80" />
         <div className="w-3 h-3 rounded-full bg-green-500 opacity-80" />
         <span className="mono text-xs ml-2" style={{ color: "var(--muted)" }}>developer.js</span>
       </div>
-      <div className="px-5 py-4 space-y-1">
+      <div className="px-4 py-4 space-y-1 overflow-x-auto">
         {lines.map((line, i) => (
           <motion.p
             key={i}
-            className="mono text-xs sm:text-sm leading-relaxed"
+            className="mono text-xs leading-relaxed whitespace-nowrap"
             style={{ color: line.color }}
             initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
@@ -109,7 +113,8 @@ function RingDot({ angle, radius, delay, color }) {
 
 function ProfilePhoto() {
   return (
-    <div className="relative flex items-center justify-center w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80">
+    <div className="relative flex items-center justify-center"
+      style={{ width: "clamp(200px, 55vw, 300px)", height: "clamp(200px, 55vw, 300px)" }}>
       <motion.div
         className="absolute inset-0 rounded-full"
         style={{ border: "1.5px dashed var(--border-hard)", opacity: 0.6 }}
@@ -140,16 +145,17 @@ function ProfilePhoto() {
           decoding="async"
         />
       </motion.div>
-      <RingDot angle={-45} radius={130} delay={0} color="var(--accent)" />
-      <RingDot angle={100} radius={130} delay={0.7} color="var(--accent2)" />
-      <RingDot angle={210} radius={130} delay={1.4} color="var(--accent)" />
+      {/* Scale ring dots radius with photo size */}
+      <RingDot angle={-45} radius={Math.min(window.innerWidth * 0.27, 130)} delay={0} color="var(--accent)" />
+      <RingDot angle={100} radius={Math.min(window.innerWidth * 0.27, 130)} delay={0.7} color="var(--accent2)" />
+      <RingDot angle={210} radius={Math.min(window.innerWidth * 0.27, 130)} delay={1.4} color="var(--accent)" />
     </div>
   );
 }
 
 export default function Hero() {
   return (
-    <section className="min-h-screen flex items-center justify-center px-6 py-28">
+    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-24 sm:py-28">
       <motion.div
         variants={staggerContainer}
         initial="hidden"
@@ -157,34 +163,47 @@ export default function Hero() {
         className="max-w-6xl w-full"
       >
         {/* TOP ROW */}
-        <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-12 mb-12">
-          <div className="flex-1 text-center md:text-left">
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-12 mb-10 md:mb-12">
+          <div className="flex-1 text-center md:text-left w-full">
 
             <motion.p variants={fadeUp} className="section-label mb-3">
               — available for hire
             </motion.p>
 
-            <motion.h1 variants={fadeUp} className="text-5xl sm:text-6xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-4">
+            <motion.h1
+              variants={fadeUp}
+              className="font-bold leading-[1.05] tracking-tight mb-4"
+              style={{ fontSize: "clamp(2.4rem, 8vw, 4.5rem)" }}
+            >
               Aakash<br />
               <span style={{ color: "var(--accent)" }}>Dahiya</span>
             </motion.h1>
 
-            <motion.div variants={fadeUp} className="text-xl sm:text-2xl font-medium mb-6 mono" style={{ minHeight: "2rem" }}>
+            <motion.div
+              variants={fadeUp}
+              className="font-medium mb-6 mono"
+              style={{ fontSize: "clamp(1rem, 3.5vw, 1.4rem)", minHeight: "2rem" }}
+            >
               <TypedText />
             </motion.div>
 
-            <motion.p variants={fadeUp} className="text-sm sm:text-base max-w-md mx-auto md:mx-0 leading-relaxed mb-8" style={{ color: "var(--muted)" }}>
+            <motion.p
+              variants={fadeUp}
+              className="text-sm sm:text-base max-w-md mx-auto md:mx-0 leading-relaxed mb-8"
+              style={{ color: "var(--muted)" }}
+            >
               CS student building real, production-ready web apps with React,
               Node.js, and MongoDB. President of Codex — the coding club of GIET.
             </motion.p>
 
             {/* BUTTONS */}
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start items-center">
-
-              {/* VIEW PROJECTS */}
+            <motion.div
+              variants={fadeUp}
+              className="flex flex-col xs:flex-row gap-3 sm:gap-4 justify-center md:justify-start items-center flex-wrap"
+            >
               <a
                 href="#projects"
-                className="group relative flex items-center gap-2 px-5 py-2.5 overflow-hidden border-2 rounded-full text-sm font-semibold transition-all duration-300"
+                className="group relative flex items-center gap-2 px-5 py-2.5 overflow-hidden border-2 rounded-full text-sm font-semibold transition-all duration-300 w-full xs:w-auto justify-center"
                 style={{ borderColor: "var(--accent)", color: "var(--accent)", background: "transparent" }}
               >
                 <span
@@ -207,9 +226,7 @@ export default function Hero() {
                 </svg>
               </a>
 
-              {/* DOWNLOAD RESUME */}
-              <DownloadButton href="/Aakash_Dahiya_Resume.pdf" />
-
+              <DownloadButton href="/Aakash_Dahiya_Resume.pdf" className="w-full xs:w-auto justify-center" />
             </motion.div>
           </div>
 
@@ -220,23 +237,25 @@ export default function Hero() {
         </div>
 
         {/* BOTTOM ROW */}
-        <div className="flex flex-col md:flex-row gap-6 items-start">
-          <Terminal />
+        <div className="flex flex-col md:flex-row gap-5 md:gap-6 items-start">
+          <div className="w-full md:w-auto md:flex-1">
+            <Terminal />
+          </div>
 
           {/* STATS */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.6 }}
-            className="flex flex-row md:flex-col gap-4 flex-wrap"
+            className="flex flex-row md:flex-col gap-3 md:gap-4 w-full md:w-auto"
           >
             {[
               { num: "2+", label: "Internships" },
               { num: "6+", label: "Projects" },
               { num: "1", label: "Coding Club" },
             ].map(({ num, label }) => (
-              <div key={label} className="glass rounded-lg px-6 py-4 text-center min-w-[100px]">
-                <div className="text-2xl font-bold mono" style={{ color: "var(--accent)" }}>{num}</div>
+              <div key={label} className="glass rounded-lg px-4 md:px-6 py-3 md:py-4 text-center flex-1 md:flex-none md:min-w-[100px]">
+                <div className="text-xl md:text-2xl font-bold mono" style={{ color: "var(--accent)" }}>{num}</div>
                 <div className="text-xs mt-1" style={{ color: "var(--muted)" }}>{label}</div>
               </div>
             ))}
@@ -247,7 +266,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.4, duration: 0.6 }}
-            className="glass rounded-lg p-4 flex flex-wrap gap-2 max-w-xs"
+            className="glass rounded-lg p-4 flex flex-wrap gap-2 w-full md:max-w-xs"
           >
             <p className="mono text-xs w-full mb-1" style={{ color: "var(--muted)" }}>// stack</p>
             {["React", "Next.js", "Node.js", "Express", "MongoDB", "TypeScript", "Tailwind", "Firebase"].map((tech) => (

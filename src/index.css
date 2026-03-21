@@ -2,6 +2,12 @@
 
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 
+/* ── CUSTOM BREAKPOINT: xs (480px) ──────────────── */
+@media (min-width: 480px) {
+  .xs\:flex-row { flex-direction: row; }
+  .xs\:w-auto   { width: auto; }
+}
+
 /* ── LIGHT THEME ─────────────────────────────── */
 :root {
   --bg:          #d6eef2;
@@ -32,7 +38,11 @@
   --glow:        rgba(15, 164, 175, 0.12);
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* Respect iOS safe areas */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
 
 body {
   background-color: var(--bg);
@@ -41,6 +51,17 @@ body {
   background-image: radial-gradient(circle, var(--dot) 1px, transparent 1px);
   background-size: 28px 28px;
   background-attachment: fixed;
+  /* Prevent horizontal overflow on mobile */
+  overflow-x: hidden;
+  /* Better text rendering on mobile */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent font size inflation on landscape orientation change (iOS) */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 ::-webkit-scrollbar { width: 4px; }
@@ -69,4 +90,21 @@ body {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
   opacity: 0.4;
+}
+
+/* ── TAP HIGHLIGHT FIX (mobile) ─────────────── */
+a, button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── INPUT / TEXTAREA ZOOM FIX (iOS) ────────── */
+/* iOS zooms in if font-size < 16px on inputs.
+   We set font-size to 16px in Contact.jsx inputs,
+   but this is a safety net for any other inputs. */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select {
+  font-size: 16px;
 }
