@@ -7,6 +7,7 @@ import skillRoutes      from "./routes/skills.js";
 import experienceRoutes from "./routes/experience.js";
 import freelanceRoutes  from "./routes/freelance.js";
 import viewsRoutes      from "./routes/views.js";
+import { startKeepalive } from "./keepalive.js";
 
 dotenv.config();
 
@@ -34,4 +35,10 @@ app.use("/api/experience", experienceRoutes);
 app.use("/api/freelance",  freelanceRoutes);
 app.use("/api/views",      viewsRoutes);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  // Only ping in production — no point running locally
+  if (process.env.NODE_ENV === "production") {
+    startKeepalive();
+  }
+});
