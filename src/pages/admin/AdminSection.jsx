@@ -3,12 +3,13 @@ import { api } from "../../lib/api";
 
 const FIELDS = {
   projects: [
-    { key: "title",       label: "Title",                  type: "text" },
-    { key: "description", label: "Description",            type: "textarea" },
-    { key: "tech",        label: "Tech (comma separated)", type: "text", isArray: true },
-    { key: "github",      label: "GitHub URL",             type: "text" },
-    { key: "live",        label: "Live URL",               type: "text" },
-    { key: "featured",    label: "Featured",               type: "checkbox" },
+    { key: "title",       label: "Title",                        type: "text" },
+    { key: "description", label: "Description",                  type: "textarea" },
+    { key: "tech",        label: "Tech (comma separated)",       type: "text", isArray: true },
+    { key: "github",      label: "GitHub URL",                   type: "text" },
+    { key: "live",        label: "Live URL",                     type: "text" },
+    { key: "image_url",   label: "Screenshot URL (Cloudinary / any direct image link)", type: "text" },
+    { key: "featured",    label: "Featured",                     type: "checkbox" },
   ],
   skills: [
     { key: "name",     label: "Name",     type: "text" },
