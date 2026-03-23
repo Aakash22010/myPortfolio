@@ -19,27 +19,40 @@ router.get("/all", auth, async (req, res) => {
 });
 
 router.post("/", auth, async (req, res) => {
-  const { title, description, tech, github, live, featured } = req.body;
-  const { data: existing } = await supabase.from("projects").select("order_index").order("order_index", { ascending: false }).limit(1);
+  const { title, description, tech, github, live, featured, image_url } = req.body;
+  const { data: existing } = await supabase
+    .from("projects").select("order_index")
+    .order("order_index", { ascending: false }).limit(1);
   const nextOrder = existing?.length ? existing[0].order_index + 1 : 0;
   const { data, error } = await supabase.from("projects")
-    .insert([{ title, description, tech, github: github || "#", live: live || "#", featured: featured || false, visible: true, order_index: nextOrder }])
+    .insert([{
+      title,
+      description,
+      tech,
+      github:      github    || "#",
+      live:        live      || "#",
+      featured:    featured  || false,
+      image_url:   image_url || null,
+      visible:     true,
+      order_index: nextOrder,
+    }])
     .select().single();
   if (error) return res.status(500).json({ error: error.message });
   res.status(201).json(data);
 });
 
 router.put("/:id", auth, async (req, res) => {
-  const { title, description, tech, github, live, featured } = req.body;
+  const { title, description, tech, github, live, featured, image_url } = req.body;
   const { data, error } = await supabase.from("projects")
-    .update({ title, description, tech, github, live, featured })
+    .update({ title, description, tech, github, live, featured, image_url })
     .eq("id", req.params.id).select().single();
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);
 });
 
 router.patch("/:id/toggle", auth, async (req, res) => {
-  const { data: current } = await supabase.from("projects").select("visible").eq("id", req.params.id).single();
+  const { data: current } = await supabase
+    .from("projects").select("visible").eq("id", req.params.id).single();
   const { data, error } = await supabase.from("projects")
     .update({ visible: !current.visible }).eq("id", req.params.id).select().single();
   if (error) return res.status(500).json({ error: error.message });
