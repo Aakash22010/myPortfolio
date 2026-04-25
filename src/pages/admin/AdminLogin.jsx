@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../lib/api";
+import { Cardio } from 'ldrs/react'
+import 'ldrs/react/Cardio.css'
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
@@ -42,7 +44,9 @@ export default function AdminLogin() {
         style={{ border: "1px solid var(--border-hard)" }}
       >
         <div className="text-center mb-7 sm:mb-8">
-          <p className="mono text-xs mb-2" style={{ color: "var(--muted)" }}>// restricted access</p>
+          <p className="mono text-xs mb-2" style={{ color: "var(--muted)" }}>
+            // restricted access
+          </p>
           <h1 className="text-xl sm:text-2xl font-bold">
             <span style={{ color: "var(--accent)" }}>{"<"}</span>
             admin
@@ -53,7 +57,10 @@ export default function AdminLogin() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mono text-xs block mb-1.5" style={{ color: "var(--muted)" }}>
+            <label
+              className="mono text-xs block mb-1.5"
+              style={{ color: "var(--muted)" }}
+            >
               username
             </label>
             <input
@@ -69,7 +76,10 @@ export default function AdminLogin() {
           </div>
 
           <div>
-            <label className="mono text-xs block mb-1.5" style={{ color: "var(--muted)" }}>
+            <label
+              className="mono text-xs block mb-1.5"
+              style={{ color: "var(--muted)" }}
+            >
               password
             </label>
             <input
@@ -98,12 +108,17 @@ export default function AdminLogin() {
               cursor: loading ? "not-allowed" : "pointer",
             }}
           >
-            {loading ? "Authenticating..." : "Login →"}
+            {loading ? <Cardio size="50" stroke="4" speed="2" color="black"/> : "Login →"}
           </button>
         </form>
 
-        <p className="mono text-xs text-center mt-6" style={{ color: "var(--muted)" }}>
-          <a href="/" style={{ color: "var(--accent)" }}>← Back to portfolio</a>
+        <p
+          className="mono text-xs text-center mt-6"
+          style={{ color: "var(--muted)" }}
+        >
+          <a href="/" style={{ color: "var(--accent)" }}>
+            ← Back to portfolio
+          </a>
         </p>
       </div>
     </div>
