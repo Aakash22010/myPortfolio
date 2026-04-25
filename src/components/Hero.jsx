@@ -167,7 +167,7 @@ export default function Hero() {
           <div className="flex-1 text-center md:text-left w-full">
 
             <motion.p variants={fadeUp} className="section-label mb-3">
-              — available for hire
+              — available for freelance work
             </motion.p>
 
             <motion.h1
