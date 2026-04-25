@@ -13,7 +13,7 @@ const FIELDS = {
   ],
   skills: [
     { key: "name",     label: "Name",     type: "text" },
-    { key: "category", label: "Category", type: "select", options: ["frontend", "backend", "tools"] },
+    { key: "category", label: "Category", type: "text" },
     { key: "level",    label: "Level",    type: "select", options: ["Beginner", "Intermediate", "Advanced"] },
     { key: "details",  label: "Details",  type: "textarea" },
   ],
