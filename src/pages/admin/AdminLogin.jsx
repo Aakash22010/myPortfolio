@@ -107,13 +107,13 @@ export default function AdminLogin() {
             disabled={loading}
             className="w-full py-2.5 rounded-lg text-sm font-medium mono transition"
             style={{
-              background: loading ? "var(--muted)" : "var(--accent)",
-              color: "#fff",
+              background: loading ? "var(--surface)" : "var(--accent)", // 👈 var(--surface) when loading
+              color: loading ? "var(--accent)" : "#fff",
               cursor: loading ? "not-allowed" : "pointer",
             }}
           >
             {loading ? (
-              <Cardio size="50" stroke="4" speed="2" color="black" />
+              <Cardio size="50" stroke="4" speed="2" color="var(--accent)" />
             ) : (
               "Login →"
             )}
