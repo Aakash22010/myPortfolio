@@ -33,8 +33,8 @@
   --border-hard: rgba(245,158,11,0.4);
   --accent:      #f59e0b;
   --accent2:     #38bdf8;
-  --text:        #fef3c7;
-  --muted:       rgba(254,243,199,0.4);
+  --text:        #fff8ed;
+  --muted:       rgba(255,248,237,0.75);
   --dot:         rgba(245,158,11,0.08);
   --glow:        rgba(245,158,11,0.12);
 }
