@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import CustomCursor from "./components/CustomCursor";
 import ServerStatus from "./pages/ServerStatus";
 import { Analytics } from "@vercel/analytics/react";
+import ServerError from "./pages/ServerError";
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -28,7 +29,9 @@ function ScrollProgress() {
         scaleX,
         transformOrigin: "left",
         position: "fixed",
-        top: 0, left: 0, right: 0,
+        top: 0,
+        left: 0,
+        right: 0,
         height: "2px",
         // Must be above the canvas (z:0) and below the navbar (z:50)
         zIndex: 40,
@@ -80,11 +83,12 @@ export default function App() {
       <CustomCursor />
       <BrowserRouter>
         <Routes>
-          <Route path="/"           element={<Portfolio />} />
-          <Route path="/admin"      element={<AdminLogin />} />
+          <Route path="/" element={<Portfolio />} />
+          <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dash" element={<AdminDashboard />} />
-          <Route path="/status"     element={<ServerStatus />} />
-          <Route path="*"           element={<NotFound />} />
+          <Route path="/status" element={<ServerStatus />} />
+          <Route path="/error" element={<ServerError />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
       <Analytics />
