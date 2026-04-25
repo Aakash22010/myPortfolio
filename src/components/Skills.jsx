@@ -21,7 +21,11 @@ function SkillGroup({ title, skills }) {
   if (!skills.length) return null;
   return (
     <>
-      <motion.h3 variants={fadeUp} className="text-base sm:text-lg font-semibold mb-4 sm:mb-5 mono" style={{ color: "var(--muted)" }}>
+      <motion.h3
+        variants={fadeUp}
+        className="text-base sm:text-lg font-semibold mb-4 sm:mb-5 mono"
+        style={{ color: "var(--muted)" }}
+      >
         {title}
       </motion.h3>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-10 sm:mb-12 auto-rows-fr">
@@ -62,9 +66,13 @@ export default function Skills() {
       .finally(() => setLoading(false));
   }, []);
 
-  const frontend = allSkills.filter((s) => s.category === "frontend");
-  const backend  = allSkills.filter((s) => s.category === "backend");
-  const tools    = allSkills.filter((s) => s.category === "tools");
+  // Dynamically group by category — order preserved by first appearance
+  const grouped = allSkills.reduce((acc, skill) => {
+    const cat = skill.category;
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(skill);
+    return acc;
+  }, {});
 
   return (
     <section id="skills" className="py-16 sm:py-24 px-4 sm:px-6">
@@ -84,11 +92,13 @@ export default function Skills() {
         {loading ? (
           <HeartbeatLoader />
         ) : (
-          <>
-            <SkillGroup title="// frontend"         skills={frontend} />
-            <SkillGroup title="// backend"          skills={backend} />
-            <SkillGroup title="// tools & workflow" skills={tools} />
-          </>
+          Object.entries(grouped).map(([category, skills]) => (
+            <SkillGroup
+              key={category}
+              title={`// ${category.toLowerCase()}`}
+              skills={skills}
+            />
+          ))
         )}
       </motion.div>
     </section>
