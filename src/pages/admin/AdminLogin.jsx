@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../lib/api";
-import { Cardio } from 'ldrs/react'
-import 'ldrs/react/Cardio.css'
+import { Cardio } from "ldrs/react";
+import "ldrs/react/Cardio.css";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
@@ -20,7 +20,11 @@ export default function AdminLogin() {
       localStorage.setItem("portfolio_admin_token", token);
       navigate("/admin/dash");
     } catch (err) {
-      setError(err.message);
+      if (err.isServerDown) {
+        navigate("/server-error"); // 👈 full error page
+      } else {
+        setError(err.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -108,7 +112,11 @@ export default function AdminLogin() {
               cursor: loading ? "not-allowed" : "pointer",
             }}
           >
-            {loading ? <Cardio size="50" stroke="4" speed="2" color="black"/> : "Login →"}
+            {loading ? (
+              <Cardio size="50" stroke="4" speed="2" color="black" />
+            ) : (
+              "Login →"
+            )}
           </button>
         </form>
 
