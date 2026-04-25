@@ -11,17 +11,17 @@
 
 /* ── LIGHT THEME ─────────────────────────────── */
 :root {
-  --bg:          #fffbeb;
-  --surface:     #fef3c7;
-  --card:        rgba(254,243,199,0.75);
-  --border:      rgba(217,119,6,0.2);
-  --border-hard: rgba(217,119,6,0.45);
-  --accent:      #d97706;
+  --bg:          #f5f0e8;
+  --surface:     #ede8dc;
+  --card:        rgba(237,232,220,0.75);
+  --border:      rgba(217,119,6,0.18);
+  --border-hard: rgba(217,119,6,0.38);
+  --accent:      #b45309;
   --accent2:     #0369a1;
-  --text:        #451a03;
-  --muted:       rgba(69,26,3,0.5);
-  --dot:         rgba(217,119,6,0.1);
-  --glow:        rgba(217,119,6,0.08);
+  --text:        #2c1503;
+  --muted:       rgba(44,21,3,0.5);
+  --dot:         rgba(180,83,9,0.08);
+  --glow:        rgba(180,83,9,0.07);
 }
 
 /* ── DARK THEME ──────────────────────────────── */
