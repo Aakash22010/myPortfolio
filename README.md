@@ -250,5 +250,5 @@ MIT License â€” feel free to use this as inspiration. Attribution appreciated! ð
 [![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/_aakashdahiya_)
 
 ---
-Last updated: March 24, 2026
+Last updated: April 25, 2026
 *Built with React, Tailwind CSS, Framer Motion, Express, and Supabase*
