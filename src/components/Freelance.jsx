@@ -59,7 +59,7 @@ export default function Freelance() {
                   {service.tag}
                 </span>
                 <h3 className="font-semibold text-base mb-2">{service.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>{service.desc}</p>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>{service.description}</p>
               </motion.div>
             ))}
           </div>
