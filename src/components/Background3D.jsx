@@ -13,18 +13,6 @@ function accentAlpha(accentRaw, a) {
   return `rgba(${r},${g},${b},${a})`;
 }
 
-const PARTICLE_COUNT = 80;
-
-function createParticles(W, H) {
-  return Array.from({ length: PARTICLE_COUNT }, () => ({
-    x: Math.random() * W,
-    y: Math.random() * H,
-    vx: (Math.random() - 0.5) * 0.4,
-    vy: (Math.random() - 0.5) * 0.4,
-    r: Math.random() * 2 + 1,
-  }));
-}
-
 export default function Background3D() {
   const canvasRef = useRef(null);
 
@@ -35,80 +23,61 @@ export default function Background3D() {
 
     let W = window.innerWidth;
     let H = window.innerHeight;
-    let particles = createParticles(W, H);
-    let mouse = { x: W / 2, y: H / 2 };
-    let rafId;
-
     canvas.width = W;
     canvas.height = H;
+
+    let ripples = [];
+    let rafId;
+    let autoTimer;
+
+    function addRipple(x, y) {
+      ripples.push({ x, y, r: 0, maxR: Math.max(W, H) * 0.6, alpha: 0.5, speed: 2.5 });
+    }
+
+    // auto ripples at random positions
+    function autoRipple() {
+      addRipple(Math.random() * W, Math.random() * H);
+      autoTimer = setTimeout(autoRipple, 1800 + Math.random() * 2000);
+    }
+    autoRipple();
+
+    function onClick(e) { addRipple(e.clientX, e.clientY); }
+    function onTouch(e) { addRipple(e.touches[0].clientX, e.touches[0].clientY); }
 
     function resize() {
       W = window.innerWidth;
       H = window.innerHeight;
       canvas.width = W;
       canvas.height = H;
-      particles = createParticles(W, H);
     }
 
-    function onMouse(e) { mouse.x = e.clientX; mouse.y = e.clientY; }
-    function onTouch(e) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }
-
     window.addEventListener("resize", resize);
-    window.addEventListener("mousemove", onMouse);
-    window.addEventListener("touchmove", onTouch, { passive: true });
-
-    const MAX_DIST = 140;
-    const MOUSE_DIST = 180;
+    window.addEventListener("click", onClick);
+    window.addEventListener("touchstart", onTouch, { passive: true });
 
     function draw() {
       ctx.clearRect(0, 0, W, H);
       const accent = getCSSVar("--accent") || "#0fa4af";
 
-      particles.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0) p.x = W;
-        if (p.x > W) p.x = 0;
-        if (p.y < 0) p.y = H;
-        if (p.y > H) p.y = 0;
+      ripples = ripples.filter(rp => rp.alpha > 0.01);
 
-        // subtle mouse repulsion
-        const dx = p.x - mouse.x;
-        const dy = p.y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < MOUSE_DIST) {
-          const force = (MOUSE_DIST - dist) / MOUSE_DIST * 0.015;
-          p.vx += (dx / dist) * force;
-          p.vy += (dy / dist) * force;
+      ripples.forEach(rp => {
+        rp.r += rp.speed;
+        rp.alpha *= 0.975;
+
+        // draw 3 concentric rings per ripple for depth
+        for (let i = 0; i < 3; i++) {
+          const offset = i * 18;
+          const r = rp.r - offset;
+          if (r < 0) continue;
+          const alpha = rp.alpha * (1 - i * 0.3);
+          ctx.beginPath();
+          ctx.arc(rp.x, rp.y, r, 0, Math.PI * 2);
+          ctx.strokeStyle = accentAlpha(accent, alpha * 0.4);
+          ctx.lineWidth = 1 - i * 0.25;
+          ctx.stroke();
         }
-
-        // clamp velocity
-        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-        if (speed > 1.2) { p.vx *= 0.98; p.vy *= 0.98; }
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = accentAlpha(accent, 0.55);
-        ctx.fill();
       });
-
-      // draw connecting lines
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < MAX_DIST) {
-            const alpha = (1 - dist / MAX_DIST) * 0.3;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = accentAlpha(accent, alpha);
-            ctx.lineWidth = 0.6;
-            ctx.stroke();
-          }
-        }
-      }
 
       rafId = requestAnimationFrame(draw);
     }
@@ -117,9 +86,10 @@ export default function Background3D() {
 
     return () => {
       cancelAnimationFrame(rafId);
+      clearTimeout(autoTimer);
       window.removeEventListener("resize", resize);
-      window.removeEventListener("mousemove", onMouse);
-      window.removeEventListener("touchmove", onTouch);
+      window.removeEventListener("click", onClick);
+      window.removeEventListener("touchstart", onTouch);
     };
   }, []);
 
