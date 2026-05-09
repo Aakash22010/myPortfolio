@@ -18,10 +18,12 @@
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "express-rate-limit": "^7.5.0",
     "jsonwebtoken": "^9.0.3",
     "node-cron": "^4.2.1",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.14",
-    "supabase-js": "^0.0.1-security"
+    "supabase-js": "^0.0.1-security",
+    "zod": "^3.25.28"
   }
 }
