@@ -3,7 +3,7 @@ import { fadeUp, staggerContainer } from "../animations";
 import { useState } from "react";
 import HeartbeatLoader from "./HeartbeatLoader";
 
-const FORMSPREE_ID = "mpqynwqj";
+const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
 
 const links = [
   { label: "GitHub",   handle: "@Aakash22010",             href: "https://github.com/Aakash22010" },

@@ -1,5 +1,5 @@
 import { useScroll, useSpring, motion } from "framer-motion";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -39,6 +39,13 @@ function ScrollProgress() {
       }}
     />
   );
+}
+
+// Redirects to /admin login if no token is present in localStorage
+function ProtectedRoute({ children }) {
+  const token = localStorage.getItem("portfolio_admin_token");
+  if (!token) return <Navigate to="/admin" replace />;
+  return children;
 }
 
 function Portfolio() {
@@ -85,7 +92,14 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Portfolio />} />
           <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin/dash" element={<AdminDashboard />} />
+          <Route
+            path="/admin/dash"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/status" element={<ServerStatus />} />
           <Route path="/error" element={<ServerError />} />
           <Route path="*" element={<NotFound />} />

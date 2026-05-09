@@ -3,8 +3,9 @@ import { createContext, useEffect, useState } from "react";
 export const ThemeContext = createContext(null);
 
 export function ThemeProvider({ children }) {
+  // Lazy initializer: runs once on mount, avoids repeated localStorage reads on re-renders
   const [theme, setTheme] = useState(
-    localStorage.getItem("theme") || "dark"
+    () => localStorage.getItem("theme") || "dark"
   );
 
   useEffect(() => {
