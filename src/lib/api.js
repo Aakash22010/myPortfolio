@@ -20,15 +20,21 @@ async function request(path, options = {}) {
     });
     clearTimeout(timeout);
     const data = await res.json();
+
+    if (res.status === 401) {
+      const authErr = new Error(data.error || "Unauthorized");
+      authErr.isUnauthorized = true;
+      throw authErr;
+    }
+
     if (!res.ok) throw new Error(data.error || "Request failed");
     return data;
   } catch (err) {
     clearTimeout(timeout);
+    if (err.isUnauthorized) throw err;
     if (err.name === "AbortError" || err.message === "Failed to fetch") {
-      const serverErr = new Error(
-        "Server unreachable. Please try again later.",
-      );
-      serverErr.isServerDown = true; // 👈 flag so callers can detect it
+      const serverErr = new Error("Server unreachable. Please try again later.");
+      serverErr.isServerDown = true;
       throw serverErr;
     }
     throw err;
@@ -43,22 +49,22 @@ export const api = {
       body: JSON.stringify({ username, password }),
     }),
 
+  // GitHub stats (proxied through backend to avoid rate limits)
+  getGitHubStats: () => request("/api/github"),
+
   // Projects
-  getProjects: () => request("/api/projects"),
+  getProjects:   () => request("/api/projects"),
   getAllProjects: () => request("/api/projects/all"),
   addProject: (data) =>
     request("/api/projects", { method: "POST", body: JSON.stringify(data) }),
   updateProject: (id, data) =>
-    request(`/api/projects/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-    }),
+    request(`/api/projects/${id}`, { method: "PUT", body: JSON.stringify(data) }),
   toggleProject: (id) =>
     request(`/api/projects/${id}/toggle`, { method: "PATCH" }),
   deleteProject: (id) => request(`/api/projects/${id}`, { method: "DELETE" }),
 
   // Skills
-  getSkills: () => request("/api/skills"),
+  getSkills:   () => request("/api/skills"),
   getAllSkills: () => request("/api/skills/all"),
   addSkill: (data) =>
     request("/api/skills", { method: "POST", body: JSON.stringify(data) }),
@@ -68,30 +74,24 @@ export const api = {
   deleteSkill: (id) => request(`/api/skills/${id}`, { method: "DELETE" }),
 
   // Experience
-  getExperience: () => request("/api/experience"),
+  getExperience:   () => request("/api/experience"),
   getAllExperience: () => request("/api/experience/all"),
   addExperience: (data) =>
     request("/api/experience", { method: "POST", body: JSON.stringify(data) }),
   updateExperience: (id, data) =>
-    request(`/api/experience/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-    }),
+    request(`/api/experience/${id}`, { method: "PUT", body: JSON.stringify(data) }),
   toggleExperience: (id) =>
     request(`/api/experience/${id}/toggle`, { method: "PATCH" }),
   deleteExperience: (id) =>
     request(`/api/experience/${id}`, { method: "DELETE" }),
 
   // Freelance
-  getFreelance: () => request("/api/freelance"),
+  getFreelance:   () => request("/api/freelance"),
   getAllFreelance: () => request("/api/freelance/all"),
   addFreelance: (data) =>
     request("/api/freelance", { method: "POST", body: JSON.stringify(data) }),
   updateFreelance: (id, data) =>
-    request(`/api/freelance/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-    }),
+    request(`/api/freelance/${id}`, { method: "PUT", body: JSON.stringify(data) }),
   toggleFreelance: (id) =>
     request(`/api/freelance/${id}/toggle`, { method: "PATCH" }),
   deleteFreelance: (id) =>

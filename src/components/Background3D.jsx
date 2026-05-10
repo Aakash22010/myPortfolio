@@ -13,10 +13,13 @@ function accentAlpha(accentRaw, a) {
   return `rgba(${r},${g},${b},${a})`;
 }
 
-const PARTICLE_COUNT = 80;
+// Fewer particles on mobile — reduces jank on low-end devices
+function getParticleCount() {
+  return window.innerWidth < 768 ? 40 : 80;
+}
 
-function createParticles(W, H) {
-  return Array.from({ length: PARTICLE_COUNT }, () => ({
+function createParticles(W, H, count) {
+  return Array.from({ length: count }, () => ({
     x: Math.random() * W,
     y: Math.random() * H,
     vx: (Math.random() - 0.5) * 0.4,
@@ -29,13 +32,18 @@ export default function Background3D() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    // Respect the user's OS reduced-motion preference for accessibility
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
     let W = window.innerWidth;
     let H = window.innerHeight;
-    let particles = createParticles(W, H);
+    let count = getParticleCount();
+    let particles = createParticles(W, H, count);
     let mouse = { x: W / 2, y: H / 2 };
     let rafId;
 
@@ -47,7 +55,8 @@ export default function Background3D() {
       H = window.innerHeight;
       canvas.width = W;
       canvas.height = H;
-      particles = createParticles(W, H);
+      count = getParticleCount();
+      particles = createParticles(W, H, count);
     }
 
     function onMouse(e) { mouse.x = e.clientX; mouse.y = e.clientY; }
@@ -57,7 +66,7 @@ export default function Background3D() {
     window.addEventListener("mousemove", onMouse);
     window.addEventListener("touchmove", onTouch, { passive: true });
 
-    const MAX_DIST = 140;
+    const MAX_DIST   = 140;
     const MOUSE_DIST = 180;
 
     function draw() {
@@ -72,7 +81,6 @@ export default function Background3D() {
         if (p.y < 0) p.y = H;
         if (p.y > H) p.y = 0;
 
-        // subtle mouse repulsion
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -82,7 +90,6 @@ export default function Background3D() {
           p.vy += (dy / dist) * force;
         }
 
-        // clamp velocity
         const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
         if (speed > 1.2) { p.vx *= 0.98; p.vy *= 0.98; }
 
@@ -92,7 +99,6 @@ export default function Background3D() {
         ctx.fill();
       });
 
-      // draw connecting lines
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;

@@ -8,7 +8,8 @@ const router = express.Router();
 const SkillSchema = z.object({
   name:     z.string().min(1).max(80),
   category: z.string().min(1).max(80),
-  level:    z.number().int().min(1).max(100).optional(),
+  // level is a select in the admin UI: "Beginner" | "Intermediate" | "Advanced"
+  level:    z.enum(["Beginner", "Intermediate", "Advanced"]).optional(),
   details:  z.string().max(300).optional(),
 });
 
@@ -71,4 +72,4 @@ router.delete("/:id", auth, async (req, res) => {
   res.json({ success: true });
 });
 
-export default router;
+export default router;  

@@ -5,12 +5,17 @@ export default function Preloader() {
   const [fading, setFading] = useState(false);
 
   useEffect(() => {
-    const fadeTimer  = setTimeout(() => setFading(true),  2800);
-    const removeTimer = setTimeout(() => setVisible(false), 3500);
-    return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(removeTimer);
-    };
+    // Show for at least 1.2s, but wait for the page to actually be ready
+    const minDisplay = new Promise((r) => setTimeout(r, 1200));
+    const pageLoad   = new Promise((r) => {
+      if (document.readyState === "complete") r();
+      else window.addEventListener("load", r, { once: true });
+    });
+
+    Promise.all([minDisplay, pageLoad]).then(() => {
+      setFading(true);
+      setTimeout(() => setVisible(false), 700);
+    });
   }, []);
 
   if (!visible) return null;
@@ -102,9 +107,9 @@ export default function Preloader() {
                 stroke="var(--accent, #0fa4af)"
                 strokeWidth="3"
                 strokeMiterlimit="10"
-                points="0,45.486 38.514,45.486 44.595,33.324 50.676,45.486 
-                        57.771,45.486 62.838,55.622 71.959,9 80.067,63.729 
-                        84.122,45.486 97.297,45.486 103.379,40.419 
+                points="0,45.486 38.514,45.486 44.595,33.324 50.676,45.486
+                        57.771,45.486 62.838,55.622 71.959,9 80.067,63.729
+                        84.122,45.486 97.297,45.486 103.379,40.419
                         110.473,45.486 150,45.486"
               />
             </svg>
