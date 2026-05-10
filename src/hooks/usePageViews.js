@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
-const BASE = import.meta.env.VITE_API_URL;
+const BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export function usePageViews() {
   const [count, setCount] = useState(null);
 
   useEffect(() => {
-    const alreadyCounted = localStorage.getItem("pv_counted");
+    // sessionStorage clears when the tab closes — more accurate than localStorage
+    // (localStorage persists forever, so clearing browser data re-counts the user)
+    const alreadyCounted = sessionStorage.getItem("pv_counted");
 
     if (alreadyCounted) {
       fetch(`${BASE}/api/views`)
@@ -20,7 +22,7 @@ export function usePageViews() {
       .then((r) => r.json())
       .then((d) => {
         setCount(d.count);
-        localStorage.setItem("pv_counted", "1");
+        sessionStorage.setItem("pv_counted", "1");
       })
       .catch(() => {});
   }, []);

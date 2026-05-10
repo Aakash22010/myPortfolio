@@ -8,12 +8,16 @@ import skillRoutes      from "./routes/skills.js";
 import experienceRoutes from "./routes/experience.js";
 import freelanceRoutes  from "./routes/freelance.js";
 import viewsRoutes      from "./routes/views.js";
+import githubRoutes     from "./routes/github.js";
 import { startKeepalive } from "./keepalive.js";
 
 dotenv.config();
 
 const app  = express();
 const PORT = process.env.PORT || 5000;
+
+// Don't advertise the framework
+app.disable("x-powered-by");
 
 app.use(cors({
   origin: [
@@ -45,6 +49,7 @@ app.use("/api/skills",     skillRoutes);
 app.use("/api/experience", experienceRoutes);
 app.use("/api/freelance",  freelanceRoutes);
 app.use("/api/views",      viewsRoutes);
+app.use("/api/github",     githubRoutes);
 
 // Global error handler — catches any unhandled errors from route handlers
 app.use((err, req, res, next) => {
