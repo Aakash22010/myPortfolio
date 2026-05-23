@@ -272,12 +272,13 @@ function ProjectCard({ project, index }) {
 // ── Section ───────────────────────────────────────────────────────────────────
 export default function Projects() {
   const [projects, setProjects] = useState([]);
+  const [error, setError] = useState(false);
   const [loading,  setLoading]  = useState(true);
 
   useEffect(() => {
     api.getProjects()
       .then(setProjects)
-      .catch(console.error)
+      .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, []);
 
@@ -295,6 +296,10 @@ export default function Projects() {
 
         {loading ? (
           <HeartbeatLoader />
+        ) : error ? (
+          <p className="mono text-sm text-center py-12" style={{ color: "var(--muted)" }}>
+            Failed to load projects. Please try again later.
+          </p>
         ) : (
           <>
             <div className="mb-6 sm:mb-8 space-y-5 sm:space-y-6">
