@@ -63,7 +63,6 @@ body {
   transition: background-color 0.35s ease, color 0.35s ease;
   background-image: radial-gradient(circle, var(--dot) 1px, transparent 1px);
   background-size: 28px 28px;
-  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
