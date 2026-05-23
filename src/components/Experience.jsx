@@ -12,11 +12,12 @@ const typeBadge = {
 export default function Experience() {
   const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     api.getExperience()
       .then(setExperiences)
-      .catch(console.error)
+      .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, []);
 
@@ -37,6 +38,10 @@ export default function Experience() {
 
         {loading ? (
           <HeartbeatLoader />
+        ) : error ? (
+          <p className="mono text-sm text-center py-12" style={{ color: "var(--muted)" }}>
+            Failed to load experience. Please try again later.
+          </p>
         ) : (
           <div className="relative">
             {/* Timeline line — only on md+ */}

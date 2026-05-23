@@ -58,11 +58,12 @@ function SkillGroup({ title, skills }) {
 export default function Skills() {
   const [allSkills, setAllSkills] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     api.getSkills()
       .then(setAllSkills)
-      .catch(console.error)
+      .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, []);
 
@@ -91,6 +92,10 @@ export default function Skills() {
 
         {loading ? (
           <HeartbeatLoader />
+        ) : error ? (
+          <p className="mono text-sm text-center py-12" style={{ color: "var(--muted)" }}>
+            Failed to load skills. Please try again later.
+          </p>
         ) : (
           Object.entries(grouped).map(([category, skills]) => (
             <SkillGroup
