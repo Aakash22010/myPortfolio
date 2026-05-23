@@ -3,10 +3,8 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* ── CUSTOM BREAKPOINT: xs (480px) ──────────────── */
-@media (min-width: 480px) {
-  .xs\:flex-row  { flex-direction: row; }
-  .xs\:w-auto    { width: auto; }
-  .xs\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@theme {
+  --breakpoint-xs: 480px;
 }
 
 /* ── LIGHT THEME ─────────────────────────────── */
