@@ -2,8 +2,7 @@ import { useScroll, useSpring, motion } from "framer-motion";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import About from "./components/About";
-import Skills from "./components/Skills";
+import BentoAbout from "./components/BentoAbout";
 import Experience from "./components/Experience";
 import Freelance from "./components/Freelance";
 import Projects from "./components/Projects";
@@ -72,8 +71,7 @@ function Portfolio() {
       >
         <Navbar />
         <Hero />
-        <About />
-        <Skills />
+        <BentoAbout />
         <Experience />
         <Projects />
         <Freelance />
