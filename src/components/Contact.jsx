@@ -6,9 +6,9 @@ import HeartbeatLoader from "./HeartbeatLoader";
 const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
 
 const links = [
-  { label: "GitHub",   handle: "@Aakash22010",             href: "https://github.com/Aakash22010" },
-  { label: "LinkedIn", handle: "aakashdahiya167",           href: "https://www.linkedin.com/in/aakashdahiya167/" },
-  { label: "Email",    handle: "aakashdahiya167@gmail.com", href: "mailto:aakashdahiya167@gmail.com" },
+  { label: "GitHub",     handle: "@Aakash22010",             href: "https://github.com/Aakash22010" },
+  { label: "LinkedIn",   handle: "aakashdahiya167",          href: "https://www.linkedin.com/in/aakashdahiya167/" },
+  { label: "Email",      handle: "aakashdahiya167@gmail.com",href: "mailto:aakashdahiya167@gmail.com" },
 ];
 
 function SendButton({ loading }) {
@@ -19,26 +19,24 @@ function SendButton({ loading }) {
           font-size: 15px;
           background: var(--accent);
           color: #fff;
-          padding: 0.7em 1.2em 0.7em 1em;
+          padding: 0.8em 1.5em;
           display: inline-flex;
           align-items: center;
           border: none;
-          border-radius: 14px;
+          border-radius: 12px;
           overflow: hidden;
           transition: all 0.2s;
           cursor: pointer;
           font-family: 'JetBrains Mono', monospace;
           width: 100%;
           justify-content: center;
-        }
-        @media (min-width: 480px) {
-          .send-btn { width: auto; }
+          font-weight: 600;
         }
         .send-btn:disabled { opacity: 0.7; cursor: not-allowed; }
-        .send-btn:active:not(:disabled) { transform: scale(0.95); }
+        .send-btn:active:not(:disabled) { transform: scale(0.98); }
         .send-btn span {
           display: block;
-          margin-left: 0.4em;
+          margin-left: 0.5em;
           transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out;
         }
         .send-btn svg {
@@ -73,7 +71,7 @@ function SendButton({ loading }) {
             />
           </svg>
         </div>
-        <span>{loading ? "Sending..." : "Send me an email"}</span>
+        <span>{loading ? "Sending..." : "Send Message"}</span>
       </button>
     </>
   );
@@ -120,137 +118,149 @@ export default function Contact() {
     color: "var(--text)",
     width: "100%",
     borderRadius: "0.75rem",
-    padding: "0.75rem 1rem",
-    fontSize: "0.875rem",
+    padding: "0.85rem 1rem",
+    fontSize: "16px",
     fontFamily: "inherit",
     outline: "none",
-    transition: "border-color 0.2s",
-    // Prevent zoom on iOS when font-size < 16px
-    WebkitTextSizeAdjust: "100%",
+    transition: "all 0.2s ease-in-out",
   };
 
   return (
-    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6">
+    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
       <motion.div
-        className="max-w-3xl mx-auto"
+        className="max-w-6xl mx-auto"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "-100px" }}
       >
-        <motion.div variants={fadeUp} className="mb-8 sm:mb-10">
-          <p className="section-label mb-2">// let's talk</p>
-          <h2 className="text-3xl md:text-4xl font-bold">Get In Touch</h2>
-          <div className="glow-line mt-4 max-w-xs" />
-        </motion.div>
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
 
-        <motion.p variants={fadeUp} className="text-sm sm:text-base leading-relaxed mb-8 sm:mb-10" style={{ color: "var(--muted)" }}>
-          Open to internships, collaborations, freelance work, and interesting problems.
-          Fill out the form and I'll get back to you as soon as I can.
-        </motion.p>
+          {/* LEFT — Text & Socials */}
+          <div className="flex flex-col">
+            <motion.div variants={fadeUp} className="mb-8">
+              <p className="section-label mb-4">// what's next</p>
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
+                Let's build <br />
+                <span style={{ color: "var(--accent)" }}>something together.</span>
+              </h2>
+              <div className="glow-line mt-4 max-w-xs" />
+            </motion.div>
 
-        {/* SOCIAL LINKS */}
-        <motion.div variants={fadeUp} className="space-y-2 sm:space-y-3 mb-8 sm:mb-10">
-          {links.map(({ label, handle, href }) => (
-            <a
-              key={label}
-              href={href}
-              target={href.startsWith("mailto") ? undefined : "_blank"}
-              rel="noopener noreferrer"
-              className="glass flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 rounded-xl group transition"
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--border-hard)")}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
-            >
-              <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-                <span className="mono text-xs shrink-0 w-14 sm:w-16" style={{ color: "var(--muted)" }}>
-                  {label}
-                </span>
-                <span className="text-xs sm:text-sm font-medium truncate">{handle}</span>
-              </div>
-              <span className="mono text-sm shrink-0 ml-2" style={{ color: "var(--accent)" }}>↗</span>
-            </a>
-          ))}
-        </motion.div>
+            <motion.p variants={fadeUp} className="text-base sm:text-lg leading-relaxed mb-10 max-w-md" style={{ color: "var(--muted)" }}>
+              I'm currently open to internships, freelance work, and exciting full-stack opportunities.
+              Whether you have a question or just want to say hi, I'll try my best to get back to you!
+            </motion.p>
 
-        {/* FORM / SUCCESS */}
-        <motion.div variants={fadeUp}>
-          {status === "success" ? (
-            <div
-              className="glass rounded-2xl p-6 sm:p-8 text-center"
-              style={{ border: "1px solid rgba(74,222,128,0.3)" }}
-            >
+            <motion.div variants={fadeUp} className="grid grid-cols-2 gap-4 mt-auto">
+              {links.map(({ label, handle, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={href.startsWith("mailto") ? undefined : "_blank"}
+                  rel="noopener noreferrer"
+                  className="glass flex flex-col justify-center px-5 py-4 rounded-xl group transition-all duration-300 hover:-translate-y-1"
+                  style={{ border: "1px solid var(--border)" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="mono text-xs" style={{ color: "var(--muted)" }}>{label}</span>
+                    <span className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "var(--accent)" }}>↗</span>
+                  </div>
+                  <span className="text-sm font-medium truncate group-hover:text-[var(--accent)] transition-colors">
+                    {handle}
+                  </span>
+                </a>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* RIGHT — Form */}
+          <motion.div variants={fadeUp} className="relative w-full">
+            <div className="absolute inset-0 rounded-3xl blur-3xl opacity-20 pointer-events-none translate-x-4 translate-y-4"
+              style={{ background: "var(--accent)" }} />
+
+            {status === "success" ? (
               <div
-                className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
-                style={{ background: "rgba(74,222,128,0.15)" }}
+                className="glass rounded-2xl p-8 sm:p-12 text-center relative z-10 flex flex-col items-center justify-center min-h-[400px]"
+                style={{ border: "1px solid rgba(74,222,128,0.3)" }}
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                  stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
+                  style={{ background: "rgba(74,222,128,0.15)" }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                    stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Message Sent!</h3>
+                <p className="text-base mb-8 max-w-xs mx-auto" style={{ color: "var(--muted)" }}>
+                  Thanks for reaching out. I'll get back to you as soon as possible.
+                </p>
+                <button
+                  onClick={() => setStatus("idle")}
+                  className="mono text-sm px-6 py-3 rounded-xl transition-colors hover:bg-[var(--glow)]"
+                  style={{ color: "var(--text)", border: "1px solid var(--border)" }}
+                >
+                  Send another message
+                </button>
               </div>
-              <h3 className="text-lg font-semibold mb-2">Message sent!</h3>
-              <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>
-                Thanks for reaching out. I'll get back to you soon.
-              </p>
-              <button
-                onClick={() => setStatus("idle")}
-                className="mono text-xs px-4 py-2 rounded-lg transition"
-                style={{ background: "var(--glow)", color: "var(--accent)", border: "1px solid var(--border)" }}
+            ) : (
+              <form
+                onSubmit={handleSubmit}
+                className="glass rounded-2xl p-6 sm:p-8 space-y-6 relative z-10 shadow-2xl"
+                style={{ border: "1px solid var(--border-hard)", backdropFilter: "blur(20px)" }}
               >
-                Send another →
-              </button>
-            </div>
-          ) : (
-            <form
-              onSubmit={handleSubmit}
-              className="glass rounded-2xl p-5 sm:p-8 space-y-4 sm:space-y-5"
-              style={{ border: "1px solid var(--border)" }}
-            >
-              {/* Name + Email: stacked on mobile, side-by-side on sm+ */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="mono text-xs block mb-1.5" style={{ color: "var(--muted)" }}>name *</label>
-                  <input
-                    type="text" name="name" required value={form.name}
-                    onChange={handleChange} placeholder="Your name"
-                    style={{ ...inputStyle, fontSize: "16px" }}
-                    onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
-                    onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
-                  />
+                <div className="space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                      <label className="mono text-xs font-semibold block mb-2" style={{ color: "var(--muted)" }}>// your name</label>
+                      <input
+                        type="text" name="name" required value={form.name}
+                        onChange={handleChange} placeholder="John Doe"
+                        style={inputStyle}
+                        onFocus={(e) => { e.target.style.borderColor = "var(--accent)"; e.target.style.boxShadow = "0 0 0 1px var(--accent)"; }}
+                        onBlur={(e) => { e.target.style.borderColor = "var(--border)"; e.target.style.boxShadow = "none"; }}
+                      />
+                    </div>
+                    <div>
+                      <label className="mono text-xs font-semibold block mb-2" style={{ color: "var(--muted)" }}>// your email</label>
+                      <input
+                        type="email" name="email" required value={form.email}
+                        onChange={handleChange} placeholder="john@example.com"
+                        style={inputStyle}
+                        onFocus={(e) => { e.target.style.borderColor = "var(--accent)"; e.target.style.boxShadow = "0 0 0 1px var(--accent)"; }}
+                        onBlur={(e) => { e.target.style.borderColor = "var(--border)"; e.target.style.boxShadow = "none"; }}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="mono text-xs font-semibold block mb-2" style={{ color: "var(--muted)" }}>// message</label>
+                    <textarea
+                      name="message" required rows={5} value={form.message}
+                      onChange={handleChange} placeholder="What do you want to build?"
+                      style={{ ...inputStyle, resize: "none" }}
+                      onFocus={(e) => { e.target.style.borderColor = "var(--accent)"; e.target.style.boxShadow = "0 0 0 1px var(--accent)"; }}
+                      onBlur={(e) => { e.target.style.borderColor = "var(--border)"; e.target.style.boxShadow = "none"; }}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="mono text-xs block mb-1.5" style={{ color: "var(--muted)" }}>email *</label>
-                  <input
-                    type="email" name="email" required value={form.email}
-                    onChange={handleChange} placeholder="your@email.com"
-                    style={{ ...inputStyle, fontSize: "16px" }}
-                    onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
-                    onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
-                  />
-                </div>
-              </div>
 
-              <div>
-                <label className="mono text-xs block mb-1.5" style={{ color: "var(--muted)" }}>message *</label>
-                <textarea
-                  name="message" required rows={5} value={form.message}
-                  onChange={handleChange} placeholder="What's on your mind?"
-                  style={{ ...inputStyle, resize: "none", fontSize: "16px" }}
-                  onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
-                  onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
-                />
-              </div>
+                {status === "error" && (
+                  <p className="mono text-xs text-red-400 p-3 rounded bg-red-500/10 border border-red-500/20">{errorMsg}</p>
+                )}
 
-              {status === "error" && (
-                <p className="mono text-xs text-red-400">{errorMsg}</p>
-              )}
+                {status === "loading" ? (
+                  <div className="flex justify-center py-2"><HeartbeatLoader size={0.6} /></div>
+                ) : (
+                  <SendButton loading={false} />
+                )}
+              </form>
+            )}
+          </motion.div>
 
-              {status === "loading" && <HeartbeatLoader size={0.6} />}
-
-              {status !== "loading" && <SendButton loading={false} />}
-            </form>
-          )}
-        </motion.div>
+        </div>
       </motion.div>
     </section>
   );
