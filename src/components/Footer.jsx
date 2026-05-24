@@ -55,14 +55,10 @@ function ViewCounter({ count }) {
       title="Total portfolio visits"
     >
       <span className="relative flex items-center justify-center w-2 h-2">
-        <span
-          className="absolute inline-flex h-full w-full rounded-full animate-ping"
-          style={{ background: "var(--accent)", opacity: 0.4 }}
-        />
-        <span
-          className="relative inline-flex rounded-full w-2 h-2"
-          style={{ background: "var(--accent)", opacity: 0.7 }}
-        />
+        <span className="absolute inline-flex h-full w-full rounded-full animate-ping"
+          style={{ background: "var(--accent)", opacity: 0.4 }} />
+        <span className="relative inline-flex rounded-full w-2 h-2"
+          style={{ background: "var(--accent)", opacity: 0.7 }} />
       </span>
       <span className="mono text-xs" style={{ color: "var(--muted)" }}>
         {count.toLocaleString()} views
@@ -78,9 +74,21 @@ export default function Footer() {
     <footer className="mt-8 px-4 sm:px-6 py-8 sm:py-10" style={{ borderTop: "1px solid var(--border)" }}>
       <div className="max-w-5xl mx-auto">
 
-        {/* TOP ROW */}
+        {/* TOP ROW — Brand + socials */}
         <div className="flex items-center justify-between flex-wrap gap-4 sm:gap-6 mb-6 sm:mb-8">
-          <div className="flex gap-4 sm:gap-6">
+
+          {/* Brand anchor — mirrors Navbar */}
+          <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+            className="mono text-base font-bold tracking-tight"
+            style={{ color: "var(--text)" }}
+          >
+            {"< "}
+            <span>aakash</span>
+            <span style={{ color: "var(--accent2)" }}>.dev</span>
+            <span style={{ color: "var(--accent)" }}>{" />"}</span>
+          </a>
+
+          <div className="flex items-center gap-4 sm:gap-6">
             {socials.map((social) => (
               <motion.a
                 key={social.name}
@@ -97,26 +105,24 @@ export default function Footer() {
                 </svg>
               </motion.a>
             ))}
+            <BackToTop />
           </div>
-          <BackToTop />
         </div>
 
         {/* DIVIDER */}
-        <div
-          className="mb-5 sm:mb-6 h-px"
-          style={{ background: "linear-gradient(90deg, transparent, var(--border), transparent)" }}
-        />
+        <div className="mb-5 sm:mb-6 h-px"
+          style={{ background: "linear-gradient(90deg, transparent, var(--border), transparent)" }} />
 
         {/* BOTTOM ROW */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+
+          {/* Stack pills */}
           <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
             <span className="mono text-xs" style={{ color: "var(--muted)" }}>built with</span>
             {STACK.map((tech, i) => (
               <span key={tech} className="flex items-center gap-2">
-                <span
-                  className="mono text-xs px-2 py-0.5 rounded"
-                  style={{ background: "var(--glow)", color: "var(--accent)", border: "1px solid var(--border)" }}
-                >
+                <span className="mono text-xs px-2 py-0.5 rounded"
+                  style={{ background: "var(--glow)", color: "var(--accent)", border: "1px solid var(--border)" }}>
                   {tech}
                 </span>
                 {i < STACK.length - 1 && <span style={{ color: "var(--border)" }}>·</span>}
@@ -124,11 +130,19 @@ export default function Footer() {
             ))}
           </div>
 
+          {/* Right side — views + copyright + easter eggs */}
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 shrink-0">
             <ViewCounter count={viewCount} />
             <p className="mono text-xs" style={{ color: "var(--muted)" }}>
               © {new Date().getFullYear()} Aakash Dahiya
             </p>
+            {/* Easter eggs — hidden system links */}
+            <div className="flex items-center gap-3">
+              <a href="/status" className="mono text-xs opacity-20 hover:opacity-60 transition-opacity"
+                style={{ color: "var(--muted)" }} title="System status">
+                /status
+              </a>
+            </div>
           </div>
         </div>
 
