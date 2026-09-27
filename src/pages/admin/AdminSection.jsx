@@ -21,7 +21,7 @@ const FIELDS = {
     { key: "role",     label: "Role",                  type: "text" },
     { key: "company",  label: "Company",               type: "text" },
     { key: "duration", label: "Duration",              type: "text" },
-    { key: "type",     label: "Type",                  type: "select", options: ["internship", "leadership"] },
+    { key: "type",     label: "Type",                  type: "select", options: ["full-time", "internship", "leadership"] },
     { key: "points",   label: "Points (one per line)", type: "textarea", isLineArray: true },
   ],
 };
