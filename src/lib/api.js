@@ -54,6 +54,7 @@ export const api = {
 
   // GitHub stats (proxied through backend to avoid rate limits)
   getGitHubStats: () => request("/api/github"),
+  getGitHubContributions: () => request("/api/github/contributions"),
 
   // Projects
   getProjects:   () => request("/api/projects"),
