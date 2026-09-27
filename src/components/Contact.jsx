@@ -148,7 +148,7 @@ export default function Contact() {
             </motion.div>
 
             <motion.p variants={fadeUp} className="text-base sm:text-lg leading-relaxed mb-10 max-w-md" style={{ color: "var(--muted)" }}>
-              I'm currently open to internships, freelance work, and exciting full-stack opportunities.
+              Always happy to talk about full-stack roles, interesting projects or collaborations.
               Whether you have a question or just want to say hi, I'll try my best to get back to you!
             </motion.p>
 
@@ -159,7 +159,7 @@ export default function Contact() {
                   href={href}
                   target={href.startsWith("mailto") ? undefined : "_blank"}
                   rel="noopener noreferrer"
-                  className="glass flex flex-col justify-center px-5 py-4 rounded-xl group transition-all duration-300 hover:-translate-y-1"
+                  className={`glass flex flex-col justify-center px-5 py-4 rounded-xl group transition-all duration-300 hover:-translate-y-1 min-w-0 ${label === "Email" ? "col-span-2" : ""}`}
                   style={{ border: "1px solid var(--border)" }}
                   onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
                   onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--border)")}

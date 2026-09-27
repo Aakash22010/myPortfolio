@@ -7,7 +7,7 @@ import HeartbeatLoader from "./HeartbeatLoader";
 
 const STACK = [
   "React", "Next.js", "TypeScript", "Node.js",
-  "Express", "MongoDB", "Tailwind CSS", "Supabase",
+  "Express", "PostgreSQL", "Tailwind CSS", "Docker",
   "Firebase", "Vercel", "Git", "Render",
 ];
 
@@ -34,33 +34,36 @@ function StoryCard() {
         </span>
 
         <h3 className="text-xl sm:text-2xl font-bold mb-4 leading-snug">
-          CS student who ships{" "}
-          <span style={{ color: "var(--accent)" }}>real products</span>,<br />
+          Full-stack developer who ships{" "}
+          <span style={{ color: "var(--accent)" }}>real products</span>,<br className="hidden sm:block" />{" "}
           not just tutorials.
         </h3>
 
         <p className="text-sm leading-relaxed mb-3" style={{ color: "var(--muted)" }}>
-          Final-year CS student and full-stack developer. My stack centres on React,
-          Node.js, and MongoDB — shipped to Vercel and Render. I've interned at{" "}
-          <span style={{ color: "var(--text)" }}>NullClass</span> and{" "}
-          <span style={{ color: "var(--text)" }}>Myitronline</span>, working
-          end-to-end on production platforms — REST APIs, responsive UIs,
-          third-party integrations.
+          I work across React, Next.js, Node/Express and PostgreSQL. As a Data
+          Analyst at <span style={{ color: "var(--text)" }}>Bookchor</span> I build
+          reporting over a 6.5-million-row PostgreSQL dataset and internal tools for
+          GST invoicing, stock and ledgers — containerised with Docker and deployed on
+          Linux servers. Before that I interned at{" "}
+          <span style={{ color: "var(--text)" }}>NullClasses</span> and{" "}
+          <span style={{ color: "var(--text)" }}>Myitronline</span>, building React
+          UIs and REST API integrations.
         </p>
 
         <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-          Outside code, I lead{" "}
-          <span style={{ color: "var(--accent2)" }}>Codex</span> — GIET's coding
-          club — organising workshops, hackathons, and peer mentoring sessions.
+          During my B.Tech at GIET I led{" "}
+          <span style={{ color: "var(--accent2)" }}>Codex</span>, the college coding
+          club — organising workshops and hackathons, and coordinating the Genisis
+          and Yugantar tech fests.
         </p>
       </div>
 
       {/* Stat pills */}
       <div className="relative flex gap-3 mt-6 flex-wrap">
         {[
-          { num: "2+",   label: "Internships" },
+          { num: "6.5M", label: "Rows in prod" },
+          { num: "2",    label: "Internships" },
           { num: "6+",   label: "Projects" },
-          { num: "1yr+", label: "Codex lead" },
         ].map(({ num, label }) => (
           <div
             key={label}
@@ -312,7 +315,7 @@ export default function BentoAbout() {
         </motion.div>
 
         {/* BENTO GRID */}
-        <div className="grid lg:grid-cols-3 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5 [&>*]:min-w-0">
           {/* Row 1: Story (2 cols) + Radar (1 col) */}
           <div className="lg:col-span-2">
             <StoryCard />

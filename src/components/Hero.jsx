@@ -5,9 +5,9 @@ import DownloadButton from "./DownloadButton";
 
 const ROLES = [
   "Full-Stack Developer",
-  "React Developer",
-  "Node.js Developer",
-  "Open to Opportunities",
+  "Data Analyst @ Bookchor",
+  "Next.js Developer",
+  "PostgreSQL · Docker",
 ];
 
 function TypedText() {
@@ -97,7 +97,7 @@ export default function Hero() {
         {/* LEFT — Text */}
         <div className="flex-1 text-center md:text-left">
           <motion.p variants={fadeUp} className="section-label mb-4">
-            — available for freelance work
+            — data analyst @ bookchor
           </motion.p>
 
           <motion.h1
@@ -122,8 +122,8 @@ export default function Hero() {
             className="text-sm sm:text-base max-w-md mx-auto md:mx-0 leading-relaxed mb-8"
             style={{ color: "var(--muted)" }}
           >
-            CS student building real, production-ready web apps with React,
-            Node.js, and MongoDB. President of Codex — the coding club of GIET.
+            Full-stack developer building production tools with React, Next.js,
+            Node.js and PostgreSQL — shipped with Docker on Linux servers.
           </motion.p>
 
           <motion.div
