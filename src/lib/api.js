@@ -42,6 +42,9 @@ async function request(path, options = {}) {
 }
 
 export const api = {
+  // Fire-and-forget: wakes the database early; failures don't matter here
+  warmup: () => fetch(`${BASE}/api/warm`).catch(() => {}),
+
   // Auth
   login: (username, password) =>
     request("/api/auth/login", {
