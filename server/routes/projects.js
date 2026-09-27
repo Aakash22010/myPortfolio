@@ -5,14 +5,24 @@ import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
+// The admin form sends "" for blank fields; "#" is the stored placeholder for "no link"
+const LinkUrl = z.preprocess(
+  (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+  z.union([z.string().url(), z.literal("#")]).default("#"),
+);
+
 const ProjectSchema = z.object({
   title:       z.string().min(1).max(120),
   description: z.string().min(1).max(500),
   tech:        z.array(z.string()).min(1),
-  github:      z.string().url().optional().default("#"),
-  live:        z.string().url().optional().default("#"),
+  github:      LinkUrl,
+  live:        LinkUrl,
   featured:    z.boolean().optional().default(false),
-  image_url:   z.string().url().nullable().optional(),
+  // "" clears the screenshot; omitting the field keeps the existing one
+  image_url:   z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? null : v),
+    z.string().url().nullable().optional(),
+  ),
 });
 
 router.get("/", async (req, res) => {
