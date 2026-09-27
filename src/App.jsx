@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import BentoAbout from "./components/BentoAbout";
 import Experience from "./components/Experience";
-import Freelance from "./components/Freelance";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -74,7 +73,6 @@ function Portfolio() {
         <BentoAbout />
         <Experience />
         <Projects />
-        <Freelance />
         <Contact />
         <Footer />
       </div>

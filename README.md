@@ -90,7 +90,6 @@ myPortfolio/
 │   │   ├── About.jsx
 │   │   ├── Skills.jsx
 │   │   ├── Experience.jsx
-│   │   ├── Freelance.jsx
 │   │   ├── Projects.jsx
 │   │   ├── Contact.jsx
 │   │   ├── Footer.jsx
@@ -121,8 +120,7 @@ myPortfolio/
 │   │   ├── auth.js
 │   │   ├── projects.js
 │   │   ├── skills.js
-│   │   ├── experience.js
-│   │   └── freelance.js
+│   │   └── experience.js
 │   ├── server.js
 │   ├── scripts/
 │   │   ├── setup-db.js            # npm run db:setup
@@ -141,10 +139,9 @@ myPortfolio/
 2. **About** — Bio with inline highlights, stat grid
 3. **Skills** — Categorized cards (Frontend / Backend / Tools) fetched from DB
 4. **Experience** — Vertical timeline with type badges, fetched from DB
-5. **Freelancing** — Service cards, fetched from DB
-6. **Projects** — Featured card + numbered grid, fetched from DB
-7. **Contact** — Social link rows + animated send button
-8. **Footer** — Social icons with spring hover + tooltips
+5. **Projects** — Featured card + numbered grid, fetched from DB
+6. **Contact** — Social link rows + animated send button
+7. **Footer** — Social icons with spring hover + tooltips
 
 ---
 
@@ -158,7 +155,7 @@ Visit `/admin` to access the content management panel.
 | `/admin/dash` | Dashboard — full CRUD for all sections |
 
 **Capabilities:**
-- Add, edit, delete projects / skills / experience / freelance services
+- Add, edit, delete projects / skills / experience
 - Toggle visibility (hide items without deleting)
 - Changes reflect on the live portfolio instantly
 

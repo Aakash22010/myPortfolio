@@ -44,16 +44,6 @@ CREATE TABLE IF NOT EXISTS experience (
   created_at  timestamptz NOT NULL DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS freelance_services (
-  id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  tag         text NOT NULL,
-  title       text NOT NULL,
-  description text NOT NULL,
-  visible     boolean NOT NULL DEFAULT true,
-  order_index integer NOT NULL DEFAULT 0,
-  created_at  timestamptz NOT NULL DEFAULT now()
-);
-
 CREATE TABLE IF NOT EXISTS page_views (
   id    integer PRIMARY KEY,
   count integer NOT NULL DEFAULT 0
