@@ -5,6 +5,7 @@ import { api } from "../lib/api";
 import HeartbeatLoader from "./HeartbeatLoader";
 
 const typeBadge = {
+  "full-time": { label: "Full-time",  color: "bg-green-500/20 text-green-400" },
   internship: { label: "Internship", color: "bg-blue-500/20 text-blue-400" },
   leadership: { label: "Leadership", color: "bg-purple-500/20 text-purple-400" },
 };
