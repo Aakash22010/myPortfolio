@@ -42,6 +42,9 @@ async function request(path, options = {}) {
 }
 
 export const api = {
+  // Fire-and-forget: wakes the database early; failures don't matter here
+  warmup: () => fetch(`${BASE}/api/warm`).catch(() => {}),
+
   // Auth
   login: (username, password) =>
     request("/api/auth/login", {
@@ -84,16 +87,4 @@ export const api = {
     request(`/api/experience/${id}/toggle`, { method: "PATCH" }),
   deleteExperience: (id) =>
     request(`/api/experience/${id}`, { method: "DELETE" }),
-
-  // Freelance
-  getFreelance:   () => request("/api/freelance"),
-  getAllFreelance: () => request("/api/freelance/all"),
-  addFreelance: (data) =>
-    request("/api/freelance", { method: "POST", body: JSON.stringify(data) }),
-  updateFreelance: (id, data) =>
-    request(`/api/freelance/${id}`, { method: "PUT", body: JSON.stringify(data) }),
-  toggleFreelance: (id) =>
-    request(`/api/freelance/${id}/toggle`, { method: "PATCH" }),
-  deleteFreelance: (id) =>
-    request(`/api/freelance/${id}`, { method: "DELETE" }),
 };

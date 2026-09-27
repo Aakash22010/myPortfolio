@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
-const SECTIONS = ["projects", "skills", "experience", "freelance"];
+const SECTIONS = ["projects", "skills", "experience"];
 
 function StatusDot({ ok }) {
   return (

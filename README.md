@@ -27,7 +27,7 @@ A modern, fully responsive **personal portfolio website** built to showcase my s
 
 ## 🚀 About the Project
 
-This portfolio is designed to present my **real-world development experience**, including internships, full-stack projects, and leadership roles. It goes beyond a typical static portfolio — all content is stored in a **Supabase (PostgreSQL) database** and managed through a **password-protected admin panel** accessible at `/admin`.
+This portfolio is designed to present my **real-world development experience**, including internships, full-stack projects, and leadership roles. It goes beyond a typical static portfolio — all content is stored in a **Neon (serverless PostgreSQL) database** and managed through a **password-protected admin panel** accessible at `/admin`.
 
 ### Key Goals:
 - Showcase practical skills with real project links
@@ -50,7 +50,7 @@ This portfolio is designed to present my **real-world development experience**, 
 - 📊 **Scroll Progress Bar** — Spring-animated reading indicator
 - 🖥️ **Terminal Block** — Code-style developer card in Hero section
 - 🔐 **Admin Panel** — JWT-authenticated CMS at `/admin`
-- 🗄️ **Supabase Backend** — All data fetched from PostgreSQL via Express API
+- 🗄️ **Neon Backend** — All data fetched from serverless PostgreSQL via Express API
 - 📄 **Animated Download Button** — Progress fill + checkmark on resume download
 - 🔍 **SEO Optimized** — OpenGraph meta tags
 
@@ -67,7 +67,7 @@ This portfolio is designed to present my **real-world development experience**, 
 ### **Backend**
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Neon](https://img.shields.io/badge/Neon-00E599?style=for-the-badge&logo=postgresql&logoColor=black)
 ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)
 
 ### **Deployment**
@@ -90,7 +90,6 @@ myPortfolio/
 │   │   ├── About.jsx
 │   │   ├── Skills.jsx
 │   │   ├── Experience.jsx
-│   │   ├── Freelance.jsx
 │   │   ├── Projects.jsx
 │   │   ├── Contact.jsx
 │   │   ├── Footer.jsx
@@ -113,18 +112,20 @@ myPortfolio/
 │   └── main.jsx
 ├── server/                        # Express backend
 │   ├── db/
-│   │   └── supabase.js
+│   │   ├── index.js               # Neon client
+│   │   └── schema.sql             # Table definitions
 │   ├── middleware/
 │   │   └── auth.js                # JWT middleware
 │   ├── routes/
 │   │   ├── auth.js
 │   │   ├── projects.js
 │   │   ├── skills.js
-│   │   ├── experience.js
-│   │   └── freelance.js
+│   │   └── experience.js
 │   ├── server.js
-│   ├── seed.js                    # Populate Supabase
-│   ├── supabase_schema.sql        # Run in Supabase SQL Editor
+│   ├── scripts/
+│   │   ├── setup-db.js            # npm run db:setup
+│   │   ├── create-admin.js        # npm run create-admin
+│   │   └── migrate-from-supabase.js
 │   └── package.json
 ├── vercel.json                    # SPA routing fix
 └── package.json
@@ -138,10 +139,9 @@ myPortfolio/
 2. **About** — Bio with inline highlights, stat grid
 3. **Skills** — Categorized cards (Frontend / Backend / Tools) fetched from DB
 4. **Experience** — Vertical timeline with type badges, fetched from DB
-5. **Freelancing** — Service cards, fetched from DB
-6. **Projects** — Featured card + numbered grid, fetched from DB
-7. **Contact** — Social link rows + animated send button
-8. **Footer** — Social icons with spring hover + tooltips
+5. **Projects** — Featured card + numbered grid, fetched from DB
+6. **Contact** — Social link rows + animated send button
+7. **Footer** — Social icons with spring hover + tooltips
 
 ---
 
@@ -155,7 +155,7 @@ Visit `/admin` to access the content management panel.
 | `/admin/dash` | Dashboard — full CRUD for all sections |
 
 **Capabilities:**
-- Add, edit, delete projects / skills / experience / freelance services
+- Add, edit, delete projects / skills / experience
 - Toggle visibility (hide items without deleting)
 - Changes reflect on the live portfolio instantly
 
@@ -191,8 +191,9 @@ npm install
 
 # Create server/.env (see Environment Variables below)
 
-# Run schema in Supabase SQL Editor first, then:
-npm run seed   # populates all tables + creates admin user
+# Create the tables in Neon, then an admin login:
+npm run db:setup
+npm run create-admin -- <username> <password>
 
 # Start server
 npm start
@@ -205,8 +206,7 @@ npm start
 
 ### `server/.env`
 ```
-SUPABASE_URL=https://yourproject.supabase.co
-SUPABASE_SERVICE_KEY=your_service_role_key
+DATABASE_URL=postgresql://user:pass@ep-xxx.region.aws.neon.tech/neondb?sslmode=require
 JWT_SECRET=your_random_secret_min_32_chars
 PORT=5000
 FRONTEND_URL=https://your-vercel-url.vercel.app
@@ -227,7 +227,7 @@ VITE_API_URL=https://your-render-backend.onrender.com
 1. New Web Service → connect GitHub repo
 2. Root Directory: `server`
 3. Build: `npm install` / Start: `npm start`
-4. Add all 5 env vars in Render dashboard
+4. Add all env vars in Render dashboard (`DATABASE_URL`, `JWT_SECRET`, `FRONTEND_URL`, optional `GITHUB_TOKEN`)
 
 ### Frontend → Vercel
 1. Import GitHub repo on Vercel
@@ -251,4 +251,4 @@ MIT License — feel free to use this as inspiration. Attribution appreciated! �
 
 ---
 Last updated: April 25, 2026
-*Built with React, Tailwind CSS, Framer Motion, Express, and Supabase*
+*Built with React, Tailwind CSS, Framer Motion, Express, and Neon*

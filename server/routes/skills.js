@@ -1,6 +1,6 @@
 import express from "express";
 import { z } from "zod";
-import supabase from "../db/supabase.js";
+import sql from "../db/index.js";
 import auth from "../middleware/auth.js";
 
 const router = express.Router();
@@ -14,17 +14,13 @@ const SkillSchema = z.object({
 });
 
 router.get("/", async (req, res) => {
-  const { data, error } = await supabase
-    .from("skills").select("*").eq("visible", true).order("order_index");
-  if (error) return res.status(500).json({ error: error.message });
-  res.json(data);
+  const rows = await sql`SELECT * FROM skills WHERE visible = true ORDER BY order_index`;
+  res.json(rows);
 });
 
 router.get("/all", auth, async (req, res) => {
-  const { data, error } = await supabase
-    .from("skills").select("*").order("order_index");
-  if (error) return res.status(500).json({ error: error.message });
-  res.json(data);
+  const rows = await sql`SELECT * FROM skills ORDER BY order_index`;
+  res.json(rows);
 });
 
 router.post("/", auth, async (req, res) => {
@@ -32,15 +28,12 @@ router.post("/", auth, async (req, res) => {
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
 
   const { name, category, level, details } = parsed.data;
-  const { data: existing } = await supabase.from("skills").select("order_index")
-    .order("order_index", { ascending: false }).limit(1);
-  const nextOrder = existing?.length ? existing[0].order_index + 1 : 0;
-
-  const { data, error } = await supabase.from("skills")
-    .insert([{ name, category, level, details, visible: true, order_index: nextOrder }])
-    .select().single();
-  if (error) return res.status(500).json({ error: error.message });
-  res.status(201).json(data);
+  const [row] = await sql`
+    INSERT INTO skills (name, category, level, details, visible, order_index)
+    VALUES (${name}, ${category}, ${level ?? null}, ${details ?? null}, true,
+            (SELECT COALESCE(MAX(order_index) + 1, 0) FROM skills))
+    RETURNING *`;
+  res.status(201).json(row);
 });
 
 router.put("/:id", auth, async (req, res) => {
@@ -48,28 +41,28 @@ router.put("/:id", auth, async (req, res) => {
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
 
   const { name, category, level, details } = parsed.data;
-  const { data, error } = await supabase.from("skills")
-    .update({ name, category, level, details })
-    .eq("id", req.params.id).select().single();
-  if (error) return res.status(500).json({ error: error.message });
-  res.json(data);
+  // Optional fields omitted from the body → keep the existing value
+  const [row] = await sql`
+    UPDATE skills SET
+      name = ${name}, category = ${category},
+      level   = CASE WHEN ${level === undefined}   THEN level   ELSE ${level ?? null}   END,
+      details = CASE WHEN ${details === undefined} THEN details ELSE ${details ?? null} END
+    WHERE id = ${req.params.id}
+    RETURNING *`;
+  if (!row) return res.status(404).json({ error: "Skill not found" });
+  res.json(row);
 });
 
 router.patch("/:id/toggle", auth, async (req, res) => {
-  const { data: current, error: fetchErr } = await supabase
-    .from("skills").select("visible").eq("id", req.params.id).single();
-  if (fetchErr || !current) return res.status(404).json({ error: "Skill not found" });
-
-  const { data, error } = await supabase.from("skills")
-    .update({ visible: !current.visible }).eq("id", req.params.id).select().single();
-  if (error) return res.status(500).json({ error: error.message });
-  res.json(data);
+  const [row] = await sql`
+    UPDATE skills SET visible = NOT visible WHERE id = ${req.params.id} RETURNING *`;
+  if (!row) return res.status(404).json({ error: "Skill not found" });
+  res.json(row);
 });
 
 router.delete("/:id", auth, async (req, res) => {
-  const { error } = await supabase.from("skills").delete().eq("id", req.params.id);
-  if (error) return res.status(500).json({ error: error.message });
+  await sql`DELETE FROM skills WHERE id = ${req.params.id}`;
   res.json({ success: true });
 });
 
-export default router;  
+export default router;

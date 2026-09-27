@@ -6,10 +6,10 @@ import authRoutes       from "./routes/auth.js";
 import projectRoutes    from "./routes/projects.js";
 import skillRoutes      from "./routes/skills.js";
 import experienceRoutes from "./routes/experience.js";
-import freelanceRoutes  from "./routes/freelance.js";
 import viewsRoutes      from "./routes/views.js";
 import githubRoutes     from "./routes/github.js";
 import { startKeepalive } from "./keepalive.js";
+import sql from "./db/index.js";
 
 dotenv.config();
 
@@ -42,12 +42,18 @@ const loginLimiter = rateLimit({
 app.get("/",       (req, res) => res.json({ status: "Portfolio API running" }));
 app.get("/health", (req, res) => res.json({ status: "ok", uptime: process.uptime() }));
 
+// Hit by the frontend on page load so a suspended Neon compute starts waking
+// while the preloader runs, instead of when the first section fetches data
+app.get("/api/warm", async (req, res) => {
+  await sql`SELECT 1`;
+  res.json({ status: "warm" });
+});
+
 app.use("/api/auth/login", loginLimiter);
 app.use("/api/auth",       authRoutes);
 app.use("/api/projects",   projectRoutes);
 app.use("/api/skills",     skillRoutes);
 app.use("/api/experience", experienceRoutes);
-app.use("/api/freelance",  freelanceRoutes);
 app.use("/api/views",      viewsRoutes);
 app.use("/api/github",     githubRoutes);
 

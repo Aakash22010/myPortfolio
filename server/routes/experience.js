@@ -1,6 +1,6 @@
 import express from "express";
 import { z } from "zod";
-import supabase from "../db/supabase.js";
+import sql from "../db/index.js";
 import auth from "../middleware/auth.js";
 
 const router = express.Router();
@@ -14,17 +14,13 @@ const ExperienceSchema = z.object({
 });
 
 router.get("/", async (req, res) => {
-  const { data, error } = await supabase
-    .from("experience").select("*").eq("visible", true).order("order_index");
-  if (error) return res.status(500).json({ error: error.message });
-  res.json(data);
+  const rows = await sql`SELECT * FROM experience WHERE visible = true ORDER BY order_index`;
+  res.json(rows);
 });
 
 router.get("/all", auth, async (req, res) => {
-  const { data, error } = await supabase
-    .from("experience").select("*").order("order_index");
-  if (error) return res.status(500).json({ error: error.message });
-  res.json(data);
+  const rows = await sql`SELECT * FROM experience ORDER BY order_index`;
+  res.json(rows);
 });
 
 router.post("/", auth, async (req, res) => {
@@ -32,15 +28,12 @@ router.post("/", auth, async (req, res) => {
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
 
   const { role, company, duration, type, points } = parsed.data;
-  const { data: existing } = await supabase.from("experience").select("order_index")
-    .order("order_index", { ascending: false }).limit(1);
-  const nextOrder = existing?.length ? existing[0].order_index + 1 : 0;
-
-  const { data, error } = await supabase.from("experience")
-    .insert([{ role, company, duration, type, points, visible: true, order_index: nextOrder }])
-    .select().single();
-  if (error) return res.status(500).json({ error: error.message });
-  res.status(201).json(data);
+  const [row] = await sql`
+    INSERT INTO experience (role, company, duration, type, points, visible, order_index)
+    VALUES (${role}, ${company}, ${duration}, ${type}, ${points}, true,
+            (SELECT COALESCE(MAX(order_index) + 1, 0) FROM experience))
+    RETURNING *`;
+  res.status(201).json(row);
 });
 
 router.put("/:id", auth, async (req, res) => {
@@ -48,27 +41,24 @@ router.put("/:id", auth, async (req, res) => {
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
 
   const { role, company, duration, type, points } = parsed.data;
-  const { data, error } = await supabase.from("experience")
-    .update({ role, company, duration, type, points })
-    .eq("id", req.params.id).select().single();
-  if (error) return res.status(500).json({ error: error.message });
-  res.json(data);
+  const [row] = await sql`
+    UPDATE experience SET
+      role = ${role}, company = ${company}, duration = ${duration}, type = ${type}, points = ${points}
+    WHERE id = ${req.params.id}
+    RETURNING *`;
+  if (!row) return res.status(404).json({ error: "Experience not found" });
+  res.json(row);
 });
 
 router.patch("/:id/toggle", auth, async (req, res) => {
-  const { data: current, error: fetchErr } = await supabase
-    .from("experience").select("visible").eq("id", req.params.id).single();
-  if (fetchErr || !current) return res.status(404).json({ error: "Experience not found" });
-
-  const { data, error } = await supabase.from("experience")
-    .update({ visible: !current.visible }).eq("id", req.params.id).select().single();
-  if (error) return res.status(500).json({ error: error.message });
-  res.json(data);
+  const [row] = await sql`
+    UPDATE experience SET visible = NOT visible WHERE id = ${req.params.id} RETURNING *`;
+  if (!row) return res.status(404).json({ error: "Experience not found" });
+  res.json(row);
 });
 
 router.delete("/:id", auth, async (req, res) => {
-  const { error } = await supabase.from("experience").delete().eq("id", req.params.id);
-  if (error) return res.status(500).json({ error: error.message });
+  await sql`DELETE FROM experience WHERE id = ${req.params.id}`;
   res.json({ success: true });
 });
 
