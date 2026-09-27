@@ -6,7 +6,6 @@ import authRoutes       from "./routes/auth.js";
 import projectRoutes    from "./routes/projects.js";
 import skillRoutes      from "./routes/skills.js";
 import experienceRoutes from "./routes/experience.js";
-import freelanceRoutes  from "./routes/freelance.js";
 import viewsRoutes      from "./routes/views.js";
 import githubRoutes     from "./routes/github.js";
 import { startKeepalive } from "./keepalive.js";
@@ -55,7 +54,6 @@ app.use("/api/auth",       authRoutes);
 app.use("/api/projects",   projectRoutes);
 app.use("/api/skills",     skillRoutes);
 app.use("/api/experience", experienceRoutes);
-app.use("/api/freelance",  freelanceRoutes);
 app.use("/api/views",      viewsRoutes);
 app.use("/api/github",     githubRoutes);
 

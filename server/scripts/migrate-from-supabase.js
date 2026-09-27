@@ -16,7 +16,6 @@ const TABLES = {
   projects:           ["title", "description", "tech", "github", "live", "featured", "image_url", "visible", "order_index"],
   skills:             ["name", "category", "level", "details", "visible", "order_index"],
   experience:         ["role", "company", "duration", "type", "points", "visible", "order_index"],
-  freelance_services: ["tag", "title", "description", "visible", "order_index"],
 };
 
 async function fetchTable(table) {
