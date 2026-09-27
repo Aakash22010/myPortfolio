@@ -1,26 +1,21 @@
 import express from "express";
-import supabase from "../db/supabase.js";
+import sql from "../db/index.js";
 
 const router = express.Router();
 
-// GET /api/views — increment count and return it
+// POST /api/views — increment count and return it
 router.post("/", async (req, res) => {
-  const { data, error } = await supabase.rpc("increment_views");
-  if (error) return res.status(500).json({ error: error.message });
-  // rpc returns an array; grab the first value
-  const count = Array.isArray(data) ? data[0] : data;
-  res.json({ count });
+  const [row] = await sql`
+    INSERT INTO page_views (id, count) VALUES (1, 1)
+    ON CONFLICT (id) DO UPDATE SET count = page_views.count + 1
+    RETURNING count`;
+  res.json({ count: row.count });
 });
 
 // GET /api/views — just read, no increment (for admin / debugging)
 router.get("/", async (req, res) => {
-  const { data, error } = await supabase
-    .from("page_views")
-    .select("count")
-    .eq("id", 1)
-    .single();
-  if (error) return res.status(500).json({ error: error.message });
-  res.json({ count: data.count });
+  const [row] = await sql`SELECT count FROM page_views WHERE id = 1`;
+  res.json({ count: row?.count ?? 0 });
 });
 
 export default router;
