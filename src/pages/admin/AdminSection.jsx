@@ -24,17 +24,12 @@ const FIELDS = {
     { key: "type",     label: "Type",                  type: "select", options: ["internship", "leadership"] },
     { key: "points",   label: "Points (one per line)", type: "textarea", isLineArray: true },
   ],
-  freelance: [
-    { key: "tag",         label: "Tag (e.g. 01)", type: "text" },
-    { key: "title",       label: "Title",         type: "text" },
-    { key: "description", label: "Description",   type: "textarea" },
-  ],
 };
 
-const ADD_APIS = { projects: api.addProject,    skills: api.addSkill,    experience: api.addExperience,    freelance: api.addFreelance };
-const UPD_APIS = { projects: api.updateProject, skills: api.updateSkill, experience: api.updateExperience, freelance: api.updateFreelance };
-const TOG_APIS = { projects: api.toggleProject, skills: api.toggleSkill, experience: api.toggleExperience, freelance: api.toggleFreelance };
-const DEL_APIS = { projects: api.deleteProject, skills: api.deleteSkill, experience: api.deleteExperience, freelance: api.deleteFreelance };
+const ADD_APIS = { projects: api.addProject,    skills: api.addSkill,    experience: api.addExperience };
+const UPD_APIS = { projects: api.updateProject, skills: api.updateSkill, experience: api.updateExperience };
+const TOG_APIS = { projects: api.toggleProject, skills: api.toggleSkill, experience: api.toggleExperience };
+const DEL_APIS = { projects: api.deleteProject, skills: api.deleteSkill, experience: api.deleteExperience };
 
 const sharedInputStyle = {
   background: "var(--surface)",

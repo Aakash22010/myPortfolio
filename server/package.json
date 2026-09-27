@@ -10,10 +10,13 @@
     "start": "nodemon server.js",
     "build": "node -e \"console.log('Build complete')\"",
     "seed": "node seed.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:setup": "node scripts/setup-db.js",
+    "db:migrate": "node scripts/migrate-from-supabase.js",
+    "create-admin": "node scripts/create-admin.js"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.99.3",
+    "@neondatabase/serverless": "^1.1.0",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
@@ -23,7 +26,6 @@
     "node-cron": "^4.2.1",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.14",
-    "supabase-js": "^0.0.1-security",
     "zod": "^3.25.28"
   }
 }

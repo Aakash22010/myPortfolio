@@ -29,7 +29,7 @@ const socials = [
   },
 ];
 
-const STACK = ["React", "Vite", "Tailwind", "Framer Motion", "Express", "Supabase"];
+const STACK = ["React", "Vite", "Tailwind", "Framer Motion", "Express", "Neon"];
 
 function BackToTop() {
   return (

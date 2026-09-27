@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import supabase from "../db/supabase.js";
+import sql from "../db/index.js";
 
 const router = express.Router();
 
@@ -10,13 +10,9 @@ router.post("/login", async (req, res) => {
   if (!username || !password)
     return res.status(400).json({ error: "Username and password required" });
 
-  const { data, error } = await supabase
-    .from("admin_users")
-    .select("*")
-    .eq("username", username)
-    .single();
+  const [data] = await sql`SELECT * FROM admin_users WHERE username = ${username}`;
 
-  if (error || !data)
+  if (!data)
     return res.status(401).json({ error: "Invalid credentials" });
 
   const valid = await bcrypt.compare(password, data.password_hash);

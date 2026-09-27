@@ -4,7 +4,7 @@ import { api } from "../../lib/api";
 import AdminSection from "./AdminSection";
 import HeartbeatLoader from "../../components/HeartbeatLoader";
 
-const TABS = ["projects", "skills", "experience", "freelance"];
+const TABS = ["projects", "skills", "experience"];
 
 export default function AdminDashboard() {
   const [tab, setTab] = useState("projects");
@@ -20,13 +20,12 @@ export default function AdminDashboard() {
   async function loadAll() {
     setLoading(true);
     try {
-      const [projects, skills, experience, freelance] = await Promise.all([
+      const [projects, skills, experience] = await Promise.all([
         api.getAllProjects(),
         api.getAllSkills(),
         api.getAllExperience(),
-        api.getAllFreelance(),
       ]);
-      setData({ projects, skills, experience, freelance });
+      setData({ projects, skills, experience });
     } catch (err) {
       // Use the isUnauthorized flag set in api.js — no fragile string matching
       if (err.isUnauthorized) logout();
