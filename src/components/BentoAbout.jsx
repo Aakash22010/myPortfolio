@@ -83,87 +83,6 @@ function StoryCard() {
   );
 }
 
-// ── Radar Card ────────────────────────────────────────────────────────────────
-function RadarCard() {
-  const [time, setTime] = useState("");
-
-  useEffect(() => {
-    const update = () =>
-      setTime(new Date().toLocaleTimeString("en-IN", {
-        timeZone: "Asia/Kolkata",
-        hour: "2-digit", minute: "2-digit", second: "2-digit",
-        hour12: false,
-      }));
-    update();
-    const id = setInterval(update, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  return (
-    <motion.div
-      variants={fadeUp}
-      className="glass rounded-2xl p-6 flex flex-col items-center justify-center gap-4 relative overflow-hidden"
-      style={{ border: "1px solid var(--border-hard)", minHeight: "220px" }}
-    >
-      {/* Grid background */}
-      <div className="absolute inset-0 opacity-[0.06]" style={{
-        backgroundImage: "linear-gradient(var(--accent) 1px, transparent 1px), linear-gradient(90deg, var(--accent) 1px, transparent 1px)",
-        backgroundSize: "22px 22px",
-      }} />
-
-      {/* Radar rings */}
-      {[88, 60, 34].map((size, i) => (
-        <motion.div
-          key={size}
-          className="absolute rounded-full"
-          style={{ width: `${size}px`, height: `${size}px`, border: "1px solid var(--accent)" }}
-          animate={{ opacity: [0.1, 0.25, 0.1] }}
-          transition={{ duration: 2.4, repeat: Infinity, delay: i * 0.5, ease: "easeInOut" }}
-        />
-      ))}
-
-      {/* Radar sweep */}
-      <motion.div
-        className="absolute"
-        style={{
-          width: "44px", height: "2px",
-          background: "linear-gradient(to right, transparent, var(--accent))",
-          transformOrigin: "left center",
-          top: "50%", left: "50%",
-          marginTop: "-1px",
-        }}
-        animate={{ rotate: [0, 360] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-      />
-
-      {/* Info */}
-      <div className="relative z-10 text-center space-y-1.5">
-        <p className="mono text-xs font-bold" style={{ color: "var(--text)" }}>
-          Sonipat, Haryana
-        </p>
-        <p className="mono text-xs" style={{ color: "var(--muted)" }}>
-          28.9288° N · 77.0177° E
-        </p>
-        <p className="mono text-xs tabular-nums" style={{ color: "var(--accent2)" }}>
-          {time} IST
-        </p>
-        <span
-          className="mono text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5 mt-1"
-          style={{ background: "var(--glow)", color: "var(--accent)", border: "1px solid var(--border)" }}
-        >
-          <motion.span
-            className="w-1.5 h-1.5 rounded-full inline-block"
-            style={{ background: "#4ade80" }}
-            animate={{ opacity: [1, 0.3, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          />
-          Open to remote
-        </span>
-      </div>
-    </motion.div>
-  );
-}
-
 // ── Workspace Card ────────────────────────────────────────────────────────────
 function WorkspaceCard() {
   const lines = [
@@ -316,15 +235,14 @@ export default function BentoAbout() {
 
         {/* BENTO GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5 [&>*]:min-w-0">
-          {/* Row 1: Story (2 cols) + Radar (1 col) */}
+          {/* Row 1: Story (2 cols) + Workspace (1 col) */}
           <div className="lg:col-span-2">
             <StoryCard />
           </div>
           <WorkspaceCard />
 
-          {/* Row 2: Workspace (1 col) + Stack (2 cols) */}
-          <RadarCard />
-          <div className="lg:col-span-2">
+          {/* Row 2: Stack (full width) */}
+          <div className="lg:col-span-3">
             <StackCard />
           </div>
         </div>
