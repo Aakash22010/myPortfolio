@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "../animations";
 import { useEffect, useState } from "react";
 import DownloadButton from "./DownloadButton";
+import DotsPhoto from "./hero-photo/DotsPhoto";
 
 const ROLES = [
   "Full-Stack Developer",
@@ -41,47 +42,6 @@ function TypedText() {
       {displayed}
       <span className="animate-pulse">|</span>
     </span>
-  );
-}
-
-function ProfilePhoto() {
-  return (
-    <div className="relative flex items-center justify-center flex-shrink-0"
-      style={{ width: "clamp(220px, 40vw, 340px)", height: "clamp(220px, 40vw, 340px)" }}>
-
-      {/* Ambient glow layers */}
-      <div
-        className="absolute rounded-full blur-3xl"
-        style={{ inset: "10%", background: "var(--accent)", opacity: 0.25 }}
-      />
-      <div
-        className="absolute rounded-full blur-2xl"
-        style={{ inset: "-5%", background: "var(--accent2)", opacity: 0.1 }}
-      />
-
-      {/* Photo */}
-      <motion.div
-        className="relative rounded-full overflow-hidden"
-        style={{
-          width: "clamp(200px, 38vw, 320px)",
-          height: "clamp(200px, 38vw, 320px)",
-          border: "2px solid var(--border-hard)",
-          boxShadow: "0 0 40px -10px var(--accent)",
-        }}
-        initial={{ opacity: 0, scale: 0.92 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-      >
-        <img
-          src="/profile.png"
-          alt="Aakash Dahiya"
-          className="w-full h-full object-cover"
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-        />
-      </motion.div>
-    </div>
   );
 }
 
@@ -161,7 +121,7 @@ export default function Hero() {
 
         {/* RIGHT — Photo */}
         <motion.div variants={fadeUp}>
-          <ProfilePhoto />
+          <DotsPhoto />
         </motion.div>
       </motion.div>
     </section>
