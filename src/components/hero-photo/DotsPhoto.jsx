@@ -105,10 +105,10 @@ export default function DotsPhoto() {
 
   return (
     // As large as fits in the hero: full height under the navbar on desktop (capped so the
-    // name column keeps room), edge to edge on phones
+    // name column keeps room), 82% of the width on phones
     <div
       ref={wrapRef}
-      className="relative w-screen md:w-[min(52vw,calc((100svh-124px)/1.154),820px)]"
+      className="relative w-[82vw] md:w-[min(44vw,calc((100svh-260px)/1.154),560px)]"
       style={{ aspectRatio: `1 / ${PHOTO_ASPECT}`, touchAction: "pan-y" }}
       onClick={() => setReveal((r) => !r)}
     >
